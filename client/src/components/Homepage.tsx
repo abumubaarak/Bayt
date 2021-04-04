@@ -5,7 +5,7 @@ import Navigation from "./Navigation.component";
 
 export default function Homepage() {
   return (
-    <div class="bg-main w-screen h-screen bg-no-repeat bg-cover  bg-center">
+    <div className="bg-main w-screen h-screen bg-no-repeat bg-cover  bg-center">
       <div className="flex justify-between  px-20 pt-7">
         <Logo />
         <Navigation />
