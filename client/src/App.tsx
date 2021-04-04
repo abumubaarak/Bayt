@@ -1,9 +1,10 @@
 import React from 'react';
+import Homepage from './components/Homepage';
  
 function App() {
   return (
-    <div >
-      <h1>Bismillah(In the name of ALLAH)</h1>
+    <div>
+      <Homepage/>
     </div>
   );
 }
