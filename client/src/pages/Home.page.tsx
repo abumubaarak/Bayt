@@ -4,7 +4,7 @@ interface Props {
   children: ReactNode;
   header?: any;
 }
-const Homepage: FC<Props> = ({ children, header }) => {
+const Home: FC<Props> = ({ children, header }) => {
   return (
     <div className="bg-main w-screen h-screen bg-no-repeat bg-cover bg-center">
       {header}
@@ -14,4 +14,4 @@ const Homepage: FC<Props> = ({ children, header }) => {
     </div>
   );
 };
-export default Homepage;
+export default Home;

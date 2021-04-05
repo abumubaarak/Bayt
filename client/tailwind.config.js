@@ -2,6 +2,11 @@ module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}", "./public/index.html"],
   darkMode: false, // or 'media' or 'class'
   theme: {
+    flex:{
+      '1': '1 1 0%',
+      '2': '0 0 58%',
+      '3': '0 0 42%'
+    },
     extend: {
       backgroundImage: (theme) => ({
         main: "url('/src/assets/background.jpg')",
@@ -18,6 +23,7 @@ module.exports = {
         800: "#241935",
         900: "#0f0817",
       },
+     
       fontFamily: {
         'sand': ["Quicksand"],
         'railway':['Raleway']

@@ -10,6 +10,7 @@ import { FcGoogle } from "react-icons/fc";
 import { RiFacebookCircleFill } from "react-icons/ri";
 import { AiFillGithub } from "react-icons/ai";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export interface Props {
   isOpen: boolean;
@@ -82,7 +83,15 @@ export default function AuthModel(props: Props) {
               Are you an Owner ?{" "}
               <span className="font-semibold font-sand text-500 cursor-pointer">
                 {" "}
-                {props.typeAuth ? "Create an Account" : "Log in"}{" "}
+                {props.typeAuth ? (
+                  <>
+                    <Link to="/owner/signup">Create an Account</Link>
+                  </>
+                ) : (
+                  <>
+                    <Link to="/owner/login">Log in</Link>
+                  </>
+                )}
               </span>
             </p>
           </div>
