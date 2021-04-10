@@ -1,8 +1,9 @@
 import express, { Router } from "express";
-import * as controller from "../controllers/auth";
+import * as auth from "../controllers/auth";
 
 const router: Router = express();
 
-router.route("/register").post(controller.register);
+router.route("/register").post(auth.register);
+router.route("/login").post(auth.login)
 
 export { router };

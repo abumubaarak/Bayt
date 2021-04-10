@@ -1,13 +1,19 @@
 import { NextFunction } from "express";
 import mongoose, { Document, Model, model, Schema } from "mongoose";
-import bcryptjs, { genSalt, hash } from "bcryptjs";
+import bcryptjs, { genSalt, hash, compare } from "bcryptjs";
+import jsonwebtoken, { sign, verify } from "jsonwebtoken";
 
-export interface Iuser extends Document {
+export interface Iuser {
   firstname: string;
   lastname: string;
   email: string;
   role: string;
   password: string;
+}
+
+interface IUserDocument extends Iuser, Document {
+  validatePassword(userpassword: string): Promise<boolean>;
+  getJwtToken(): string;
 }
 
 const UserSchema: Schema = new Schema({
@@ -37,9 +43,22 @@ const UserSchema: Schema = new Schema({
   },
 });
 
-UserSchema.pre<Iuser>("save", async function (next) {
+UserSchema.pre<IUserDocument>("save", async function (next) {
   const salt: string = await genSalt(10);
   this.password = await hash(this.password, salt);
 });
 
-export const User: Model<Iuser> = model("User", UserSchema);
+UserSchema.methods.validatePassword = async function (userpassword: string) {
+  return await compare(userpassword, (this as any).password);
+};
+
+UserSchema.methods.getJwtToken = function () {
+  return sign({ id: this._id }, process.env.JWT_SECRET!, {
+    expiresIn: process.env.JWT_EXPIRE!,
+  });
+};
+
+export const User: Model<IUserDocument> = model<IUserDocument>(
+  "User",
+  UserSchema
+);

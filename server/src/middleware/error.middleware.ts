@@ -8,6 +8,10 @@ export const errorMiddleware = (
 ) => {
   let error: ErrorResponse | undefined;
 
+  const { message, statusCode } = err;
+
+  error = new ErrorResponse(statusCode, message);
+
   if (err.code === 11000) {
     error = new ErrorResponse(400, "Duplicate field value entered");
   }
