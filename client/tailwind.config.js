@@ -25,8 +25,8 @@ module.exports = {
       },
      
       fontFamily: {
-        'sand': ["Quicksand"],
-        'railway':['Raleway']
+        'sand': ['Quicksand','ui-sans-serif', 'system-ui', '-apple-system'],
+        'railway':['Raleway','ui-sans-serif', 'system-ui', '-apple-system']
       },
       width:{
         '50':'50rem'

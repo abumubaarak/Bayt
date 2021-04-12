@@ -39,7 +39,7 @@ export default function AuthModel(props: Props) {
         <ModalHeader className="text-center font-railway font-black text-base">
           {props.typeAuth ? "Register" : "Login"}
         </ModalHeader>
-        <p className="text-center font-semibold font-sand">
+        <p className="  text-center font-semibold font-sand">
           {props.typeAuth ? (
             <>
               Already have an account ?{" "}

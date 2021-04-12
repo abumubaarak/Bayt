@@ -1,18 +1,24 @@
+import { Button } from "@chakra-ui/button";
 import React, { FC, ReactNode } from "react";
 
 interface Props {
   children: ReactNode;
   handleModal?: any;
+  loading?:boolean
 }
-const Button: FC<Props> = ({ children, handleModal }) => {
+const CircularButton: FC<Props> = ({ children, handleModal,loading }) => {
   return (
-    <button
+    <Button
+     as="button"
+      size="md"
+      borderRadius="25"
+      isLoading={loading}
       onClick={handleModal}
-      className="bg-50  px-7 py-2 text-base font-bold text-400 font-railway rounded-3xl"
+      className="bg-50  px-7 py-3 text-base font-bold text-400 font-railway rounded-3xl"
     >
       {children}
-    </button>
+    </Button>
   );
 };
 
-export default Button;
+export default CircularButton;

@@ -5,6 +5,7 @@ import Home from "./pages/Home.page";
 import LandintText from "./components/LandingText.component";
 import Signup from "./pages/Owner/Authentication/Signup.page";
 import Login from "./pages/Owner/Authentication/Login.page";
+import Dashboard from "./pages/Owner/Dashboard/Dashboard.page";
 
 function App() {
   return (
@@ -20,6 +21,9 @@ function App() {
       </Route>
       <Route path="/owner/login">
         <Login />
+      </Route>
+      <Route path="/dashboard">
+        <Dashboard/>
       </Route>
     </Switch>
   );
