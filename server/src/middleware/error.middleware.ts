@@ -13,7 +13,7 @@ export const errorMiddleware = (
   error = new ErrorResponse(statusCode, message);
 
   if (err.code === 11000) {
-    error = new ErrorResponse(400, "Duplicate field value entered");
+    error = new ErrorResponse(400, "Email already exist");
   }
 
   res.status(error?.statusCode || 500).json({
@@ -21,3 +21,4 @@ export const errorMiddleware = (
     message: error?.message || "Something went wrong",
   });
 };
+
