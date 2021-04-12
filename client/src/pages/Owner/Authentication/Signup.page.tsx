@@ -16,10 +16,12 @@ type Inputs = {
 };
 
 export default function Signup() {
-  const { register, handleSubmit, watch, formState } = useForm<Inputs>();
-  const message = useToastMessage();
-  const history= useHistory()
-  const { registerUser, loading, response, error } = usePost();
+  const { register, handleSubmit, formState } = useForm<Inputs>();
+  const {message} = useToastMessage();
+  const history = useHistory();
+  const { request, loading, response, error } = usePost(
+    "http://localhost:7000/api/v1/auth/register"
+  );
 
   const onSubmit = (data: Inputs) => {
     if (data.password !== data.con_password) {
@@ -30,11 +32,10 @@ export default function Signup() {
         status: "error",
       });
     } else {
-      const value = JSON.stringify(data);
       const { firstname, lastname, email, password }: Inputs = data;
 
       let role: string = "owner";
-      registerUser({ firstname, lastname, email, role, password });
+      request({ firstname, lastname, email, role, password });
     }
   };
 
@@ -51,17 +52,16 @@ export default function Signup() {
 
   useEffect(() => {
     if (response) {
-
       message({
         position: "top",
         title: "Done",
-        duration:5000,
+        duration: 5000,
         description: response?.message,
         status: "success",
       });
 
       setTimeout(() => {
-        history.push("/dashboard")
+        history.push("/dashboard");
       }, 5000);
     }
   }, [response]);

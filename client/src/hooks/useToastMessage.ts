@@ -20,7 +20,7 @@ const useToastMessage = () => {
   const message = (params: Toast) => {
     toast({ ...params, isClosable: true });
   };
-  return message;
+  return {message};
 };
 
 export default useToastMessage;

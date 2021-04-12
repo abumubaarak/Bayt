@@ -1,10 +1,84 @@
 import Back from "../../../components/Back.component";
 import Button from "../../../components/Button.component";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
 
 import Form from "../../../components/Form.component";
+import useToastMessage from "../../../hooks/useToastMessage";
+import usePost from "../../../hooks/usePost";
 
+type Inputs = {
+  email: string;
+  password: string;
+};
 export default function Login() {
+  const { register, handleSubmit, formState } = useForm<Inputs>();
+  const {message} = useToastMessage();
+  const history = useHistory();
+  const { request, error, loading, response } = usePost(
+    "http://localhost:7000/api/v1/auth/login"
+  );
+
+  const onSubmit = (data: Inputs) => {
+    const { email, password }: Inputs = data;
+
+    request({ email, password });
+  };
+
+  useEffect(() => {
+    if (error) {
+      message({
+        position: "top",
+        title: "Error",
+        description: error?.message,
+        status: "error",
+      });
+    }
+  }, [error]);
+
+  useEffect(() => {
+    if (response) {
+      message({
+        position: "top",
+        title: "Done",
+        duration: 5000,
+        description: response?.message,
+        status: "success",
+      });
+
+      setTimeout(() => {
+        history.push("/dashboard");
+      }, 4000);
+    }
+  }, [response]);
+
+  useEffect(() => {
+    const { errors } = formState;
+
+    setTimeout(() => {
+      if (errors.email) {
+        message({
+          position: "top-right",
+          title: "Error",
+          description: "Email is require",
+          status: "error",
+        });
+        return;
+      }
+
+      if (errors.password) {
+        message({
+          position: "top-right",
+          title: "Error",
+          description: "Password is require",
+          status: "error",
+        });
+        return;
+      }
+    }, 1000);
+  }, [formState]);
+
   return (
     <div className="flex h-screen">
       <div className="flex-2 bg-300 ">
@@ -28,16 +102,27 @@ export default function Login() {
           <p className="text-gray-500 font-semibold text-base tracking-wider font-sand mb-10">
             Start Connecting with tenent 👨‍👩‍👦
           </p>
-          <form className=" mt-6 flex flex-col font-sand ">
-            <Form title="email" type="text">
+          <form
+            className=" mt-6 flex flex-col font-sand "
+            onSubmit={handleSubmit(onSubmit)}
+          >
+            <Form
+              title="email"
+              type="text"
+              register={register("email", { required: true })}
+            >
               Email
             </Form>
 
-            <Form title="password" type="password">
+            <Form
+              title="password"
+              type="password"
+              register={register("password", { required: true })}
+            >
               Password
             </Form>
 
-            <Button>Submit</Button>
+            <Button loading={loading}>Submit</Button>
           </form>
         </div>
       </div>

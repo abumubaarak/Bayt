@@ -1,41 +1,33 @@
 import axios from "axios";
 import { useState } from "react";
 
-interface User {
-  firstname: string;
-  lastname: string;
-  email: string;
-  role: string;
-  password: string;
-}
 interface Default {
   httpStatus?: number;
-}
-interface Data extends Default {
-  status: string;
-  message?:string
-  token: string;
-}
-interface Error extends Default {
   status?: string;
-  message: string;
 }
-const usePost = () => {
+type Data = Default & {
+  message?: string;
+  token: string;
+};
+
+type Error = Default & {
+  message: string;
+};
+const usePost = (url: string) => {
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<Error>();
-  const [response, setData] = useState<Data>();
+  const [response, setData] = useState<Data | any>();
 
-  const registerUser = async (user: User) => {
+  const request = async (payload: any) => {
     try {
       setLoading(true);
+
       setError(undefined);
 
-      const response = await axios.post(
-        "http://localhost:7000/api/v1/auth/register",
-        {
-          ...user,
-        }
-      );
+      const response = await axios.post(url, {
+        ...payload,
+      });
+
       const statusCode: number = response.status;
 
       const responseData: any = response.data;
@@ -63,7 +55,7 @@ const usePost = () => {
       } else if (err.request) {
         // The request was made but no response was received
 
-        setError({ message: "Unable to connect to server"});
+        setError({ message: "Unable to connect to server" });
       } else {
         // Something happened in setting up the request that triggered an Error
         setError({ message: err.message });
@@ -71,7 +63,7 @@ const usePost = () => {
     }
   };
 
-  return { registerUser, loading, error, response };
+  return { request, loading, error, response };
 };
 
 export default usePost;
