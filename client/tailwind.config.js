@@ -5,11 +5,15 @@ module.exports = {
     flex:{
       '1': '1 1 0%',
       '2': '0 0 58%',
-      '3': '0 0 42%'
+      '3': '0 0 42%',
+      '4': '0 1 5%',
+      '5': '0 1 95%',
+      
     },
     extend: {
       backgroundImage: (theme) => ({
         main: "url('/src/assets/background.jpg')",
+        gradient:"linear-gradient(to right top, #8e89c2, #938fc6, #9995c9, #9e9ccd, #a4a2d0, #aaa8d3, #afadd6, #b5b3d9, #bbb9dc, #c2bfe0, #c8c6e3, #cecce7);"
       }),
       colors: {
         50: "#eeedfe",

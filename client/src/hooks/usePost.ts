@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosRequestConfig } from "axios";
 import { useState } from "react";
 
 interface Default {
@@ -13,20 +13,48 @@ type Data = Default & {
 type Error = Default & {
   message: string;
 };
+
+const BASEURL: string = "/api/v1";
 const usePost = (url: string) => {
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<Error>();
   const [response, setData] = useState<Data | any>();
 
-  const request = async (payload: any) => {
+  const request = async (payload: any, mediaInclude?: boolean) => {
     try {
+      let response;
+
       setLoading(true);
 
       setError(undefined);
 
-      const response = await axios.post(url, {
-        ...payload,
-      });
+      if (mediaInclude) {
+        let requestData: FormData = new FormData();
+
+        const blobs = payload.images.map(async (blobUrl: any, index: any) => {
+          response = await axios.get(blobUrl, { responseType: "blob" });
+          requestData.append("images", new File([response.data], "houseimage"));
+        });
+
+        await Promise.all(blobs);
+
+        delete payload.images;
+
+        const data = JSON.stringify(payload);
+
+        requestData.append("data", data);
+
+        const config = {
+          headers: {
+            "content-type": "multipart/form-data",
+          },
+        };
+        response = await axios.post(`/api/v1${url}`, requestData, config);
+      } else {
+        response = await axios.post(`/api/v1${url}`, {
+          ...payload,
+        });
+      }
 
       const statusCode: number = response.status;
 

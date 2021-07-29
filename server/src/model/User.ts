@@ -1,7 +1,6 @@
-import { NextFunction } from "express";
-import mongoose, { Document, Model, model, Schema } from "mongoose";
-import bcryptjs, { genSalt, hash, compare } from "bcryptjs";
-import jsonwebtoken, { sign, verify } from "jsonwebtoken";
+import  { Document, Model, model, Schema } from "mongoose";
+import  { genSalt, hash, compare } from "bcryptjs";
+import  { sign, verify } from "jsonwebtoken";
 
 export interface Iuser {
   firstname: string;

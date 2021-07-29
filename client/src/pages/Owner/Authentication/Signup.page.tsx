@@ -20,7 +20,7 @@ export default function Signup() {
   const {message} = useToastMessage();
   const history = useHistory();
   const { request, loading, response, error } = usePost(
-    "http://localhost:7000/api/v1/auth/register"
+    "/auth/register"
   );
 
   const onSubmit = (data: Inputs) => {
@@ -121,11 +121,10 @@ export default function Signup() {
     }, 1000);
   }, [formState]);
 
-  // console.log(watch("firstname")); // watch input value by passing the name of it
 
   return (
     <div className="flex h-screen">
-      <div className="flex-2 h-screen bg-300 ">
+      <div className="flex-2 h-screen bg-gradient ">
         <Back />
       </div>
       <div className="  flex flex-col flex-3">
@@ -135,7 +134,7 @@ export default function Signup() {
             <Link to="/owner/login">Log in</Link>
           </span>
         </p>
-        <div className="px-28  pt-12">
+        <div className="px-32  pt-12">
           <h1 className="text-lg pb-4 font-extrabold text-black font-sand tracking-widest ">
             🏚️Bayt
           </h1>

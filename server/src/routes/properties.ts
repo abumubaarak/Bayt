@@ -1,10 +1,9 @@
 import express, { Router } from "express";
-import * as auth from "../controllers/auth";
+import { createProperty } from "../controllers/properties";
 import { protectedRoute } from "../middleware/authorization";
 
 const router: Router = express();
 
-router.route("/register").post(auth.register);
-router.route("/login").post(auth.login)
+router.route("/").post(createProperty);
 
 export { router };

@@ -7,13 +7,15 @@ export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const user: Iuser = await User.create(req.body);
 
-    sendTokenResponse(user, res,"Account Successfully created");
+    sendTokenWithResponse(user, res,"Account Successfully created");
   }
 );
 
 export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
+
+     
 
     if (!email || !password) {
       return next(new ErrorResponse(400, `Email and password is require`));
@@ -31,11 +33,11 @@ export const login = asyncHandler(
       return next(new ErrorResponse(400, "Invalid user credentials"));
     }
 
-    sendTokenResponse(user, res);
+    sendTokenWithResponse(user, res,"Login Successful");
   }
 );
 
-const sendTokenResponse = (user: any, res: Response,message?:string) => {
+const sendTokenWithResponse = (user: any, res: Response,message?:string) => {
   const token = user.getJwtToken();
 
   const options = {
@@ -49,11 +51,10 @@ const sendTokenResponse = (user: any, res: Response,message?:string) => {
     res.status(200).cookie("token", token, options).json({
       success: true,
       message,
-      token,
     });
+    return
   }
   res.status(200).cookie("token", token, options).json({
     success: true,
-    token,
   });
 };

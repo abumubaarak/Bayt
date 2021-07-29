@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import AuthModel from "./AuthModal.component";
-import Button from "./Button.component";
+import CircularButton from "./Button.component";
 import Logo from "./Logo.component";
 import { useDisclosure } from "@chakra-ui/hooks";
 
@@ -22,7 +22,7 @@ const Header = () => {
       <Nav>
         <NavItem>How it works</NavItem>
         <NavItem handleModal={() => handleModal(false)}>Login</NavItem>
-        <Button handleModal={() => handleModal(true)}>Register</Button>
+        <CircularButton handleModal={() => handleModal(true)}>Register</CircularButton>
       </Nav>
 
       <AuthModel

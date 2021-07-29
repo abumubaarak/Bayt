@@ -3,7 +3,6 @@ import Button from "../../../components/Button.component";
 import { Link, useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-
 import Form from "../../../components/Form.component";
 import useToastMessage from "../../../hooks/useToastMessage";
 import usePost from "../../../hooks/usePost";
@@ -14,18 +13,16 @@ type Inputs = {
 };
 export default function Login() {
   const { register, handleSubmit, formState } = useForm<Inputs>();
-  const {message} = useToastMessage();
+  const { message } = useToastMessage();
   const history = useHistory();
-  const { request, error, loading, response } = usePost(
-    "http://localhost:7000/api/v1/auth/login"
-  );
+  const { request, error, loading, response } = usePost("/auth/login");
 
   const onSubmit = (data: Inputs) => {
     const { email, password }: Inputs = data;
 
     request({ email, password });
   };
-
+  
   useEffect(() => {
     if (error) {
       message({
@@ -48,8 +45,8 @@ export default function Login() {
       });
 
       setTimeout(() => {
-        history.push("/dashboard");
-      }, 4000);
+        history.push("/owner/dashboard");
+      }, 1000);
     }
   }, [response]);
 
@@ -81,7 +78,7 @@ export default function Login() {
 
   return (
     <div className="flex h-screen">
-      <div className="flex-2 bg-300 ">
+      <div className="flex-2 bg-gradient ">
         <Back />
       </div>
       <div className="  flex flex-col flex-3">
@@ -91,7 +88,7 @@ export default function Login() {
             <Link to="/owner/signup">Register</Link>
           </span>
         </p>
-        <div className="px-28  pt-12">
+        <div className="px-32  pt-12">
           <h1 className="text-lg pb-7 font-extrabold text-black font-sand tracking-widest ">
             🏚️Bayt
           </h1>

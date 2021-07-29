@@ -36,7 +36,7 @@ export default function AuthModel(props: Props) {
     >
       <ModalOverlay />
       <ModalContent>
-        <ModalHeader className="text-center font-railway font-black text-base">
+        <ModalHeader className="text-center font-sand font-black text-base">
           {props.typeAuth ? "Register" : "Login"}
         </ModalHeader>
         <p className="  text-center font-semibold font-sand">
@@ -80,7 +80,7 @@ export default function AuthModel(props: Props) {
           </div>
           <div className="flex justify-center font-sand mt-8 mb-4">
             <p className="font-bold text-base">
-              Are you an Owner ?{" "}
+              Are you an Owner?{" "}
               <span className="font-semibold font-sand text-500 cursor-pointer">
                 {" "}
                 {props.typeAuth ? (
