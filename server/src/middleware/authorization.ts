@@ -1,8 +1,8 @@
 import { asyncHandler } from "./async";
 import { Request, Response, NextFunction } from "express";
-import { ErrorResponse } from "../utills/errorResponse";
+import { ErrorResponse } from "../utils/errorResponse";
 import { verify, VerifyOptions } from "jsonwebtoken";
-import { User } from "../model/User";
+import { User } from "../components/users/userModel";
 
 export const protectedRoute = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {

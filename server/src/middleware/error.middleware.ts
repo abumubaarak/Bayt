@@ -1,6 +1,6 @@
 import { Response, NextFunction, Request } from "express";
 import multer from "multer";
-import { ErrorResponse } from "../utills/errorResponse";
+import { ErrorResponse } from "../utils/errorResponse";
 export const errorMiddleware = (
   err: any,
   req: Request,

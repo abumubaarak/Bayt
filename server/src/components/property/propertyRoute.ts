@@ -1,6 +1,6 @@
 import express, { Router } from "express";
-import { createProperty } from "../controllers/properties";
-import { protectedRoute } from "../middleware/authorization";
+import { createProperty } from "./propertyController";
+import { protectedRoute } from "../../middleware/authorization";
 
 const router: Router = express();
 

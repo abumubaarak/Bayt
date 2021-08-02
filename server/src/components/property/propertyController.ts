@@ -1,6 +1,6 @@
-import { asyncHandler } from "../middleware/async";
+import { asyncHandler } from "../../middleware/async";
 import express, { Request, Response, NextFunction, request } from "express";
-import { Property } from "../model/Properties";
+import { Property } from "./propertyModel";
 import { Multer } from "multer";
 
 export const createProperty = asyncHandler(

@@ -1,21 +1,19 @@
 import express, { Request, Response, NextFunction } from "express";
-import { User, Iuser } from "../model/User";
-import { asyncHandler } from "../middleware/async";
-import { ErrorResponse } from "../utills/errorResponse";
+import { User, Iuser } from "../userModel";
+import { asyncHandler } from "../../../middleware/async";
+import { ErrorResponse } from "../../../utils/errorResponse";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const user: Iuser = await User.create(req.body);
 
-    sendTokenWithResponse(user, res,"Account Successfully created");
+    sendTokenWithResponse(user, res, "Account Successfully created");
   }
 );
 
 export const login = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const { email, password } = req.body;
-
-     
 
     if (!email || !password) {
       return next(new ErrorResponse(400, `Email and password is require`));
@@ -33,11 +31,11 @@ export const login = asyncHandler(
       return next(new ErrorResponse(400, "Invalid user credentials"));
     }
 
-    sendTokenWithResponse(user, res,"Login Successful");
+    sendTokenWithResponse(user, res, "Login Successful");
   }
 );
 
-const sendTokenWithResponse = (user: any, res: Response,message?:string) => {
+const sendTokenWithResponse = (user: any, res: Response, message?: string) => {
   const token = user.getJwtToken();
 
   const options = {
@@ -47,12 +45,12 @@ const sendTokenWithResponse = (user: any, res: Response,message?:string) => {
     httpOnly: true,
   };
 
-  if(message){
+  if (message) {
     res.status(200).cookie("token", token, options).json({
       success: true,
       message,
     });
-    return
+    return;
   }
   res.status(200).cookie("token", token, options).json({
     success: true,
