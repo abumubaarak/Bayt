@@ -30,7 +30,9 @@ export const protectedRoute = asyncHandler(
 
     try {
       const decode: any = verify(token, process.env.JWT_SECRET!);
+       
       req.body.user = await User.findById(decode.id);
+ 
       next();
     } catch (err) {
       return next(

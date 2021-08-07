@@ -2,6 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import { User, Iuser } from "../userModel";
 import { asyncHandler } from "../../../middleware/async";
 import { ErrorResponse } from "../../../utils/errorResponse";
+import passport from "passport";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -32,6 +33,12 @@ export const login = asyncHandler(
     }
 
     sendTokenWithResponse(user, res, "Login Successful");
+  }
+);
+
+export const signInWithGoogle = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+
   }
 );
 

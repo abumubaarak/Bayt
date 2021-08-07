@@ -88,9 +88,10 @@ const PropertyScheme: Schema = new Schema({
     type: [String],
     required: ["Property image is required", true],
   },
-  owner: {
+  owner_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
+    required:true
   },
 });
 
