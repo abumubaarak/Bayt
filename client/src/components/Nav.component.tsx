@@ -6,7 +6,7 @@ interface Props {
 const Nav: FC<Props> = ({ children }) => {
   return (
     <>
-      <ul className="flex flex-row items-center space-x-11">{children}</ul>
+      <ul className="flex flex-row items-center space-x-8">{children}</ul>
     </>
   );
 };

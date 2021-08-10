@@ -4,8 +4,8 @@ export default function Search() {
       <input
         type="search"
         className="bg-white -mr-12 rounded-full flex-base px-10 py-4"
-        name="location"
-        placeholder="Search for a location..."
+        name="city"
+        placeholder="Search for a City..."
       />
       <button className="rounded-full px-12 py-2  bg-500 text-white text-lg font-bold">
         Search

@@ -1,9 +1,21 @@
-import React from "react";
+import React, { FC } from "react";
 
-export default function Logo() {
+interface Props {
+  variant?: boolean | undefined;
+}
+
+const Logo: FC<Props> = ({ variant }) => {
+  console.log(variant);
+
   return (
-    <h1 className="text-3xl font-black text-white font-sand tracking-widest ">
+    <h1
+      className={`text-3xl font-extrabold font-sand tracking-widest ${
+        variant ? "text-700 " : "text-white"
+      }`}
+    >
       Bayt
     </h1>
   );
-}
+};
+
+export default Logo;

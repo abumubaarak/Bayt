@@ -18,7 +18,7 @@ const Header = () => {
 
   return (
     <div className="flex justify-between  px-20 pt-7">
-      <Logo />
+      <Logo variant={false} />
       <Nav>
         <NavItem>How it works</NavItem>
         <NavItem handleModal={() => handleModal(false)}>Login</NavItem>

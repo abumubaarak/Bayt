@@ -14,6 +14,7 @@ import Payments from "./pages/Owner/Home/Payments.page";
 import Profile from "./pages/Owner/Home/Profile.page";
 import Layout from "./layouts/owner.layout";
 import Property from "./pages/Owner/Home/AddProperty.page";
+import ListingPage from "./pages/tenent/listing/Listing.page";
 const routes = [
   {
     path: "/owner/dashboard",
@@ -57,6 +58,9 @@ function App() {
       </Route>
       <Route path="/owner/signup">
         <Signup />
+      </Route>
+      <Route path="/s">
+        <ListingPage />
       </Route>
       <Route path="/owner/login">
         <Login />

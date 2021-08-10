@@ -3,12 +3,10 @@ import { VscChromeClose } from "react-icons/vsc";
 import Location from "../../../layouts/location.layout";
 import PropertyDetails from "../../../layouts/property.layout";
 import { useState, useEffect } from "react";
-import others from "../../../layouts/others.layout";
 import Others from "../../../layouts/others.layout";
-import { useAppDispatch, useAppSelector } from "../../../redux/hook";
+import { useAppSelector } from "../../../redux/hook";
 import usePost from "../../../hooks/usePost";
 import useToastMessage from "../../../hooks/useToastMessage";
-import { ILocation } from "../../../redux/formSlice";
 import { useHistory } from "react-router-dom";
 
 export interface LayoutProps {
@@ -19,7 +17,7 @@ export default function Property() {
   const [type, setType] = useState<string>("Location");
   const [formData, setFormData] = useState<boolean>(true);
   const [count, setCount] = useState<number>(1);
-  const history= useHistory()
+  const history = useHistory();
   const { message } = useToastMessage();
   const location = useAppSelector((state) => state.form.location);
   const property = useAppSelector((state) => state.form.property);
@@ -27,7 +25,7 @@ export default function Property() {
   const { loading, error, response, request } = usePost("/properties/");
 
   useEffect(() => {
-   // console.log(response.data);
+    // console.log(response.data);
   }, [response]);
 
   useEffect(() => {
@@ -57,7 +55,6 @@ export default function Property() {
     }
   }, [response]);
 
-
   const handleContinue = () => {
     if (type === "Location") {
       setType("Property");
@@ -66,13 +63,14 @@ export default function Property() {
       setType("Others");
       setCount(3);
     } else if (type === "Others") {
-
-      request({
-        ...location,
-        ...property,
-        ...others,
-      },true);
-
+      request(
+        {
+          ...location,
+          ...property,
+          ...others,
+        },
+        true
+      );
     }
   };
 
