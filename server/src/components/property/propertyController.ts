@@ -25,9 +25,9 @@ export const createProperty = asyncHandler(
       let data = JSON.parse(req.body.data);
 
       data.images = imagePath;
-      data.owner_id = req.body.user._id
-      
-      delete req.body.user
+      data.owner_id = req.body.user._id;
+
+      delete req.body.user;
 
       const property = await Property.create(data);
 

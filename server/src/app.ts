@@ -17,5 +17,7 @@ app.use(cookies());
 app.use("/api/v1/auth", userRouter);
 app.use("/api/v1/properties", upload, PropertiesRoute);
 app.use(errorMiddleware);
+app.use("/uploads",express.static('uploads'))
+
 
 export default app;
