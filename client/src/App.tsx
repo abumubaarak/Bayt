@@ -5,7 +5,7 @@ import Home from "./pages/Home.page";
 import LandintText from "./components/LandingText.component";
 import Signup from "./pages/Owner/Authentication/Signup.page";
 import Login from "./pages/Owner/Authentication/Login.page";
- import Slidebar from "./components/Slidebar.component";
+import Slidebar from "./components/Slidebar.component";
 import Dashboard from "./pages/Owner/Home/Dashboard.page";
 import Listings from "./pages/Owner/Home/Listings.page";
 import Message from "./pages/Owner/Home/Message.page";
@@ -15,6 +15,7 @@ import Profile from "./pages/Owner/Home/Profile.page";
 import Layout from "./layouts/owner.layout";
 import Property from "./pages/Owner/Home/AddProperty.page";
 import ListingPage from "./pages/tenent/listing/Listing.page";
+import DetailsPage from "./pages/tenent/details/Details.Page";
 const routes = [
   {
     path: "/owner/dashboard",
@@ -59,9 +60,11 @@ function App() {
       <Route path="/owner/signup">
         <Signup />
       </Route>
-      <Route path="/s">
+      <Route path="/s/:slug">
         <ListingPage />
       </Route>
+      <Route path="/details/:slug" component={DetailsPage} />
+      
       <Route path="/owner/login">
         <Login />
       </Route>
@@ -78,7 +81,7 @@ function App() {
         />
       ))}
       <Route path="/owner/list/new">
-        <Property/>
+        <Property />
       </Route>
     </Switch>
   );

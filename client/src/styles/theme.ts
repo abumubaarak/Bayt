@@ -1,18 +1,19 @@
-import { extendTheme } from "@chakra-ui/react"
+import { extendTheme } from "@chakra-ui/react";
 // 2. Call `extendTheme` and pass your custom values
 export const theme = extendTheme({
   colors: {
     brand: {
-        50: "#eeedfe",
-        100: "#cecce7",
-        200: "#acabd4",
-        300: "#8e89c2",
-        400: "#7367af",
-        500: "#5e4e96",
-        600: "#4d3c75",
-        700: "#3a2b54",
-        800: "#241935",
-        900: "#0f0817",
-    },
+      50: "#ddf2ff",
+      100: "#aed4ff",
+      200: "#7db8ff",
+      300: "#4b9bff",
+      400: "#1a7fff",
+      500: "#0065e6",
+      600: "#004fb4",
+      700: "#003882",
+      800: "#002251",
+      900: "#000b21",
+      sky:"#323250"
+    }
   },
-})
+});

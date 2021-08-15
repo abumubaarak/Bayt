@@ -10,7 +10,7 @@ interface Toast {
     | "top"
     | undefined;
   title?: string;
-  description?: string;
+  description?: string|any;
   duration?:number|3000,
   status: "info" | "warning" | "success" | "error" | undefined;
 }

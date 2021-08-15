@@ -2,6 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 export interface Property {
+  _id:any
   name: string;
   city: string;
   address: string;
@@ -15,28 +16,23 @@ export interface Property {
   cost: number;
   description: string;
   images: string[];
-};
+  slug:string
+}
 
 type Response = {
-    data: Property[],
-    success:boolean
-}
-export const searchListing = async (city: string) => {
-  const request = await axios.get<Response>(
-    `/api/v1/properties?city=${city}`
-    );
-    
-    
-
-  const response: Response = request.data;
-
-  return response;
+  data: Property[];
+  success: boolean;
+};
+export const searchListing = async (searchValue?: string) => {
+  const { data } = await axios.get<Response>(
+    `/api/v1/properties?city=${searchValue}`
+  );
+  return data;
+};
+export const getListing = async (id?: string|unknown) => {
+  const { data } = await axios.get<any>(
+    `/api/v1/properties/${id}`
+  );
+  return data;
 };
 
-export const fetchPost = (city: string) =>
-axios.get<Property[]>(`/api/v1/properties?city=${city}`).then(res => res.data)
-
-
-export const useFetch = (city: string) => {
-  return useQuery("listing", () => searchListing(city));
-};

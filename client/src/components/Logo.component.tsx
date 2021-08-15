@@ -1,21 +1,13 @@
+import { Heading, HStack, Image, Text } from "@chakra-ui/react";
 import React, { FC } from "react";
+import Black from "../assets/black_logo.svg";
 
 interface Props {
-  variant?: boolean | undefined;
+  variant?: "light" | "dark";
 }
 
 const Logo: FC<Props> = ({ variant }) => {
-  console.log(variant);
-
-  return (
-    <h1
-      className={`text-3xl font-extrabold font-sand tracking-widest ${
-        variant ? "text-700 " : "text-white"
-      }`}
-    >
-      Bayt
-    </h1>
-  );
+  return <Image src={Black} w="120px" h="35px" />;
 };
 
 export default Logo;

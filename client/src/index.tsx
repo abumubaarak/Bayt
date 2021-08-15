@@ -8,9 +8,15 @@ import { theme } from "./styles/theme";
 import { Provider } from "react-redux";
 import { store } from "./redux/store";
 import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from 'react-query/devtools'
+import { ReactQueryDevtools } from "react-query/devtools";
 
-const query = new QueryClient();
+const query = new QueryClient({
+  defaultOptions: {
+    queries: {
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 ReactDOM.render(
   <BrowserRouter>
@@ -20,7 +26,6 @@ ReactDOM.render(
           <QueryClientProvider client={query}>
             <App />
             <ReactQueryDevtools initialIsOpen={false} />
-
           </QueryClientProvider>
         </Provider>
       </ChakraProvider>

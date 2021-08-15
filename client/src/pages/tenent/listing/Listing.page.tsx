@@ -11,6 +11,7 @@ import {
   InputLeftElement,
   SimpleGrid,
   Spacer,
+  Spinner,
   Tag,
   Text,
   VStack,
@@ -23,58 +24,64 @@ import {
   BiPolygon,
   BiRectangle,
 } from "react-icons/bi";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
+import SwiperCore, { Autoplay, Navigation, Pagination } from "swiper";
+import "swiper/swiper-bundle.css";
+// Import Swiper styles
+
 import { BsHouse, BsImageAlt } from "react-icons/bs";
-import image from "../../../assets/background.jpg";
 import CircularButton from "../../../components/Button.component";
 import Logo from "../../../components/Logo.component";
 import Nav from "../../../components/Nav.component";
 import NavItem from "../../../components/NavItem.component";
-import { Property, useFetch } from "../../../hooks/useFetch";
+import { Property, searchListing } from "../../../hooks/useFetch";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { useEffect } from "react";
+import { GiCityCar } from "react-icons/gi";
+import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useQuery } from "react-query";
+import SlideUp from "../../../transition/SlideUp.transition";
+import HeaderMain from "../../../components/HeaderMain.component";
+import { Params } from "../../../utils/TypeUtils";
+
+SwiperCore.use([Pagination, Autoplay]);
 
 export default function ListingPage() {
-  const { data } = useFetch("Dubai");
-  console.log(data?.data.length);
+  const { slug }: Params = useParams();
+  const history = useHistory();
+  const [city, setCity] = useState<string>();
+  const { isLoading, data } = useQuery([city], () => searchListing(city));
+
+  console.log(slug);
+
+  useEffect(() => {
+    setCity(slug);
+  }, [slug]);
 
   return (
-    <VStack w="100%" spacing={10}>
-      <HStack w="full" px="8" py="3" shadow="sm">
-        <Logo variant={true} />
-        <Flex
-          alignItems="center"
-          w="80"
-          ml="2"
-          rounded="sm"
-          className="shadow-md border-2 h-12"
-        >
-          <form>
-            <InputGroup>
-              <InputLeftElement
-                pointerEvents="none"
-                children={<BsHouse color="gray.300" className="w-5 h-5" />}
-              />
+    <SlideUp setMarginBottom={true}>
+      <HeaderMain />
+      <VStack w="100%" mt={5}>
+        {isLoading && (
+          <Center maxW="8xl" w="full">
+            <Spinner
+              thickness="4px"
+              speed="0.65s"
+              emptyColor="gray.200"
+              color="brad.500"
+              size="xl"
+            />
+          </Center>
+        )}
 
-              <Input
-                border="none"
-                focusBorderColor="none"
-                type="search"
-                placeholder="Search City"
-              />
-            </InputGroup>
-          </form>
-        </Flex>
-        <Spacer />
-        <Nav>
-          <NavItem variant={true}>Login</NavItem>
-          <CircularButton>Register</CircularButton>
-        </Nav>
-      </HStack>
-      {/* repeat(auto-fit, minmax(300px, 329px)) */}
-      <Flex maxW="8xl" w="full">
         <SimpleGrid
           sx={{
             gridTemplateColumns: "repeat(auto-fit, minmax(300px, 329px)) ",
           }}
           w="full"
+          maxW="8xl"
           spacing="10"
         >
           {data &&
@@ -83,33 +90,52 @@ export default function ListingPage() {
                 cursor="pointer"
                 pb={2}
                 maxW={340}
+                onClick={() =>
+                  history.push({
+                    pathname: `/details/${item.slug}`,
+                    state: item._id,
+                  })
+                }
                 shadow="md"
                 rounded="md"
               >
-                <Box
-                  bgImage={`url(${image})`}
-                  roundedTop="md"
-                  w="full"
-                  h="220px"
-                  bgSize="cover"
-                  bgPos="center"
-                  bgRepeat="no-repeat"
+                <Swiper
+                  effect="fade"
+                  className="w-full"
+                  slidesPerView={1}
+                  autoplay={true}
+                  pagination={{ clickable: true }}
                 >
-                  <Tag
-                    size="md"
-                    colorScheme="red"
-                    variant="subtle"
-                    m={3}
-                    fontWeight="semibold"
-                  >
-                    ${item.cost}
-                  </Tag>
-                </Box>
+                  {item.images.map((image, index) => (
+                    <SwiperSlide>
+                      <Box
+                        bgImage={`url(http://localhost:7000/${image})`}
+                        roundedTop="md"
+                        w="full"
+                        h="220px"
+                        bgSize="cover"
+                        bgPos="center"
+                        bgRepeat="no-repeat"
+                      >
+                        <Tag
+                          size="md"
+                          bg="white"
+                          variant="subtle"
+                          m={3}
+                          fontWeight="semibold"
+                        >
+                          ${item.cost}
+                        </Tag>
+                      </Box>
+                    </SwiperSlide>
+                  ))}
+                </Swiper>
 
                 <VStack spacing="2" flex="1" p={2} alignItems="stretch">
                   <Text
                     className="font-railway"
                     fontSize="md"
+                    color="brand.700"
                     noOfLines={2}
                     fontWeight="semibold"
                   >
@@ -145,7 +171,7 @@ export default function ListingPage() {
               </VStack>
             ))}
         </SimpleGrid>
-      </Flex>
-    </VStack>
+      </VStack>
+    </SlideUp>
   );
 }

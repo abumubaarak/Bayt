@@ -6,6 +6,7 @@ import { useDisclosure } from "@chakra-ui/hooks";
 
 import Nav from "./Nav.component";
 import NavItem from "./NavItem.component";
+import LogoText from "./LogoText.component";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
@@ -18,11 +19,14 @@ const Header = () => {
 
   return (
     <div className="flex justify-between  px-20 pt-7">
-      <Logo variant={false} />
+      <LogoText />
+
       <Nav>
         <NavItem>How it works</NavItem>
         <NavItem handleModal={() => handleModal(false)}>Login</NavItem>
-        <CircularButton handleModal={() => handleModal(true)}>Register</CircularButton>
+        <CircularButton handleModal={() => handleModal(true)}>
+          Register
+        </CircularButton>
       </Nav>
 
       <AuthModel

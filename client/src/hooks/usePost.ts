@@ -14,7 +14,6 @@ type Error = Default & {
   message: string;
 };
 
-const BASEURL: string = "/api/v1";
 const usePost = (url: string) => {
   const [loading, setLoading] = useState<boolean>();
   const [error, setError] = useState<Error>();
