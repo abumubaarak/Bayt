@@ -56,6 +56,8 @@ export const searchProperty = asyncHandler(
 
 export const getSingleProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.params);
+    
     if (Types.ObjectId(req.params.id)) {
       const property = await Property.findById(req.params.id);
 
@@ -64,7 +66,6 @@ export const getSingleProperty = asyncHandler(
           new ErrorResponse(404, `Property not found with id ${req.params.id}`)
         );
       }
-
       response(res, 200, true, property);
     }
   }

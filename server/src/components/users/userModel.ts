@@ -8,6 +8,8 @@ export interface Iuser {
   email: string;
   role: string;
   password: string;
+  provider: string;
+  socialID: string;
 }
 
 interface IUserDocument extends Iuser, Document {
@@ -34,17 +36,29 @@ const UserSchema: Schema = new Schema({
     enum: ["owner", "tenant"],
     default: "tenant",
   },
+  
   password: {
     type: String,
     required: [true, "Password is require"],
     minlenght: 6,
     select: false,
+   },
+  provider: {
+    type:String
   },
+  socialID: {
+    type:String,
+  }
 });
 
 UserSchema.pre<IUserDocument>("save", async function (next) {
-  const salt: string = await genSalt(10);
-  this.password = await hash(this.password, salt);
+
+   if (!this.socialID) {
+    const salt: string = await genSalt(10);
+    this.password = await hash(this.password, salt); 
+   } else {
+    // this.password.
+  }
 });
 
 UserSchema.methods.validatePassword = async function (userpassword: string) {

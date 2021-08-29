@@ -1,4 +1,5 @@
 import { Schema, Document, Model, model } from "mongoose";
+import slugify from "slugify";
 
 export interface IProperty extends Document {
   name: string;
@@ -14,6 +15,7 @@ export interface IProperty extends Document {
   cost: number;
   description: string;
   images: string[];
+  slug:string
 }
 
 const PropertyScheme: Schema = new Schema({
@@ -93,8 +95,13 @@ const PropertyScheme: Schema = new Schema({
     ref: "User",
     required:true
   },
+  slug:String
 });
 
+PropertyScheme.pre<IProperty>('save',function (next) {
+  this.slug=slugify(this.name,{lower:true})
+  next()
+})
 export const Property: Model<IProperty> = model<IProperty>(
   "Property",
   PropertyScheme

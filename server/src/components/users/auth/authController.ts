@@ -2,7 +2,8 @@ import express, { Request, Response, NextFunction } from "express";
 import { User, Iuser } from "../userModel";
 import { asyncHandler } from "../../../middleware/async";
 import { ErrorResponse } from "../../../utils/errorResponse";
-import passport from "passport";
+import response from "../../../utils/response";
+import { Console } from "node:console";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -36,9 +37,27 @@ export const login = asyncHandler(
   }
 );
 
-export const signInWithGoogle = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
+export const middle = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {}
+);
 
+export const getMe = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.session)
+    if (req.user) {
+      const user = await User.findById(req.user);
+       response(res, 200, true, user);
+
+      if (!user) {
+        return next(new ErrorResponse(400, "Invalid user credentials"));
+      }
+    }
+  }
+);
+
+export const logout = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    req.logout();
   }
 );
 
