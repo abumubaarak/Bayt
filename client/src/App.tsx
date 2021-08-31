@@ -16,6 +16,8 @@ import Layout from "./layouts/owner.layout";
 import Property from "./pages/Owner/Home/AddProperty.page";
 import ListingPage from "./pages/tenent/listing/Listing.page";
 import DetailsPage from "./pages/tenent/details/Details.Page";
+import HeaderMain from "./components/HeaderMain.component";
+import ProfilePage from "./pages/tenent/profile.page";
 const routes = [
   {
     path: "/owner/dashboard",
@@ -52,7 +54,7 @@ function App() {
   return (
     <Switch>
       <Route path="/" exact>
-        <Home header={<Header />}>
+        <Home header={<HeaderMain variant="home" />}>
           <LandintText />
           <Search />
         </Home>
@@ -60,11 +62,14 @@ function App() {
       <Route path="/owner/signup">
         <Signup />
       </Route>
+      <Route path="/profile">
+        <ProfilePage />
+      </Route>
       <Route path="/s/:slug">
         <ListingPage />
       </Route>
       <Route path="/details/:slug" component={DetailsPage} />
-      
+
       <Route path="/owner/login">
         <Login />
       </Route>

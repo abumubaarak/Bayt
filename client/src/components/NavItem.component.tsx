@@ -3,14 +3,14 @@ import React, { FC, ReactNode } from "react";
 interface Props {
   children: ReactNode;
   handleModal?: any;
-  variant?:boolean
+  variant?: "light" | "dark";
 }
 
 const NavItem: FC<Props> = ({ children, handleModal,variant }) => {
   return (
     <li
       onClick={handleModal}
-      className={`cursor-pointer text-base font-railway  space-x-11 ${variant ? "text-black" : "text-white"}`}
+      className={`cursor-pointer text-base font-railway  space-x-11 ${variant==="light" ? "text-white" : "text-dark"}`}
     >
       {children}
     </li>

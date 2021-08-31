@@ -19,12 +19,21 @@ export interface Props {
   onClose(): any;
 }
 
+
 export default function AuthModel(props: Props) {
+  const BASE_URL="http://localhost:3000/api/v1/auth/"
   const [changeAuthType, setChangeAuthType] = useState<boolean>();
 
   const changeAuth = () => {
     setChangeAuthType((preChangeAuthType) => !preChangeAuthType);
     props.setType(changeAuthType);
+  };
+  const googleLogin = () => {
+    window.open(`${BASE_URL}google`, "_self");
+  };
+
+  const githubLogin = () => {
+    window.open(`${BASE_URL}github`, "_self");
   };
 
   return (
@@ -65,7 +74,10 @@ export default function AuthModel(props: Props) {
         </p>
         <ModalCloseButton />
         <ModalBody className="text-center font-railway font-semibold text-xl ">
-          <div className="mt-3 hover:bg-50 cursor-pointer flex items-center  border-gray-500  border-2 px-7 py-2 rounded-full">
+          <div
+            onClick={googleLogin}
+            className="mt-3 hover:bg-50 cursor-pointer flex items-center  border-gray-500  border-2 px-7 py-2 rounded-full"
+          >
             <FcGoogle />
             <p className=" flex-1 text-center"> Continue with Google </p>
           </div>
@@ -74,7 +86,10 @@ export default function AuthModel(props: Props) {
             <RiFacebookCircleFill />
             <p className=" flex-1 text-center"> Continue with Facebook </p>
           </div>
-          <div className="my-5 hover:bg-50 cursor-pointer text-white flex items-center  bg-black  border-2 px-7 py-2 rounded-full">
+          <div
+            onClick={githubLogin}
+            className="my-5 hover:bg-50 cursor-pointer text-white flex items-center  bg-black  border-2 px-7 py-2 rounded-full"
+          >
             <AiFillGithub />
             <p className=" flex-1 text-center"> Continue with Github </p>
           </div>

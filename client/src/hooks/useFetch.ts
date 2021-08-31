@@ -2,7 +2,7 @@ import axios from "axios";
 import { useQuery } from "react-query";
 
 export interface Property {
-  _id:any
+  _id: any;
   name: string;
   city: string;
   address: string;
@@ -16,7 +16,7 @@ export interface Property {
   cost: number;
   description: string;
   images: string[];
-  slug:string
+  slug: string;
 }
 
 type Response = {
@@ -29,10 +29,21 @@ export const searchListing = async (searchValue?: string) => {
   );
   return data;
 };
-export const getListing = async (id?: string|unknown) => {
-  const { data } = await axios.get<any>(
-    `/api/v1/properties/${id}`
-  );
+export const getListing = async (id?: string | unknown) => {
+  const { data } = await axios.get<any>(`/api/v1/properties/${id}`);
+
   return data;
 };
 
+export const useUser = () => {
+  return useQuery(["getme"], () =>
+    axios
+      .get<any>(`/api/v1/auth/getme`, { withCredentials: true })
+      .then((res) => res.data)
+  );
+};
+
+export const logout = async (): Promise<any> => {
+  const { data } = await axios.get<any>(`/api/v1/auth/logout`);
+  return data;
+};

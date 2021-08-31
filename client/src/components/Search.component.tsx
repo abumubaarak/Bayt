@@ -19,7 +19,7 @@ export default function Search() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="w-50 flex shadow-2xl justify-center mt-11 font-sand"
+      className="w-50 flex shadow-2xl justify-center mt-8 font-sand"
     >
       <input
         type="search"

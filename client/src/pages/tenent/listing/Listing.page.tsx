@@ -44,7 +44,7 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import SlideUp from "../../../transition/SlideUp.transition";
 import HeaderMain from "../../../components/HeaderMain.component";
-import { Params } from "../../../utils/TypeUtils";
+import { Params } from "../../../Types/TypeUtils";
 
 SwiperCore.use([Pagination, Autoplay]);
 
