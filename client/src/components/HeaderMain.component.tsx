@@ -46,8 +46,7 @@ const HeaderMain: FC<Props> = ({ variant }) => {
   const isDark = variant === "home" ? "light" : "dark";
   const { register, handleSubmit } = useForm<ISearch>();
   const [searchValue, setSearchValue] = useState<string>();
-  // const { data } = useQuery([searchValue], () => searchListing(searchValue));
-  const history = useHistory();
+   const history = useHistory();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [type, setType] = useState<boolean>();
 
@@ -106,10 +105,12 @@ const HeaderMain: FC<Props> = ({ variant }) => {
                   rounded="full"
                 ></MenuButton>
                 <MenuList>
+                  <MenuItem onClick={() => history.push("/profile")}>My Profile</MenuItem>
                   <MenuItem>Message</MenuItem>
-                  <MenuItem onClick={()=>history.push("/profile")}>Profile</MenuItem>
-                  <MenuItem>Wishlisit</MenuItem>
+                  <MenuItem>Favourites</MenuItem>
                   <MenuItem>Notification</MenuItem>
+                  <MenuItem>Logout</MenuItem>
+
                 </MenuList>
               </Menu>
             </>
