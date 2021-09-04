@@ -13,11 +13,63 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import ProfileImage from "../../assets/profile.png";
-import React from "react";
+import React, { useState } from "react";
 import { FiEdit } from "react-icons/fi";
 import HeaderMain from "../../components/HeaderMain.component";
+import { useUpdate, useUser } from "../../hooks/useApi";
+import { useMutation } from "react-query";
+import axios from "axios";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { useEffect } from "react";
+import useToastMessage from "../../hooks/useToastMessage";
+
+export interface IUser {
+  firstname: string | undefined;
+  lastname: string;
+  bio: string;
+}
 
 export default function ProfilePage() {
+  const { data } = useUser();
+  const [edit, setEdit] = useState<boolean>(true);
+  const [user, setUser] = useState<IUser>(data.data);
+
+  const { message } = useToastMessage();
+  const mutation = useUpdate();
+  const { handleSubmit, register, reset } = useForm<IUser>();
+
+  const editGroup = edit ? "none" : "flex";
+
+  const handleEditProfile = () => {
+    setEdit(false);
+  };
+
+  const handleCancel = () => {
+    setEdit(true);
+  };
+  const onSubmit: SubmitHandler<IUser> = (data) => {
+    mutation.mutate({ ...data });
+    setEdit(true);
+  };
+
+  useEffect(() => {
+    console.log(user);
+    reset({
+      firstname: user?.firstname,
+      lastname: user?.lastname,
+      bio: user?.bio,
+    });
+  }, [reset]);
+
+  useEffect(() => {
+    if (mutation.isSuccess) {
+      message({
+        status: "success",
+        description: "Profile Update Successful",
+        position: "top-right",
+      });
+    }
+  }, [mutation.isSuccess]);
   return (
     <>
       <HeaderMain variant="others" />
@@ -36,9 +88,9 @@ export default function ProfilePage() {
             <Image src={ProfileImage} boxSize="sm" h="56" objectFit="cover" />
             <VStack w="full" px="5" py="3">
               <Text fontSize="2xl" fontWeight="semibold" className="font-sand">
-                Abu Sa'ad
+                {data.data.firstname}
               </Text>
-              <Text>ismaildev070@gmail.com</Text>
+              <Text> {data.data.email}</Text>
               <Button
                 size="sm"
                 w="full"
@@ -46,6 +98,7 @@ export default function ProfilePage() {
                 leftIcon={<FiEdit />}
                 fontWeight="semibold"
                 color="white"
+                onClick={handleEditProfile}
                 ml="10"
                 bg="brand.500"
               >
@@ -67,7 +120,41 @@ export default function ProfilePage() {
                 Account Information
               </Text>
               <VStack shadow="md" p="3" rounded="md" spacing="4" w="full">
-                <HStack w="full">
+                <form className="w-full" onSubmit={handleSubmit(onSubmit)}>
+                  <HStack w="full">
+                    <VStack w="full" alignItems="start">
+                      <Text
+                        className="font-railway"
+                        fontSize="xl"
+                        color="gray.700"
+                        fontWeight="medium"
+                      >
+                        Firstname
+                      </Text>
+                      <Input
+                        className="font-railway"
+                        variant="filled"
+                        type="text"
+                        disabled={edit}
+                        {...register("firstname")}
+                      />
+                    </VStack>
+                    <VStack w="full" alignItems="start">
+                      <Text
+                        className="font-railway"
+                        fontSize="xl"
+                        color="gray.700"
+                        fontWeight="medium"
+                      >
+                        Lastname
+                      </Text>
+                      <Input
+                        variant="filled"
+                        {...register("lastname")}
+                        disabled={edit}
+                      />
+                    </VStack>
+                  </HStack>
                   <VStack w="full" alignItems="start">
                     <Text
                       className="font-railway"
@@ -75,33 +162,38 @@ export default function ProfilePage() {
                       color="gray.700"
                       fontWeight="medium"
                     >
-                      Firstname
+                      Bio
                     </Text>
-                    <Input variant="filled" />
+                    <Textarea
+                      variant="filled"
+                      disabled={edit}
+                      {...register("bio")}
+                      resize="none"
+                      minH="150px"
+                    />
                   </VStack>
-                  <VStack w="full" alignItems="start">
-                    <Text
-                      className="font-railway"
-                      fontSize="xl"
-                      color="gray.700"
-                      fontWeight="medium"
+
+                  <HStack display={editGroup} w="full" mt="3">
+                    <Button
+                      size="md"
+                      type="submit"
+                      w="full"
+                      isLoading={mutation.isLoading}
+                      colorScheme="brand"
                     >
-                      Lastname
-                    </Text>
-                    <Input variant="filled" />
-                  </VStack>
-                </HStack>
-                <VStack w="full" alignItems="start">
-                  <Text
-                    className="font-railway"
-                    fontSize="xl"
-                    color="gray.700"
-                    fontWeight="medium"
-                  >
-                    Bio
-                  </Text>
-                  <Textarea variant="filled" resize="none" minH="150px" />
-                </VStack>
+                      Update
+                    </Button>
+                    <Button
+                      size="md"
+                      w="full"
+                      onClick={handleCancel}
+                      colorScheme="red"
+                      variant="outline"
+                    >
+                      Cancel
+                    </Button>
+                  </HStack>
+                </form>
               </VStack>
             </VStack>
 
@@ -125,7 +217,7 @@ export default function ProfilePage() {
                 rounded="md"
                 w="full"
               >
-                Your Google Account is linked
+                {` Your ${data.data.provider} Account is linked`}
               </Text>
             </VStack>
           </VStack>

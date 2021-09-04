@@ -32,7 +32,7 @@ import Logo from "../../../components/Logo.component";
 import Nav from "../../../components/Nav.component";
 import NavItem from "../../../components/NavItem.component";
 import OtherItem from "../../../components/OtherItem.component";
-import { getListing } from "../../../hooks/useFetch";
+import { getListing } from "../../../hooks/useApi";
 import SlideUp from "../../../transition/SlideUp.transition";
 
 type Params = {

@@ -35,7 +35,7 @@ import CircularButton from "../../../components/Button.component";
 import Logo from "../../../components/Logo.component";
 import Nav from "../../../components/Nav.component";
 import NavItem from "../../../components/NavItem.component";
-import { Property, searchListing } from "../../../hooks/useFetch";
+import { Property, searchListing } from "../../../hooks/useApi";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";

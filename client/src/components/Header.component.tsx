@@ -9,7 +9,7 @@ import NavItem from "./NavItem.component";
 import LogoText from "./LogoText.component";
 import { Avatar, Text } from "@chakra-ui/react";
 import { useQuery } from "react-query";
-import { logout, useUser } from "../hooks/useFetch";
+import { logout, useUser } from "../hooks/useApi";
 
 const Header = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();

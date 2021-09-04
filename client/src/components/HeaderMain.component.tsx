@@ -23,14 +23,14 @@ import { useForm } from "react-hook-form";
 import { BiSearch } from "react-icons/bi";
 import { useQuery } from "react-query";
 import { useHistory } from "react-router-dom";
-import { searchListing } from "../hooks/useFetch";
+import { searchListing } from "../hooks/useApi";
 import CircularButton from "./Button.component";
 import Logo from "./Logo.component";
 import Nav from "./Nav.component";
 import NavItem from "./NavItem.component";
 
 import { Avatar } from "@chakra-ui/react";
-import { logout, useUser } from "../hooks/useFetch";
+import { logout, useUser } from "../hooks/useApi";
 import AuthModel from "./AuthModal.component";
 import { CgProfile } from "react-icons/cg";
 

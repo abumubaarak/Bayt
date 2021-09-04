@@ -1,5 +1,6 @@
 import axios from "axios";
-import { useQuery } from "react-query";
+import { CgArrowsExpandRightAlt } from "react-icons/cg";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export interface Property {
   _id: any;
@@ -18,7 +19,9 @@ export interface Property {
   images: string[];
   slug: string;
 }
-
+type ProfileData = {
+  firstname: string;
+};
 type Response = {
   data: Property[];
   success: boolean;
@@ -43,6 +46,25 @@ export const useUser = () => {
   );
 };
 
+const updateUser = async (payload: any) => {
+  const { data } = await axios.post<any>(
+    "/api/v1/auth/update",
+    { ...payload },
+    { withCredentials: true }
+  );
+
+  return data;
+};
+export const useUpdate = () => {
+  const queryClient = useQueryClient();
+
+  return useMutation(["updateProfile"],updateUser, {
+    onSuccess: () => {
+      // Invalidate and refetch
+      queryClient.invalidateQueries("getme");
+    },
+  });
+};
 export const logout = async (): Promise<any> => {
   const { data } = await axios.get<any>(`/api/v1/auth/logout`);
   return data;
