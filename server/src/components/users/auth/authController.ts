@@ -43,13 +43,31 @@ export const middle = asyncHandler(
 
 export const getMe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.session)
     if (req.user) {
       const user = await User.findById(req.user);
-       response(res, 200, true, user);
+      response(res, 200, true, user);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
+      }
+    }
+  }
+);
+
+export const updateProfile = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    if (req.user) {
+      let user = await User.findById(req.user);
+
+      if (!user) {
+        return next(new ErrorResponse(400, "Invalid user credentials"));
+      }
+
+      if (req.body.firstname || req.body.lastname || req.body.bio) {
+        user = await User.findByIdAndUpdate(req.user, req.body);
+        response(res, 200, true, user);
+      } else {
+        return next(new ErrorResponse(400, "User profile data is required"));
       }
     }
   }

@@ -6,6 +6,7 @@ export interface Iuser {
   firstname: string;
   lastname: string;
   email: string;
+  bio: string;
   role: string;
   password: string;
   provider: string;
@@ -30,6 +31,9 @@ const UserSchema: Schema = new Schema({
     type: String,
     unique: [true, "Email already exist"],
     required: ["Email is require", true],
+  },
+  bio:{
+    type: String,
   },
   role: {
     type: String,
