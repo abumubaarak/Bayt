@@ -1,5 +1,4 @@
 import axios from "axios";
-import { CgArrowsExpandRightAlt } from "react-icons/cg";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 
 export interface Property {
@@ -19,9 +18,7 @@ export interface Property {
   images: string[];
   slug: string;
 }
-type ProfileData = {
-  firstname: string;
-};
+
 type Response = {
   data: Property[];
   success: boolean;
@@ -46,6 +43,12 @@ export const useUser = () => {
   );
 };
 
+export const useOwner = (id: any) => {
+  return useQuery([id], () =>
+    axios.get<any>(`/api/v1/auth/getme?id=${id}`).then((res) => res.data)
+  );
+};
+
 const updateUser = async (payload: any) => {
   const { data } = await axios.post<any>(
     "/api/v1/auth/update",
@@ -58,13 +61,35 @@ const updateUser = async (payload: any) => {
 export const useUpdate = () => {
   const queryClient = useQueryClient();
 
-  return useMutation(["updateProfile"],updateUser, {
+  return useMutation(["updateProfile"], updateUser, {
     onSuccess: () => {
-      // Invalidate and refetch
       queryClient.invalidateQueries("getme");
     },
   });
 };
+const createTenent = async (payload: any) => {
+  const { data } = await axios.post<any>(
+    "/api/v1/tenents",
+    { ...payload },
+    { withCredentials: true }
+  );
+
+  return data;
+};
+
+ 
+export const useCreateTenent = () => {
+  return useMutation(["message"], createTenent);
+};
+
+export const useTenentMessage = (id: string) => {
+  return useQuery([id], () =>
+    axios.get<any>(`/api/v1/tenents?propertyId=${id}`, {
+      withCredentials: true,
+    })
+  );
+};
+
 export const logout = async (): Promise<any> => {
   const { data } = await axios.get<any>(`/api/v1/auth/logout`);
   return data;

@@ -1,9 +1,8 @@
-import express, { Request, Response, NextFunction } from "express";
+import { Request, Response, NextFunction } from "express";
 import { User, Iuser } from "../userModel";
 import { asyncHandler } from "../../../middleware/async";
 import { ErrorResponse } from "../../../utils/errorResponse";
 import response from "../../../utils/response";
-import { Console } from "node:console";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -37,19 +36,21 @@ export const login = asyncHandler(
   }
 );
 
-export const middle = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {}
-);
-
 export const getMe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user) {
-      const user = await User.findById(req.user);
+    if (req.query.id) {
+      const user = await User.findById(req.query.id);
+      if (!user) {
+        return next(new ErrorResponse(400, "Invalid user credentials"));
+      }
       response(res, 200, true, user);
+    } else if (req.user) {
+      const user = await User.findById(req.user);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
       }
+      response(res, 200, true, user);
     }
   }
 );

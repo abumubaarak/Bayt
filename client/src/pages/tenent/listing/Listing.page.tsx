@@ -89,6 +89,7 @@ export default function ListingPage() {
               <VStack
                 cursor="pointer"
                 pb={2}
+                key={item.slug}
                 maxW={340}
                 onClick={() =>
                   history.push({
@@ -109,6 +110,7 @@ export default function ListingPage() {
                   {item.images.map((image, index) => (
                     <SwiperSlide>
                       <Box
+                        key={index}
                         bgImage={`url(http://localhost:7000/${image})`}
                         roundedTop="md"
                         w="full"

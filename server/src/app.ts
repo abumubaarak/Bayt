@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import "colors";
 import { router as userRouter } from "./components/users/auth/authRoute";
+import { router as tenentRoute } from "./components/tenent/tenentRoute";
 import { router as PropertiesRoute } from "./components/property/propertyRoute";
 import cookies from "cookie-parser";
 import { errorMiddleware } from "./middleware/error.middleware";
@@ -44,6 +45,8 @@ gitHubStrategy(passport)
 
 app.use("", userRouter);
 app.use("/api/v1/properties", upload, PropertiesRoute);
+app.use("/api/v1/tenents", tenentRoute);
+
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));
 

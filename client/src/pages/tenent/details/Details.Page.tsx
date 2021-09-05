@@ -20,6 +20,8 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import React, { useEffect } from "react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { BiBath, BiBed, BiPolygon } from "react-icons/bi";
 import { BsHouse } from "react-icons/bs";
 import { FiSend } from "react-icons/fi";
@@ -32,7 +34,13 @@ import Logo from "../../../components/Logo.component";
 import Nav from "../../../components/Nav.component";
 import NavItem from "../../../components/NavItem.component";
 import OtherItem from "../../../components/OtherItem.component";
-import { getListing } from "../../../hooks/useApi";
+import {
+  getListing,
+  useOwner,
+  useCreateTenent,
+  useTenentMessage,
+} from "../../../hooks/useApi";
+import useToastMessage from "../../../hooks/useToastMessage";
 import SlideUp from "../../../transition/SlideUp.transition";
 
 type Params = {
@@ -41,7 +49,54 @@ type Params = {
 const DetailsPage = () => {
   const { slug }: Params = useParams();
   const { state } = useLocation();
+  const [message, setMesage] = useState<string>();
   const { data, isLoading } = useQuery([slug], () => getListing(state));
+  const propertyDetail = data?.data;
+  const propertyId = propertyDetail?._id;
+  const ownerId = propertyDetail?.owner_id;
+  const toast = useToastMessage();
+  const owner = useOwner(ownerId);
+  const tenent = useCreateTenent();
+  const tenentMessage = useTenentMessage(propertyId);
+
+  const handleChange = (e: any) => {
+    setMesage(e.target.value);
+  };
+
+  const sendMessage = () => {
+    if (message!.length > 10) {
+      tenent.mutate({ message, owner_id: ownerId, property_id: propertyId });
+    }
+  };
+
+  useEffect(() => {
+    setMesage(
+      `I am interested in ${propertyDetail?.name} , ${propertyDetail?.address}.`
+    );
+    if (propertyDetail?.name) {
+    }
+  }, [ownerId?.name]);
+
+  useEffect(() => {
+    if (tenent.isError) {
+      toast.message({
+        status: "error",
+        description: "Unable to send Owner message",
+        position: "top-right",
+      });
+    }
+  }, [tenent.isError]);
+
+  useEffect(() => {
+    if (tenent.isSuccess) {
+      toast.message({
+        status: "success",
+        description: "Message successfully sent to Owner",
+        position: "top-right",
+      });
+    }
+  }, [tenent.isSuccess]);
+
   return (
     <SlideUp setMarginBottom={true}>
       <HeaderMain />
@@ -56,7 +111,7 @@ const DetailsPage = () => {
             >
               <GridItem rowSpan={2} colSpan={2}>
                 <Box
-                  bgImage={`url(http://localhost:7000/${data.data.images[2]})`}
+                  bgImage={`url(http://localhost:7000/${propertyDetail.images[2]})`}
                   roundedTopLeft="2xl"
                   roundedBottomLeft="2xl"
                   h="full"
@@ -72,20 +127,13 @@ const DetailsPage = () => {
                     m={3}
                     fontWeight="semibold"
                   >
-                    <TagLabel>{data.data.propertyType}</TagLabel>
+                    <TagLabel>{propertyDetail.propertyType}</TagLabel>
                   </Tag>
                 </Box>
               </GridItem>
               <GridItem rowSpan={1} colSpan={1}>
-                {/* <Image
-                  src={`http://localhost:7000/${data.data.images[1]}`}
-                  boxSize="full"
-                  roundedTopRight="2xl"
-                  shadow="md"
-                  fit="cover"
-                /> */}
                 <Flex
-                  bgImage={`url(http://localhost:7000/${data.data.images[1]})`}
+                  bgImage={`url(http://localhost:7000/${propertyDetail.images[1]})`}
                   roundedTopRight="2xl"
                   justifyContent="flex-end"
                   boxSize="full"
@@ -109,7 +157,7 @@ const DetailsPage = () => {
               </GridItem>
               <GridItem rowSpan={1} colSpan={1}>
                 <Image
-                  src={`http://localhost:7000/${data.data.images[0]}`}
+                  src={`http://localhost:7000/${propertyDetail.images[0]}`}
                   boxSize="full"
                   roundedBottomRight="2xl"
                   shadow="md"
@@ -128,7 +176,7 @@ const DetailsPage = () => {
                       color="gray.700"
                       fontWeight="semibold"
                     >
-                      {data.data.name}
+                      {propertyDetail.name}
                     </Text>
                     <Text
                       className="font-sand"
@@ -136,22 +184,23 @@ const DetailsPage = () => {
                       color="gray.700"
                       fontWeight="bold"
                     >
-                      ${data.data.cost}/year
+                      ${propertyDetail.cost}/year
                     </Text>
 
                     <HStack className="font-sand" color="gray.800" spacing="6">
                       <HStack spacing="1">
                         <BiBed className="w-5 h-7" />
-                        <Text>{data.data.avaliableBedroom} Bedroom</Text>
+                        <Text>{propertyDetail.avaliableBedroom} Bedroom</Text>
                       </HStack>
                       <HStack spacing="1">
                         <BiBath className="w-5 h-7" />
-                        <Text>{data.data.avaliableBathroom} Bathroom</Text>
+                        <Text>{propertyDetail.avaliableBathroom} Bathroom</Text>
                       </HStack>
                       <HStack spacing="0.5">
                         <BiPolygon className="w-5 h-7" />
                         <Text fontWeight="medium" pl="1">
-                          {data.data.propertySize}Sq<Text as="sup">ft</Text>
+                          {propertyDetail.propertySize}Sq
+                          <Text as="sup">ft</Text>
                         </Text>
                       </HStack>
                     </HStack>
@@ -167,9 +216,11 @@ const DetailsPage = () => {
                       Amenities
                     </Text>
                     <SimpleGrid w="full" minChildWidth="300px" spacingY={9}>
-                      {data.data.amenities.map((item: string, index: any) => (
-                        <OtherItem title={item} isAmenities={true} />
-                      ))}
+                      {propertyDetail.amenities.map(
+                        (item: string, index: any) => (
+                          <OtherItem title={item} isAmenities={true} />
+                        )
+                      )}
                     </SimpleGrid>
                   </VStack>
 
@@ -183,7 +234,7 @@ const DetailsPage = () => {
                       Rules
                     </Text>
                     <SimpleGrid w="full" minChildWidth="300px" spacingY={9}>
-                      {data.data.rules.map((item: string, index: any) => (
+                      {propertyDetail.rules.map((item: string, index: any) => (
                         <OtherItem title={item} isAmenities={false} />
                       ))}
                     </SimpleGrid>
@@ -197,7 +248,7 @@ const DetailsPage = () => {
                     >
                       Description
                     </Text>
-                    <Text>{data.data.description}</Text>
+                    <Text>{propertyDetail.description}</Text>
                   </Box>
                   <Box>
                     <Text
@@ -209,7 +260,7 @@ const DetailsPage = () => {
                       Location
                     </Text>
                     <Text>
-                      {data.data.address}, {data.data.city}
+                      {propertyDetail.address}, {propertyDetail.city}
                     </Text>
                   </Box>
                 </VStack>
@@ -234,7 +285,7 @@ const DetailsPage = () => {
                         fontWeight="semibold"
                         className="font-sand"
                       >
-                        Abu Sa'ad
+                        {owner?.data?.data?.firstname}
                       </Text>
                       <Text
                         mt="-1"
@@ -257,8 +308,11 @@ const DetailsPage = () => {
                     lineHeight="6"
                     minH="127px"
                     py={2}
+                    disabled={tenentMessage.isSuccess}
+                    name="message"
+                    onChange={handleChange}
                     resize="none"
-                    value={`I am interested in ${data.data.name} , ${data.data.address}.`}
+                    value={message}
                   />
 
                   <Button
@@ -266,8 +320,11 @@ const DetailsPage = () => {
                     className="font-sand"
                     leftIcon={<FiSend />}
                     w="full"
+                    onClick={sendMessage}
                     fontWeight="semibold"
                     color="gray.900"
+                    disabled={tenentMessage.isSuccess}
+                    isLoading={tenent.isLoading}
                     bg="white"
                   >
                     Send Message

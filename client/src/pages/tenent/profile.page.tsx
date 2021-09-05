@@ -32,7 +32,7 @@ export interface IUser {
 export default function ProfilePage() {
   const { data } = useUser();
   const [edit, setEdit] = useState<boolean>(true);
-  const [user, setUser] = useState<IUser>(data.data);
+  const [user, setUser] = useState<IUser>(data?.data);
 
   const { message } = useToastMessage();
   const mutation = useUpdate();
@@ -49,11 +49,9 @@ export default function ProfilePage() {
   };
   const onSubmit: SubmitHandler<IUser> = (data) => {
     mutation.mutate({ ...data });
-    setEdit(true);
   };
 
   useEffect(() => {
-    console.log(user);
     reset({
       firstname: user?.firstname,
       lastname: user?.lastname,
@@ -63,13 +61,26 @@ export default function ProfilePage() {
 
   useEffect(() => {
     if (mutation.isSuccess) {
+      setEdit(true);
+
       message({
         status: "success",
-        description: "Profile Update Successful",
+        description: "Profile Updated Successful",
         position: "top-right",
       });
     }
   }, [mutation.isSuccess]);
+
+  useEffect(() => {
+    if (mutation.isError) {
+      message({
+        status: "error",
+        description: "Unable to save profile info",
+        position: "top-right",
+      });
+    }
+  }, [mutation.isError]);
+
   return (
     <>
       <HeaderMain variant="others" />
@@ -88,9 +99,9 @@ export default function ProfilePage() {
             <Image src={ProfileImage} boxSize="sm" h="56" objectFit="cover" />
             <VStack w="full" px="5" py="3">
               <Text fontSize="2xl" fontWeight="semibold" className="font-sand">
-                {data.data.firstname}
+                {data?.data?.firstname}
               </Text>
-              <Text> {data.data.email}</Text>
+              <Text> {data?.data?.email}</Text>
               <Button
                 size="sm"
                 w="full"
@@ -217,7 +228,7 @@ export default function ProfilePage() {
                 rounded="md"
                 w="full"
               >
-                {` Your ${data.data.provider} Account is linked`}
+                {` Your ${data?.data?.provider} Account is linked`}
               </Text>
             </VStack>
           </VStack>
