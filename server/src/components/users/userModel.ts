@@ -1,6 +1,6 @@
-import  { Document, Model, model, Schema } from "mongoose";
-import  { genSalt, hash, compare } from "bcryptjs";
-import  { sign, verify } from "jsonwebtoken";
+import { Document, Model, model, Schema } from "mongoose";
+import { genSalt, hash, compare } from "bcryptjs";
+import { sign, verify } from "jsonwebtoken";
 
 export interface Iuser {
   firstname: string;
@@ -11,6 +11,7 @@ export interface Iuser {
   password: string;
   provider: string;
   socialID: string;
+  wishlist: string[];
 }
 
 interface IUserDocument extends Iuser, Document {
@@ -32,7 +33,7 @@ const UserSchema: Schema = new Schema({
     unique: [true, "Email already exist"],
     required: ["Email is require", true],
   },
-  bio:{
+  bio: {
     type: String,
   },
   role: {
@@ -40,27 +41,29 @@ const UserSchema: Schema = new Schema({
     enum: ["owner", "tenant"],
     default: "tenant",
   },
-  
+
   password: {
     type: String,
     required: [true, "Password is require"],
     minlenght: 6,
     select: false,
-   },
+  },
   provider: {
-    type:String
+    type: String,
   },
   socialID: {
-    type:String,
-  }
+    type: String,
+  },
+  wishlist: {
+    type: [String],
+  },
 });
 
 UserSchema.pre<IUserDocument>("save", async function (next) {
-
-   if (!this.socialID) {
+  if (!this.socialID) {
     const salt: string = await genSalt(10);
-    this.password = await hash(this.password, salt); 
-   } else {
+    this.password = await hash(this.password, salt);
+  } else {
     // this.password.
   }
 });

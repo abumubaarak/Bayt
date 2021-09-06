@@ -5,6 +5,9 @@ import response from "../../utils/response";
 import { User } from "../users/userModel";
 import { Tenent } from "./tenentModel";
 
+// @desc   Send message to owner
+// @route  POST /api/v1/tenents
+// @access Private
 export const createTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
