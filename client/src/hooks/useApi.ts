@@ -1,5 +1,10 @@
 import axios from "axios";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import {
+  QueryClient,
+  useMutation,
+  useQuery,
+  useQueryClient,
+} from "react-query";
 
 export interface Property {
   _id: any;
@@ -23,6 +28,9 @@ type Response = {
   data: Property[];
   success: boolean;
 };
+
+const useClient = () => useQueryClient();
+
 export const searchListing = async (searchValue?: string) => {
   const { data } = await axios.get<Response>(
     `/api/v1/properties?city=${searchValue}`
@@ -59,11 +67,11 @@ const updateUser = async (payload: any) => {
   return data;
 };
 export const useUpdate = () => {
-  const queryClient = useQueryClient();
+  const client = useClient();
 
   return useMutation(["updateProfile"], updateUser, {
     onSuccess: () => {
-      queryClient.invalidateQueries("getme");
+      client.invalidateQueries("getme");
     },
   });
 };
@@ -77,11 +85,49 @@ const createTenent = async (payload: any) => {
   return data;
 };
 
- 
 export const useCreateTenent = () => {
   return useMutation(["message"], createTenent);
 };
 
+const addToWishlist = async (payload: any) => {
+  const { data } = await axios.put<any>(
+    "/api/v1/wishlists",
+    { ...payload },
+    { withCredentials: true }
+  );
+
+  return data;
+};
+
+const removeWishlist = async (id: string) => {
+  const { data } = await axios.delete<any>(`/api/v1/wishlists/${id}`, {
+    withCredentials: true,
+  });
+
+  return data;
+};
+
+export const useWishList = () => {
+  const client = useClient();
+
+  return useMutation(["wishlist"], addToWishlist, {
+    onMutate: () => {},
+    onSuccess: () => {
+      client.invalidateQueries("getme");
+    },
+  });
+};
+
+export const useRemoveWishList = (id: string) => {
+  const client = useClient();
+
+  return useMutation(["wishlist"], () => removeWishlist(id), {
+    onMutate: () => {},
+    onSuccess: () => {
+      client.invalidateQueries("getme");
+    },
+  });
+};
 export const useTenentMessage = (id: string) => {
   return useQuery([id], () =>
     axios.get<any>(`/api/v1/tenents?propertyId=${id}`, {

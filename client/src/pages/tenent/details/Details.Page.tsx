@@ -23,9 +23,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiBath, BiBed, BiPolygon } from "react-icons/bi";
-import { BsHouse } from "react-icons/bs";
+import { AiOutlineHeart } from "react-icons/ai";
 import { FiSend } from "react-icons/fi";
-import { GiLoveHowl } from "react-icons/gi";
+import { BsFillHeartFill } from "react-icons/bs";
 import { useQuery } from "react-query";
 import { useLocation, useParams } from "react-router-dom";
 import CircularButton from "../../../components/Button.component";
@@ -39,6 +39,9 @@ import {
   useOwner,
   useCreateTenent,
   useTenentMessage,
+  useWishList,
+  useUser,
+  useRemoveWishList,
 } from "../../../hooks/useApi";
 import useToastMessage from "../../../hooks/useToastMessage";
 import SlideUp from "../../../transition/SlideUp.transition";
@@ -56,11 +59,28 @@ const DetailsPage = () => {
   const ownerId = propertyDetail?.owner_id;
   const toast = useToastMessage();
   const owner = useOwner(ownerId);
+  const user = useUser();
   const tenent = useCreateTenent();
+  const wishlist = useWishList();
+  const deleteWishlist = useRemoveWishList(propertyId);
   const tenentMessage = useTenentMessage(propertyId);
+
+  const isSaved = user?.data?.data?.wishlist.find(
+    (item: string, index: any) => propertyId === item
+  );
 
   const handleChange = (e: any) => {
     setMesage(e.target.value);
+  };
+
+  const handleWishList = () => {
+    if (isSaved) {
+      deleteWishlist.mutate();
+    } else {
+      wishlist.mutate({
+        propertyId,
+      });
+    }
   };
 
   const sendMessage = () => {
@@ -78,24 +98,40 @@ const DetailsPage = () => {
   }, [ownerId?.name]);
 
   useEffect(() => {
+    if (tenent.isSuccess) {
+      toast.successToast("Message successfully sent to Owner");
+    }
+  }, [tenent.isSuccess]);
+
+  useEffect(() => {
+    if (wishlist.isSuccess) {
+      toast.successToast("Property added to wishlist");
+    }
+  }, [wishlist.isSuccess]);
+
+  useEffect(() => {
+    if (deleteWishlist.isSuccess) {
+      toast.successToast("Property removed from wishlist");
+    }
+  }, [deleteWishlist.isSuccess]);
+
+  useEffect(() => {
+    if (wishlist.isError) {
+      toast.errorToast("Unable to add property to wishlist");
+    }
+  }, [wishlist.isError]);
+
+  useEffect(() => {
     if (tenent.isError) {
-      toast.message({
-        status: "error",
-        description: "Unable to send Owner message",
-        position: "top-right",
-      });
+      toast.errorToast("Unable to send Owner message");
     }
   }, [tenent.isError]);
 
   useEffect(() => {
-    if (tenent.isSuccess) {
-      toast.message({
-        status: "success",
-        description: "Message successfully sent to Owner",
-        position: "top-right",
-      });
+    if (deleteWishlist.isError) {
+      toast.errorToast("Unable to remove wishlist");
     }
-  }, [tenent.isSuccess]);
+  }, [deleteWishlist.isError]);
 
   return (
     <SlideUp setMarginBottom={true}>
@@ -125,6 +161,7 @@ const DetailsPage = () => {
                     shadow="md"
                     bg="white"
                     m={3}
+                    p={2}
                     fontWeight="semibold"
                   >
                     <TagLabel>{propertyDetail.propertyType}</TagLabel>
@@ -146,12 +183,19 @@ const DetailsPage = () => {
                     borderRadius="full"
                     shadow="md"
                     bg="white"
-                    h={5}
+                    onClick={handleWishList}
                     m={3}
+                    isLoading={wishlist.isLoading}
                     fontWeight="semibold"
-                    leftIcon={<GiLoveHowl />}
+                    leftIcon={
+                      isSaved ? (
+                        <BsFillHeartFill className="text-red-500" />
+                      ) : (
+                        <AiOutlineHeart />
+                      )
+                    }
                   >
-                    Save
+                    {isSaved ? "Saved" : "Save"}
                   </Button>
                 </Flex>
               </GridItem>
