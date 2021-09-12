@@ -2,6 +2,7 @@ import { NextFunction, Response, Request } from "express";
 import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
+import { Message } from "../message/messageModel";
 import { User } from "../users/userModel";
 import { Tenent } from "./tenentModel";
 
@@ -11,7 +12,7 @@ import { Tenent } from "./tenentModel";
 export const createTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
-      const user = await User.findById(req.user);
+       const user = await User.findById(req.user);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
@@ -60,10 +61,10 @@ export const getTenent = asyncHandler(
   }
 );
 
-// @desc   Decline tenent
+// @desc   Decline tenent request
 // @route  DELETE /api/v1/tenents/:id
 // @access Private
-export const declineTenent = asyncHandler(
+export const declineTenentRequest = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.body.user._id;
     console.log(req.params.id.toString(), userId);
@@ -76,5 +77,31 @@ export const declineTenent = asyncHandler(
     tenent.remove();
     
     response(res, 200, true, {});
+  }
+);
+
+// @desc   Accept tenent request
+// @route  PUT /api/v1/tenents/:id
+// @access Private
+export const acceptTenentRequest = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const userId = req.body.user._id;
+     const tenent = await Tenent.findById(req.params.id.toString());
+
+    if (!tenent) {
+      return next(new ErrorResponse(400, "Not found"));
+    }
+
+
+    await Message.create({
+      tenent_id:tenent.tenent_id,
+      owner_id: tenent.owner_id,
+      property_id: tenent.property_id,
+      message: tenent.request,
+    })
+
+    tenent.remove()
+    
+    response(res, 201, true, {});
   }
 );

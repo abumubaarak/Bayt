@@ -4,7 +4,7 @@ interface ITenent {
   tenent_id: string;
   owner_id: string;
   property_id:string
-  message: string;
+  request: string;
   sentAt: any;
 }
 
@@ -22,9 +22,9 @@ const TenentSchema: Schema = new Schema({
     type: String,
     required: ["Property Id is require", true],
   },
-  message: {
+  request: {
     type: String,
-    required: ["Message is require", true],
+    required: ["Message request is require", true],
   },
   sentAt: {
     type: Date,
