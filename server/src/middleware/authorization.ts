@@ -4,7 +4,7 @@ import { ErrorResponse } from "../utils/errorResponse";
 import { verify, VerifyOptions } from "jsonwebtoken";
 import { User } from "../components/users/userModel";
 
-export const protectedRoute = asyncHandler(
+export const ownerProtectedRoute = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     let token;
 
@@ -15,7 +15,7 @@ export const protectedRoute = asyncHandler(
       return next(
         new ErrorResponse(
           403,
-          "Authentication is required to authroze this route"
+          "Authentication is required to authorize this route"
         )
       );
     }
