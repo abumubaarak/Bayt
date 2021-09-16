@@ -30,7 +30,7 @@ const routes = [
     component: Listings,
   },
   {
-    path: "/owner/tenants",
+    path: "/owner/tenents",
     exact: true,
     component: Tenants,
   },

@@ -5,6 +5,12 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
+import {
+  acceptTenentRequest,
+  declineTenentRequest,
+  getTenent,
+  getTenentMesssage,
+} from "../api";
 
 export interface Property {
   _id: any;
@@ -31,6 +37,7 @@ type Response = {
 
 const useClient = () => useQueryClient();
 
+const useApi = () => {};
 export const searchListing = async (searchValue?: string) => {
   const { data } = await axios.get<Response>(
     `/api/v1/properties?city=${searchValue}`
@@ -57,6 +64,11 @@ export const useOwner = (id: any) => {
   );
 };
 
+export const useOwnerV2 = () => {
+  return useMutation((id) =>
+    axios.get<any>(`/api/v1/auth/getme?id=${id}`).then((res) => res.data)
+  );
+};
 const updateUser = async (payload: any) => {
   const { data } = await axios.post<any>(
     "/api/v1/auth/update",
@@ -129,11 +141,33 @@ export const useRemoveWishList = (id: string) => {
   });
 };
 export const useTenentMessage = (id: string) => {
-  return useQuery([id], () =>
-    axios.get<any>(`/api/v1/tenents?propertyId=${id}`, {
-      withCredentials: true,
-    })
-  );
+  return useQuery([id], () => getTenentMesssage(id));
+};
+
+export const useTenent = () => {
+  return useQuery(["pending-tenents"], () => getTenent());
+};
+
+export const useDeclineTenentRequest = () => {
+  const client = useClient();
+
+  return useMutation((id) => declineTenentRequest(id), {
+    onMutate: () => {},
+    onSettled: () => {
+      client.invalidateQueries("pending-tenents");
+    },
+  });
+};
+
+export const useAceptTenentRequest = () => {
+  const client = useClient();
+
+  return useMutation((id) => acceptTenentRequest(id), {
+    onMutate: () => {},
+    onSettled: () => {
+      client.invalidateQueries("pending-tenents");
+    },
+  });
 };
 
 export const logout = async (): Promise<any> => {

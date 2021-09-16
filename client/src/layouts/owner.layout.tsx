@@ -1,25 +1,19 @@
-import React,{ReactNode,FC} from "react";
+import React, { ReactNode, FC } from "react";
+import HeaderMain from "../components/HeaderMain.component";
 
-
-interface Props{
-  slidebar?:any,
-  children?:ReactNode
+interface Props {
+  slidebar?: any;
+  children?: ReactNode;
 }
-const Layout:FC<Props>=({slidebar,children}) =>{
-   
-
+const Layout: FC<Props> = ({ slidebar, children }) => {
   return (
     <div className="flex h-screen">
-
       <div className=" flex-4 shadow-2xl flex pt-5 flex-col items-center ">
-           
-          {slidebar}
+        {slidebar}
       </div>
-      <div className=" flex-5 bg-50 pl-12 pt-6">
-          {children}
-      </div>
+      <div className=" flex-5 bg-50 pl-12 pr-12 pt-6">
+         {children}</div>
     </div>
   );
-}
+};
 export default Layout;
-

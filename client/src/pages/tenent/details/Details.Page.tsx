@@ -85,7 +85,11 @@ const DetailsPage = () => {
 
   const sendMessage = () => {
     if (message!.length > 10) {
-      tenent.mutate({ message, owner_id: ownerId, property_id: propertyId });
+      tenent.mutate({
+        request: message,
+        owner_id: ownerId,
+        property_id: propertyId,
+      });
     }
   };
 
