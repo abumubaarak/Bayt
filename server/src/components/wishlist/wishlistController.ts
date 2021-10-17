@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
@@ -9,7 +9,6 @@ import { User } from "../users/userModel";
 // @access Private
 export const addToWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
     const user = await User.findByIdAndUpdate(req.user, {
       $push: { wishlist: req.body.propertyId },
     });

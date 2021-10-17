@@ -4,8 +4,7 @@ const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const GitHubStrategy = require("passport-github2").Strategy;
 
 export const googleStrategy = (passport: any) => {
-  console.log("google strategy");
-  passport.use(
+   passport.use(
     new GoogleStrategy(
       {
         clientID: process.env.GOOGLE_CLIENT_ID,
@@ -91,8 +90,7 @@ export const gitHubStrategy = (passport: any) => {
           done(null, error);
         }
         passport.serializeUser((user: any, done: any) => {
-          console.log(user);
-
+ 
           done(null, user.id);
         });
 

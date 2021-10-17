@@ -8,6 +8,7 @@ const path = "/api/v1/auth";
 router.route(`${path}/register`).post(auth.register);
 router.route(`${path}/login`).post(auth.login);
 router.route(`${path}/getme`).get(auth.getMe);
+router.route(`${path}/getme/:id`).get(auth.getLandlord);
 router.route(`${path}/logout`).get(auth.logout);
 router.route(`${path}/update`).post(auth.updateProfile);
 

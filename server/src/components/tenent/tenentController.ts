@@ -1,4 +1,4 @@
-import { NextFunction, Response, Request } from "express";
+import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
@@ -6,13 +6,13 @@ import { Message } from "../message/messageModel";
 import { User } from "../users/userModel";
 import { Tenent } from "./tenentModel";
 
-// @desc   Send message to owner
+// @desc   Create Tenant
 // @route  POST /api/v1/tenents
 // @access Private
 export const createTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {
-       const user = await User.findById(req.user);
+      let user = await User.findById(req.user);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
@@ -21,6 +21,10 @@ export const createTenent = asyncHandler(
       const tenent = await Tenent.create({
         tenent_id: req.user,
         ...req.body,
+      });
+
+      user = await User.findByIdAndUpdate(req.user, {
+        $push: { request: req.body.property_id },
       });
 
       response(res, 200, true, tenent);
@@ -66,17 +70,17 @@ export const getTenent = asyncHandler(
 // @access Private
 export const declineTenentRequest = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.body.user._id;
-    console.log(req.params.id.toString(), userId);
     const tenent = await Tenent.findById(req.params.id.toString());
 
     if (!tenent) {
       return next(new ErrorResponse(400, "Not found"));
     }
-
+    const user = await User.findByIdAndUpdate(req.user, {
+      $pull: { request: req.params.id.toString() },
+    });
     tenent.remove();
-    
-    response(res, 200, true, {});
+
+    response(res, 204, true, {});
   }
 );
 
@@ -86,22 +90,21 @@ export const declineTenentRequest = asyncHandler(
 export const acceptTenentRequest = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.body.user._id;
-     const tenent = await Tenent.findById(req.params.id.toString());
+    const tenent = await Tenent.findById(req.params.id.toString());
 
     if (!tenent) {
       return next(new ErrorResponse(400, "Not found"));
     }
 
-
     await Message.create({
-      tenent_id:tenent.tenent_id,
+      tenent_id: tenent.tenent_id,
       owner_id: tenent.owner_id,
       property_id: tenent.property_id,
       message: tenent.request,
-    })
+    });
 
-    tenent.remove()
-    
+    tenent.remove();
+
     response(res, 201, true, {});
   }
 );

@@ -12,6 +12,7 @@ export interface Iuser {
   provider: string;
   socialID: string;
   wishlist: string[];
+  request: string[]
 }
 
 interface IUserDocument extends Iuser, Document {
@@ -57,6 +58,9 @@ const UserSchema: Schema = new Schema({
   wishlist: {
     type: [String],
   },
+  request: {
+    type:[String]
+  }
 });
 
 UserSchema.pre<IUserDocument>("save", async function (next) {

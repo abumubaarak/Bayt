@@ -1,17 +1,15 @@
-import React, { ReactNode, FC } from "react";
+import { VStack } from "@chakra-ui/layout";
+import React, { FC, ReactNode } from "react";
 interface Props {
-  children: ReactNode;
+   children: ReactNode;
 }
 
 const Slidenav: FC<Props> = ({ children }) => {
-  return (
-    <nav className="mt-20  w-full">
-      <ul className=" font-railway text-base flex flex-col space-y-10 text-gray-400">
-        {children}
-      </ul>
-    </nav>
-  );
+   return (
+      <VStack spacing={10} w='full' as='ul' color='gray.400'>
+         {children}
+      </VStack>
+   );
 };
 
-
-export default Slidenav
+export default Slidenav;

@@ -43,6 +43,16 @@
     "extends": [
       "react-app",
       "react-app/jest"
+    ],
+    "overrides": [
+      {
+        "files": [
+          "**/*.stories.*"
+        ],
+        "rules": {
+          "import/no-anonymous-default-export": "off"
+        }
+      }
     ]
   },
   "browserslist": {
@@ -61,6 +71,7 @@
     "@tailwindcss/postcss7-compat": "^2.1.0",
     "@types/react-router-dom": "^5.1.7",
     "autoprefixer": "^9.8.6",
+    "craco-alias": "^3.0.1",
     "postcss": "^7.0.35",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.1.0"
   }

@@ -1,8 +1,8 @@
-import { Request, Response, NextFunction } from "express";
-import { User, Iuser } from "../userModel";
+import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../../../middleware/async";
 import { ErrorResponse } from "../../../utils/errorResponse";
 import response from "../../../utils/response";
+import { Iuser, User } from "../userModel";
 
 export const register = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -38,13 +38,7 @@ export const login = asyncHandler(
 
 export const getMe = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.query.id) {
-      const user = await User.findById(req.query.id);
-      if (!user) {
-        return next(new ErrorResponse(400, "Invalid user credentials"));
-      }
-      response(res, 200, true, user);
-    } else if (req.user) {
+    if (req.user) {
       const user = await User.findById(req.user);
 
       if (!user) {
@@ -55,6 +49,15 @@ export const getMe = asyncHandler(
   }
 );
 
+export const getLandlord = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+     const user = await User.findById(req.params.id);
+    if (!user) {
+      return next(new ErrorResponse(400, "Invalid user credentials"));
+    }
+    response(res, 200, true, user);
+  }
+);
 export const updateProfile = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {

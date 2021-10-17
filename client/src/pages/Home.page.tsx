@@ -1,18 +1,23 @@
-import React, { FC, ReactNode, useEffect } from "react";
+import { Box, Container, VStack } from "@chakra-ui/layout";
+import React, { FC } from "react";
+import BackgroundImage from "@assets/background.jpg";
+import { HomePageProps } from "@type/base";
  
-interface Props {
-  children: ReactNode;
-  header?: any;
-}
-const Home: FC<Props> = ({ children, header }) => {
- 
-  return (
-    <div className="bg-main px-4  w-screen  h-screen bg-no-repeat bg-cover bg-center">
-      {header}
-      <main className="mt-20 flex justify-center flex-col items-center ">
-        {children}
-      </main>
-    </div>
-  );
+const Home: FC<HomePageProps> = ({ children, header }) => {
+   return (
+      <Box
+         h='100vh'
+         bgImage={`url(${BackgroundImage})`}
+         bgPosition='center'
+         bgSize='auto'
+         bgRepeat='no-repeat'>
+         {header}
+         <Container pt={14} maxW='container.md'>
+            <VStack justifyContent='center' spacing={7}>
+               {children}
+            </VStack>
+         </Container>
+      </Box>
+   );
 };
 export default Home;

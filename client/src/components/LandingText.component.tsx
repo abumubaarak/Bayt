@@ -1,11 +1,22 @@
-const LandintText = () => {
-  return (
-    <h1 className="text-7xl text-white font-black  leading-tight font-railway">
-      Discover a place
-      <br />
-      you&prime;ll love to live
-    </h1>
-  );
+import { Heading } from "@chakra-ui/layout";
+
+const LandingText = () => {
+   return (
+      <Heading
+         as='h1'
+         fontSize={{
+            sm: "5xl",
+            md: "6xl",
+            lg: "7xl",
+         }}
+         color='white'
+         fontWeight='black'
+         lineHeight='normal'>
+         Discover a place
+         <br />
+         you&prime;ll love to live
+      </Heading>
+   );
 };
 
-export default LandintText;
+export default LandingText;

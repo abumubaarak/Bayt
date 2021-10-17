@@ -1,0 +1,17 @@
+{
+   "compilerOptions": {
+      "baseUrl": "./src",
+      "paths": {
+         "@components/*": ["./components/*"],
+         "@assets/*": ["./assets/*"],
+         "@type/*": ["./Types/*"],
+         "@hooks/*": ["./hooks/*"],
+         "@layouts/*": ["./layouts/*"],
+         "@pages/*": ["./pages/*"],
+         "@redux/*": ["./redux/*"],
+         "@styles/*": ["./styles/*"],
+         "@transition/*": ["./transition/*"],
+         "@api/*": ["./api/*"]
+      }
+   }
+}

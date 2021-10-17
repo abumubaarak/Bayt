@@ -1,94 +1,118 @@
+import useToastMessage from "@hooks/useToastMessage";
+import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
+import { ReactQueryDevtools } from "react-query/devtools";
 import { Route, Switch } from "react-router";
-import Search from "./components/Search.component";
 import Header from "./components/Header.component";
-import Home from "./pages/Home.page";
-import LandintText from "./components/LandingText.component";
-import Signup from "./pages/Owner/Authentication/Signup.page";
-import Login from "./pages/Owner/Authentication/Login.page";
+import LandingText from "./components/LandingText.component";
+import Search from "./components/Search.component";
 import Slidebar from "./components/Slidebar.component";
-import Dashboard from "./pages/Owner/Home/Dashboard.page";
-import Listings from "./pages/Owner/Home/Listings.page";
-import Message from "./pages/Owner/Home/Message.page";
-import Tenants from "./pages/Owner/Home/Tenants.page";
-import Payments from "./pages/Owner/Home/Payments.page";
-import Profile from "./pages/Owner/Home/Profile.page";
 import Layout from "./layouts/owner.layout";
-import Property from "./pages/Owner/Home/AddProperty.page";
-import ListingPage from "./pages/tenent/listing/Listing.page";
-import DetailsPage from "./pages/tenent/details/Details.Page";
-import HeaderMain from "./components/HeaderMain.component";
-import ProfilePage from "./pages/tenent/profile.page";
+import Home from "./pages/home.page";
+import Property from "./pages/Owner/addProperty.page";
+import Dashboard from "./pages/Owner/dashboard.page";
+import Listings from "./pages/Owner/listings.page";
+import LoginPage from "./pages/Owner/login.page";
+import Message from "./pages/Owner/message.page";
+import Payments from "./pages/Owner/payments.page";
+import Profile from "./pages/Owner/profile.page";
+import SignupPage from "./pages/Owner/signup.page";
+import Tenants from "./pages/Owner/tenants.page";
+import ListingPage from "./pages/tenant/listing.page";
+import ListingDetailsPage from "./pages/tenant/listingDetails.Page";
+import ProfilePage from "./pages/tenant/profile.page";
 const routes = [
-  {
-    path: "/owner/dashboard",
-    exact: true,
-    component: Dashboard,
-  },
-  {
-    path: "/owner/listings",
-    exact: true,
-    component: Listings,
-  },
-  {
-    path: "/owner/tenents",
-    exact: true,
-    component: Tenants,
-  },
-  {
-    path: "/owner/message",
-    exact: true,
-    component: Message,
-  },
-  {
-    path: "/owner/payments",
-    exact: true,
-    component: Payments,
-  },
-  {
-    path: "/owner/profile",
-    exact: true,
-    component: Profile,
-  },
+   {
+      path: "/owner/dashboard",
+      exact: true,
+      component: Dashboard,
+   },
+   {
+      path: "/owner/listings",
+      exact: true,
+      component: Listings,
+   },
+   {
+      path: "/owner/tenants",
+      exact: true,
+      component: Tenants,
+   },
+   {
+      path: "/owner/message",
+      exact: true,
+      component: Message,
+   },
+   {
+      path: "/owner/payments",
+      exact: true,
+      component: Payments,
+   },
+   {
+      path: "/owner/profile",
+      exact: true,
+      component: Profile,
+   },
 ];
 function App() {
-  return (
-    <Switch>
-      <Route path="/" exact>
-        <Home header={<HeaderMain variant="home" />}>
-          <LandintText />
-          <Search />
-        </Home>
-      </Route>
-      <Route path="/owner/signup">
-        <Signup />
-      </Route>
-      <Route path="/profile">
-        <ProfilePage />
-      </Route>
-      <Route path="/s/:slug">
-        <ListingPage />
-      </Route>
-      <Route path="/details/:slug" component={DetailsPage} />
+   const toast = useToastMessage();
 
-      <Route path="/owner/login">
-        <Login />
-      </Route>
-      {routes.map(({ component: Component, path, exact }, index) => (
-        <Route
-          key={index}
-          exact={exact}
-          path={path}
-          render={(props) => (
-            <Layout slidebar={<Slidebar />}>
-              <Component />
-            </Layout>
-          )}
-        />
-      ))}
-      <Route path="/owner/list/new">
-        <Property />
-      </Route>
-    </Switch>
-  );
+   const query = new QueryClient({
+      queryCache: new QueryCache({
+         onError: (error: any, query: any) => {
+            if (query.state.data !== undefined) {
+               toast.error(`Something went wrong: ${error.message}`);
+            }
+         },
+      }),
+
+      defaultOptions: {
+         queries: {
+            refetchOnWindowFocus: false,
+         },
+      },
+   });
+
+   return (
+      <QueryClientProvider client={query}>
+         <Switch>
+            <Route path='/' exact>
+               <Home header={<Header variant='home' />}>
+                  <LandingText />
+                  <Search />
+               </Home>
+            </Route>
+            <Route path='/owner/signup'>
+               <SignupPage />
+            </Route>
+            <Route path='/profile'>
+               <ProfilePage />
+            </Route>
+            <Route path='/s/:slug'>
+               <ListingPage />
+            </Route>
+            <Route path='/details/:slug' component={ListingDetailsPage} />
+
+            <Route path='/owner/login'>
+               <LoginPage />
+            </Route>
+
+            {routes.map(({ component: Component, path, exact }, index) => (
+               <Route
+                  key={index}
+                  exact={exact}
+                  path={path}
+                  render={(props) => (
+                     <Layout slidebar={<Slidebar />}>
+                        <Component />
+                     </Layout>
+                  )}
+               />
+            ))}
+            <Route path='/owner/list/new'>
+               <Property />
+            </Route>
+         </Switch>
+         <ReactQueryDevtools initialIsOpen={false} />
+      </QueryClientProvider>
+   );
 }
 export default App;

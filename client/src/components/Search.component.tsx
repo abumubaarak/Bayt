@@ -1,35 +1,58 @@
+import { Button } from "@chakra-ui/button";
+import { Input } from "@chakra-ui/input";
+import { HStack } from "@chakra-ui/layout";
+import { InputGroup, InputRightElement } from "@chakra-ui/react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import useSubmit from "../hooks/useSubmit";
+import { ISearch } from "../Types/base";
 
-interface ISearch {
-  city: string;
-}
 export default function Search() {
-  const { register, handleSubmit } = useForm<ISearch>();
-  const history = useHistory();
+   const { register, handleSubmit } = useForm<ISearch>();
+   const { onSubmit } = useSubmit();
 
-  const onSubmit = (data: ISearch) => {
-    const { city }: ISearch = data;
+   return (
+      <HStack
+         w={{
+            sm: "xl",
+            base: "full",
+            lg: "full",
+         }}
+         pr={2}
+         pl={2}
+         h={16}
+         bg='white'
+         rounded='full'>
+         <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
+            <InputGroup w='full'>
+               <Input
+                  placeholder='Search for a City...'
+                  border='none'
+                  fontWeight='medium'
+                  {...register("city")}
+                  w='full'
+                  _focus={{
+                     border: "none",
+                  }}
+                  size='lg'
+               />
 
-    if (city.length >= 3) {
-      history.push(`/s/${city}`);
-    }
-  };
-
-  return (
-    <form
-      onSubmit={handleSubmit(onSubmit)}
-      className="w-50 flex shadow-2xl justify-center mt-8 font-sand"
-    >
-      <input
-        type="search"
-        className="bg-white -mr-12 rounded-full flex-base px-10 py-4"
-        {...register("city")}
-        placeholder="Search for a City..."
-      />
-      <button className="rounded-full px-12 py-2  bg-500 text-white text-lg font-bold">
-        Search
-      </button>
-    </form>
-  );
+               <InputRightElement w='150px' pt={2} mr={0}>
+                  <Button
+                     size='lg'
+                     type='submit'
+                     h='3rem'
+                     w='full'
+                     color='white'
+                     rounded='full'
+                     bg='purple.600'
+                     _hover={{
+                        backgroundColor: "purple.400",
+                     }}>
+                     Search
+                  </Button>
+               </InputRightElement>
+            </InputGroup>
+         </form>
+      </HStack>
+   );
 }

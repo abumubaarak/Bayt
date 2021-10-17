@@ -1,15 +1,12 @@
-import { asyncHandler } from "../../middleware/async";
-import express, { Request, Response, NextFunction, request } from "express";
-import { Property } from "./propertyModel";
-import { Multer } from "multer";
-import response from "../../utils/response";
-import { ErrorResponse } from "../../utils/errorResponse";
+import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
+import { asyncHandler } from "../../middleware/async";
+import { ErrorResponse } from "../../utils/errorResponse";
+import response from "../../utils/response";
+import { Property } from "./propertyModel";
 
 export const createProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.body);
-
     if (req.body.data) {
       let files: any = [];
 
@@ -41,6 +38,9 @@ export const createProperty = asyncHandler(
   }
 );
 
+// @desc   property search
+// @route  GET /api/v1/properties?city=:value
+// @access Public
 export const searchProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     let city = req.query.city?.toString();
@@ -54,10 +54,11 @@ export const searchProperty = asyncHandler(
   }
 );
 
+// @desc   Single Property
+// @route  GET /api/v1/properties/:id
+// @access Public
 export const getSingleProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    console.log(req.params);
-    
     if (Types.ObjectId(req.params.id)) {
       const property = await Property.findById(req.params.id);
 

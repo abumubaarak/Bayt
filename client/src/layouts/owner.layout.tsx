@@ -1,19 +1,27 @@
-import React, { ReactNode, FC } from "react";
-import HeaderMain from "../components/HeaderMain.component";
+import { Flex, HStack } from "@chakra-ui/layout";
+import React, { FC, ReactNode } from "react";
 
 interface Props {
-  slidebar?: any;
-  children?: ReactNode;
+   slidebar?: any;
+   children?: ReactNode;
 }
 const Layout: FC<Props> = ({ slidebar, children }) => {
-  return (
-    <div className="flex h-screen">
-      <div className=" flex-4 shadow-2xl flex pt-5 flex-col items-center ">
-        {slidebar}
-      </div>
-      <div className=" flex-5 bg-50 pl-12 pr-12 pt-6">
-         {children}</div>
-    </div>
-  );
+   return (
+      <HStack h='100vh' spacing={0}>
+         <Flex h='100vh' as='nav' bg='white' maxW={20} w='full'>
+            {slidebar}
+         </Flex>
+
+         <Flex
+            h='100vh'
+            overflow='scroll'
+            as='main'
+            bg='gray.100'
+            flex={1}
+            p={6}>
+            {children}
+         </Flex>
+      </HStack>
+   );
 };
 export default Layout;

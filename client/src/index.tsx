@@ -1,35 +1,23 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import React from "react";
 import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import { BrowserRouter } from "react-router-dom";
-import { ChakraProvider } from "@chakra-ui/react";
-import { theme } from "./styles/theme";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
+import App from "./App";
+import "./index.css";
 import { store } from "./redux/store";
-import { QueryClient, QueryClientProvider } from "react-query";
-import { ReactQueryDevtools } from "react-query/devtools";
-
-const query = new QueryClient({
-  defaultOptions: {
-    queries: {
-      refetchOnWindowFocus: false,
-    },
-  },
-});
-
+import "./styles/fonts.css";
+import { theme } from "./styles/theme";
+ 
 ReactDOM.render(
-  <BrowserRouter>
-    <React.StrictMode>
-      <ChakraProvider theme={theme}>
-        <Provider store={store}>
-          <QueryClientProvider client={query}>
-            <App />
-            <ReactQueryDevtools initialIsOpen={false} />
-          </QueryClientProvider>
-        </Provider>
-      </ChakraProvider>
-    </React.StrictMode>
-  </BrowserRouter>,
-  document.getElementById("root")
+   <BrowserRouter>
+      <React.StrictMode>
+         <ChakraProvider theme={theme}>
+            <Provider store={store}>
+               <App />
+            </Provider>
+         </ChakraProvider>
+      </React.StrictMode>
+   </BrowserRouter>,
+   document.getElementById("root")
 );
