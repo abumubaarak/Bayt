@@ -21,6 +21,7 @@ import {
    Tooltip,
    useDisclosure,
 } from "@chakra-ui/react";
+import Heading from "@components/Heading.component";
 import UserInfo from "@components/UserInfo.component";
 import {
    useAceptTenentRequest,
@@ -74,9 +75,7 @@ export default function Tenants() {
 
    return (
       <Box maxW='8xl' px={5} w='full' rounded='md'>
-         <Text fontSize='2xl' color='brand.500' fontWeight='semibold'>
-            Tenants
-         </Text>
+         <Heading title='Tenant' />
          <VStack bg='white' shadow='sm' rounded='md' mt={5} py={4}>
             <HStack w='full' px={9} py={1}>
                <Text fontSize='lg' fontWeight='semibold'>

@@ -1,9 +1,10 @@
+import Heading from "@components/Heading.component";
 import React from "react";
 
 export default function Dashboard() {
    return (
       <div>
-         <h1>Dashboard</h1>
+         <Heading title='Dashboard' />
       </div>
    );
 }
