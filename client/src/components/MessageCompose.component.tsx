@@ -12,14 +12,20 @@ const sendTenantMessage = (
    message: any,
    tenent: UseMutationResult<any, unknown, any, unknown>,
    ownerId: string,
-   propertyId: string
+   propertyId: string,
+   userId: string,
+   toast: any
 ) => {
-   if (message!.length > 10) {
-      tenent.mutate({
-         request: message,
-         owner_id: ownerId,
-         property_id: propertyId,
-      });
+   if (userId) {
+      if (message!.length > 10) {
+         tenent.mutate({
+            request: message,
+            owner_id: ownerId,
+            property_id: propertyId,
+         });
+      }
+   } else {
+      toast.error("You need to login.");
    }
 };
 
@@ -34,7 +40,7 @@ const MessageCompose: FC<TenantMessageComposeProps> = ({
    propertyId,
    ownerId,
    propertyDetail,
- }) => {
+}) => {
    const tenentMessage = useTenantMessage();
    const [message, setMessage] = useState<string>();
 
@@ -90,7 +96,7 @@ const MessageCompose: FC<TenantMessageComposeProps> = ({
             leftIcon={<FiSend />}
             w='full'
             onClick={() =>
-               sendTenantMessage(message, tenentMessage, ownerId, propertyId)
+               sendTenantMessage(message, tenentMessage, ownerId, propertyId,user?.data._id!,toast)
             }
             fontWeight='semibold'
             color='gray.900'

@@ -8,7 +8,7 @@ import { BsFillHeartFill } from "react-icons/bs";
 import { UseMutationResult } from "react-query";
 
 const handleWishList = (
-   isSaved: boolean,
+   isSaved: boolean | undefined,
    deleteWishlist: UseMutationResult<any, unknown, any, void>,
    wishlist: UseMutationResult<any, unknown, any, void>,
    propertyId: string
@@ -28,7 +28,7 @@ const WishListButton: FC<WishListProps> = ({ propertyId, user }) => {
    const deleteWishlist = useRemoveWishList();
    const toast = useToastMessage();
 
-   const isSaved = user?.data?.wishlist.find(
+    const isSaved: boolean = user?.wishlist.some(
       (item: string, index: any) => propertyId === item
    );
 
@@ -63,6 +63,7 @@ const WishListButton: FC<WishListProps> = ({ propertyId, user }) => {
             borderRadius='full'
             shadow='lg'
             bg='white'
+            disabled={user?._id ? false : true}
             onClick={() =>
                handleWishList(isSaved, deleteWishlist, wishlist, propertyId)
             }

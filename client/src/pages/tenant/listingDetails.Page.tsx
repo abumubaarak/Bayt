@@ -79,7 +79,7 @@ const ListingDetailsPage = () => {
                               bgRepeat='no-repeat'>
                               <WishListButton
                                  propertyId={propertyDetails!._id}
-                                 user={user}
+                                 user={user?.data!}
                               />
                            </Flex>
                         </GridItem>

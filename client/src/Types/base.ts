@@ -1,3 +1,4 @@
+import { UserInfo } from "@api/apiType";
 import { ReactNode } from "react";
 
 export type Params = {
@@ -65,6 +66,6 @@ export type UserInfoProps = {
 };
 
 export type WishListProps = {
-   user: any;
+   user: UserInfo;
    propertyId: string;
 };
