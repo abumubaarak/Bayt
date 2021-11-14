@@ -79,6 +79,10 @@ export const getListing = (searchValue?: string) => {
    return get<ResponseArr<Listings>>(`properties?city=${searchValue}`);
 };
 
+export const getOwnerListing = () => {
+   return getWithCred<ResponseArr<Listings>>(`properties/owner`);
+};
+
 export const getListingDetails = (id: string) => {
    return get<ResponseObj<ListingDetails>>(`properties/${id}`);
 };

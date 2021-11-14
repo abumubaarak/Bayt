@@ -97,7 +97,7 @@ const Others: FC<LayoutProps> = ({ setFormState }) => {
    return (
       <SlideUp setMarginBottom={true}>
          <Box
-            // {...getRootProps()}
+            {...getRootProps()}
             h='56'
             p='2'
             rounded='xl'

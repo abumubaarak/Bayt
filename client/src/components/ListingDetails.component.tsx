@@ -53,7 +53,6 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
          <DrawerContent>
             <DrawerCloseButton />
             <DrawerHeader></DrawerHeader>
-            {/* bgImage={`${IMAGE_URL}${propertyDetail?.data.images[0]}`} */}
             <DrawerBody>
                <VStack w='full' alignItems='start'>
                   <Image
@@ -99,6 +98,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
                   <Text color='gray.600' fontWeight='semibold'>
                      {propertyDetail?.data?.propertyType}
                   </Text>
+                   
                   <HStack className='font-sand' color='gray.800' spacing='6'>
                      <HStack spacing='1'>
                         <BiBed className='w-5 h-7' />

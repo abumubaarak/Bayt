@@ -11,6 +11,7 @@ import {
    getLandlord,
    getListing,
    getListingDetails,
+   getOwnerListing,
    getTenent,
    getTenentMesssage,
    getUser,
@@ -107,6 +108,10 @@ export const useUser = () => {
 
 export const useListing = (city: string) => {
    return useWrapper([city], () => getListing(city));
+};
+
+export const useOwnerListing = () => {
+   return useWrapper(["city"], () => getOwnerListing());
 };
 
 export const useListingDetails = (id: string) => {

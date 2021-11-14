@@ -54,6 +54,22 @@ export const searchProperty = asyncHandler(
   }
 );
 
+// @desc   Get owner property
+// @route  GET /api/v1/properties/owner
+// @access Private
+export const getOwnerProperty = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+    const property = await Property.find({})
+      .where("owner_id")
+      .equals(req.body.user._id);
+
+    if (!property) {
+      return next(new ErrorResponse(400, `No Property Found`));
+    }
+    response(res, 200, true, property);
+  }
+);
+
 // @desc   Single Property
 // @route  GET /api/v1/properties/:id
 // @access Public
