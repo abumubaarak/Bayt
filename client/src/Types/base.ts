@@ -59,7 +59,7 @@ export type TenantMessageComposeProps = {
    ownerId: string;
    propertyId: string;
    propertyDetail: any;
- };
+};
 export type UserInfoProps = {
    id: string;
    variant?: "light" | "dark";
@@ -68,4 +68,8 @@ export type UserInfoProps = {
 export type WishListProps = {
    user: UserInfo;
    propertyId: string;
+};
+
+export type ListingDetailsProps = {
+   id: string;
 };

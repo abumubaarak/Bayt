@@ -6,11 +6,13 @@ import {
    SimpleGrid,
    Tag,
    Text,
+   useDisclosure,
    VStack,
 } from "@chakra-ui/react";
 import Heading from "@components/Heading.component";
+import ListingDetails from "@components/ListingDetails.component";
 import { useListing } from "@hooks/useApi";
-import React from "react";
+import React, { useState } from "react";
 import { BiBath, BiBed, BiPolygon } from "react-icons/bi";
 import { BsArrowBarRight } from "react-icons/bs";
 import { useHistory } from "react-router-dom";
@@ -23,9 +25,15 @@ SwiperCore.use([Pagination, Autoplay]);
 
 export default function Listings() {
    const history = useHistory();
+   const [id, setId] = useState<string>();
+   const { isOpen, onOpen, onClose } = useDisclosure();
+
    const { data: property, isError, error, isLoading } = useListing("Berlin");
    const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
 
+   const handleSetId = (id: string) => {
+      setId(Math.floor(Math.random() * 10) + id);
+   };
    return (
       <Box w='full'>
          <HStack>
@@ -66,6 +74,7 @@ export default function Listings() {
                         cursor='pointer'
                         pb={2}
                         maxW={340}
+                        onClick={() => handleSetId(_id)}
                         shadow='md'
                         rounded='md'>
                         <Swiper
@@ -140,6 +149,8 @@ export default function Listings() {
                   )
                )}
          </SimpleGrid>
+
+         {id && <ListingDetails id={id!} />}
       </Box>
    );
 }
