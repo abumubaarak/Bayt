@@ -52,14 +52,16 @@ export type UserInfo = {
    bio: string;
 };
 
-export type TenantRequest = {
-   _id: string;
-   tenent_id: string;
-   request: string;
+export type TenantMessage = {
+   _id?: string;
+   tenant_id: string;
+   request?: string;
    owner_id: string;
    property_id: string;
-   sentAt: Date;
-   __v: number;
+   message?: string;
+   sender?: string;
+   sentAt?: Date;
+   __v?: number;
 };
 
 export type ResponseArr<T> = {

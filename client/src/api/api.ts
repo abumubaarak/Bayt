@@ -4,7 +4,7 @@ import {
    Listings,
    ResponseArr,
    ResponseObj,
-   TenantRequest,
+   TenantMessage,
    UserInfo,
 } from "./apiType";
 import { get, getWithCred } from "./requestType";
@@ -72,7 +72,7 @@ export const updateUser = async (payload: any) => {
 };
 
 export const getTenent = () => {
-   return getWithCred<ResponseArr<TenantRequest>>(`tenents`);
+   return getWithCred<ResponseArr<TenantMessage>>(`tenents`);
 };
 
 export const getListing = (searchValue?: string) => {
@@ -94,6 +94,30 @@ export const getLandlord = (id: string) => {
 export const getUser = () => {
    return getWithCred<ResponseObj<UserInfo>>(`auth/getme`);
 };
+
+export const getUserMessages = (id:string) => {
+   return getWithCred<ResponseArr<TenantMessage>>(`messages/${id}`);
+};
+
+export const getOwnerMessages = () => {
+   return getWithCred<ResponseArr<TenantMessage>>(`messages`);
+};
+
+export const getUserConversation = (id:string) => {
+   return getWithCred<ResponseArr<TenantMessage>>(`conversations/${id}`);
+};
+
+export const sendMessage = async (payload: any) => {
+   const { data } = await axios.post<any>(
+      "/api/v1/conversations",
+      { ...payload },
+      { withCredentials: true }
+   );
+
+   return data;
+};
+
+
 export const logout = async (): Promise<any> => {
    const { data } = await axios.get<any>(`/api/v1/auth/logout`);
    return data;

@@ -19,20 +19,15 @@ interface ListingCardProps {
 const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
    const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
    const history = useHistory();
-   const [id, setId] = useState<string>();
+   const [listingId, setId] = useState<string>();
 
-   const handleClick = (
-      historyId: string,
-      slug: string,
-      listingId: string,
-      isTetant: boolean
-   ) => {
+   const handleClick = (historyId: string, slug: string, isTetant: boolean) => {
       isTetant
          ? history.push({
               pathname: `/details/${slug}`,
               state: historyId,
            })
-         : setId(Math.floor(Math.random() * 10) + listingId);
+         : setId(Math.floor(Math.random() * 10) + historyId);
    };
    return (
       <>
@@ -50,11 +45,11 @@ const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
                   propertySize,
                }) => (
                   <VStack
-                     key={slug}
+                     key={_id}
                      cursor='pointer'
                      pb={2}
                      maxW={320}
-                     onClick={() => handleClick(_id, slug, id!, isTetant)}
+                     onClick={() => handleClick(_id, slug, isTetant)}
                      shadow='md'
                      bgColor='white'
                      rounded='md'>
@@ -133,7 +128,7 @@ const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
                   </VStack>
                )
             )}
-         {id && <ListingDetails id={id!} />}
+         {listingId && <ListingDetails id={listingId!} />}
       </>
    );
 };

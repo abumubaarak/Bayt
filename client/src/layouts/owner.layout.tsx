@@ -14,7 +14,7 @@ const Layout: FC<Props> = ({ slidebar, children }) => {
 
          <Flex
             h='100vh'
-            overflow='scroll'
+            overflowY='scroll'
             as='main'
             bg='gray.100'
             flex={1}

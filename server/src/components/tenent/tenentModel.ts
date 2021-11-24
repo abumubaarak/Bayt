@@ -1,7 +1,7 @@
 import { Model, Schema, Document, model } from "mongoose";
 
 interface ITenent {
-  tenent_id: string;
+  tenant_id: string;
   owner_id: string;
   property_id:string
   request: string;
@@ -11,7 +11,7 @@ interface ITenent {
 interface ITenentDocument extends ITenent, Document {}
 
 const TenentSchema: Schema = new Schema({
-  tenent_id: {
+  tenant_id: {
     type: String,
   },
   owner_id: {

@@ -12,10 +12,14 @@ import {
    getListing,
    getListingDetails,
    getOwnerListing,
+   getOwnerMessages,
    getTenent,
    getTenentMesssage,
    getUser,
+   getUserConversation,
+   getUserMessages,
    removeWishlist,
+   sendMessage,
    sendTenantMessage,
    updateUser,
 } from "../api/api";
@@ -120,4 +124,28 @@ export const useListingDetails = (id: string) => {
 
 export const useTenent = () => {
    return useWrapper(["pending-tenents"], () => getTenent());
+};
+
+export const useOwnerMessages = () => {
+   return useWrapper(["messages"], () => getOwnerMessages());
+};
+
+export const useUserMessages = () => {
+   return useWrapper(["messag"], () => getUserMessages("1234"));
+};
+
+export const useUserConversation = (id: string) => {
+    return useWrapper([id], () => getUserConversation(id));
+};
+
+export const useSendMessage = (id: string) => {
+   const client = useClient();
+
+   return useMutation(sendMessage, {
+      onMutate: () => {},
+      onSettled: () => {
+         client.invalidateQueries(id);
+      },
+      onSuccess: () => {},
+   });
 };

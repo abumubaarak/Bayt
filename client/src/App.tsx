@@ -1,25 +1,26 @@
+import Header from "@components/Header.component";
+import LandingText from "@components/LandingText.component";
+import Search from "@components/Search.component";
+import Slidebar from "@components/Slidebar.component";
 import useToastMessage from "@hooks/useToastMessage";
+import Layout from "@layouts/owner.layout";
+import Home from "@pages/home.page";
+import Property from "@pages/Owner/addProperty.page";
+import Dashboard from "@pages/Owner/dashboard.page";
+import Listings from "@pages/Owner/listings.page";
+import LoginPage from "@pages/Owner/login.page";
+import Message from "@pages/Owner/message.page";
+import Payments from "@pages/Owner/payments.page";
+import Profile from "@pages/Owner/profile.page";
+import SignupPage from "@pages/Owner/signup.page";
+import Tenants from "@pages/Owner/tenants.page";
+import ListingPage from "@pages/tenant/listing.page";
+import ListingDetailsPage from "@pages/tenant/listingDetails.Page";
+import TenantMessage from "@pages/tenant/message.page";
+import ProfilePage from "@pages/tenant/profile.page";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Route, Switch } from "react-router";
-import Header from "./components/Header.component";
-import LandingText from "./components/LandingText.component";
-import Search from "./components/Search.component";
-import Slidebar from "./components/Slidebar.component";
-import Layout from "./layouts/owner.layout";
-import Home from "./pages/home.page";
-import Property from "./pages/Owner/addProperty.page";
-import Dashboard from "./pages/Owner/dashboard.page";
-import Listings from "./pages/Owner/listings.page";
-import LoginPage from "./pages/Owner/login.page";
-import Message from "./pages/Owner/message.page";
-import Payments from "./pages/Owner/payments.page";
-import Profile from "./pages/Owner/profile.page";
-import SignupPage from "./pages/Owner/signup.page";
-import Tenants from "./pages/Owner/tenants.page";
-import ListingPage from "./pages/tenant/listing.page";
-import ListingDetailsPage from "./pages/tenant/listingDetails.Page";
-import ProfilePage from "./pages/tenant/profile.page";
 const routes = [
    {
       path: "/owner/dashboard",
@@ -86,9 +87,13 @@ function App() {
             <Route path='/profile'>
                <ProfilePage />
             </Route>
+            <Route path='/message'>
+               <TenantMessage />
+            </Route>
             <Route path='/s/:slug'>
                <ListingPage />
             </Route>
+
             <Route path='/details/:slug' component={ListingDetailsPage} />
 
             <Route path='/owner/login'>

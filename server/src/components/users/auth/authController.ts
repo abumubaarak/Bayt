@@ -51,7 +51,7 @@ export const getMe = asyncHandler(
 
 export const getLandlord = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-     const user = await User.findById(req.params.id);
+    const user = await User.findById(req.params.id);
     if (!user) {
       return next(new ErrorResponse(400, "Invalid user credentials"));
     }
@@ -84,6 +84,7 @@ export const logout = asyncHandler(
 );
 
 const sendTokenWithResponse = (user: any, res: Response, message?: string) => {
+  const { _id } = user;
   const token = user.getJwtToken();
 
   const options = {
@@ -97,6 +98,7 @@ const sendTokenWithResponse = (user: any, res: Response, message?: string) => {
     res.status(200).cookie("token", token, options).json({
       success: true,
       message,
+      id: _id,
     });
     return;
   }

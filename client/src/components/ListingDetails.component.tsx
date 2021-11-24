@@ -37,6 +37,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
    } = useListingDetails(id?.substring(1));
 
    useEffect(() => {
+      console.log(id);
       if (id) {
          onOpen();
       }
@@ -98,7 +99,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
                   <Text color='gray.600' fontWeight='semibold'>
                      {propertyDetail?.data?.propertyType}
                   </Text>
-                   
+
                   <HStack className='font-sand' color='gray.800' spacing='6'>
                      <HStack spacing='1'>
                         <BiBed className='w-5 h-7' />

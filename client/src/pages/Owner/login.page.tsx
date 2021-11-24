@@ -35,6 +35,7 @@ export default function LoginPage() {
 
    useEffect(() => {
       if (response) {
+          localStorage.setItem("id", response.id);
          message({
             position: "top",
             title: "Done",

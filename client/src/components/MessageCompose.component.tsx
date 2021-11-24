@@ -103,7 +103,7 @@ const MessageCompose: FC<TenantMessageComposeProps> = ({
             disabled={isMessageSent}
             isLoading={tenentMessage.isLoading}
             bg='white'>
-            Send Message
+            Request to chat
          </Button>
       </VStack>
    );

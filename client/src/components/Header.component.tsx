@@ -12,13 +12,13 @@ import {
    MenuList,
    useDisclosure,
 } from "@chakra-ui/react";
+import { useUser } from "@hooks/useApi";
+import useSubmit from "@hooks/useSubmit";
 import React, { FC, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiSearch } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { useHistory } from "react-router-dom";
-import { useUser } from "@hooks/useApi";
-import useSubmit from "@hooks/useSubmit";
 import { HeaderProps, ISearch } from "../Types/base";
 import AuthModel from "./AuthModal.component";
 import CircularButton from "./Button.component";
@@ -43,6 +43,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
    const [type, setType] = useState<boolean>();
    const { onSubmit } = useSubmit();
    const { data } = useUser();
+   localStorage.setItem("id", data?.data._id!);
 
    return (
       <>
@@ -94,7 +95,9 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                            <MenuItem onClick={() => history.push("/profile")}>
                               My Profile
                            </MenuItem>
-                           <MenuItem>Message</MenuItem>
+                           <MenuItem onClick={() => history.push("/message")}>
+                              Message
+                           </MenuItem>
                            <MenuItem>Favourites</MenuItem>
                            <MenuItem>Notification</MenuItem>
                            <MenuItem>Logout</MenuItem>

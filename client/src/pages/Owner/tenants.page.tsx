@@ -104,10 +104,10 @@ export default function Tenants() {
                   </Text>
                </Center>
             )}
-            {tenant?.data.map(({ _id, owner_id, tenent_id, request }) => (
+            {tenant?.data.map(({ _id, owner_id, tenant_id, request }) => (
                <>
                   <HStack w='full' spacing={5} py={3} px={9}>
-                     <UserInfo variant='dark' id={tenent_id} />
+                     <UserInfo variant='dark' id={tenant_id} />
                      <Text
                         className='font-sand'
                         fontSize='lg'
@@ -116,7 +116,9 @@ export default function Tenants() {
                         isTruncated={true}
                         px={2}
                         cursor='pointer'
-                        onClick={() => handleModal(onOpen, setRequest, request)}
+                        onClick={() =>
+                           handleModal(onOpen, setRequest, request!)
+                        }
                         colorScheme='brand.400'
                         fontWeight='semibold'>
                         {request}
@@ -128,7 +130,7 @@ export default function Tenants() {
                               shadow='lg'
                               rounded='full'
                               isLoading={declineTenentRequest.isLoading}
-                              onClick={() => declineTenentRequest.mutate(_id)}
+                              onClick={() => declineTenentRequest.mutate(_id!)}
                               aria-label='Cancel'
                               icon={
                                  <Icon as={IoClose} w={7} h={7} color='red' />
@@ -139,7 +141,7 @@ export default function Tenants() {
                            <IconButton
                               colorScheme='white'
                               aria-label='Accept'
-                              onClick={() => acceptTenentRequest.mutate(_id)}
+                              onClick={() => acceptTenentRequest.mutate(_id!)}
                               shadow='lg'
                               isLoading={acceptTenentRequest.isLoading}
                               rounded='full'

@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
+import { Conversation } from "../conversation/conversationModel";
 import { Message } from "../message/messageModel";
 import { User } from "../users/userModel";
 import { Tenent } from "./tenentModel";
@@ -19,7 +20,7 @@ export const createTenent = asyncHandler(
       }
 
       const tenent = await Tenent.create({
-        tenent_id: req.user,
+        tenant_id: req.user,
         ...req.body,
       });
 
@@ -41,7 +42,7 @@ export const searchSingleTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const tenent = await Tenent.findOne({
       property_id: req.params.id?.toString(),
-    }).where({ tenent_id: req.user });
+    }).where({ tenant_id: req.user });
 
     if (!tenent) {
       return next(new ErrorResponse(400, "Not found"));
@@ -89,19 +90,29 @@ export const declineTenentRequest = asyncHandler(
 // @access Private
 export const acceptTenentRequest = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const userId = req.body.user._id;
     const tenent = await Tenent.findById(req.params.id.toString());
 
     if (!tenent) {
       return next(new ErrorResponse(400, "Not found"));
     }
 
-    await Message.create({
-      tenent_id: tenent.tenent_id,
-      owner_id: tenent.owner_id,
-      property_id: tenent.property_id,
-      message: tenent.request,
-    });
+    await Message.create(
+      {
+        tenant_id: tenent.tenant_id,
+        owner_id: tenent.owner_id,
+        property_id: tenent.property_id,
+        message: tenent.request,
+      },
+      async (err, doc) => {
+        await Conversation.create({
+          tenant_id: doc.tenant_id,
+          owner_id: doc.owner_id,
+          message: doc.message,
+          messageId: doc._id,
+          sender: doc.tenant_id,
+        });
+      }
+    );
 
     tenent.remove();
 
