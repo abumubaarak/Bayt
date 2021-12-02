@@ -20,6 +20,7 @@ import {
    getUserConversation,
    getUserMessages,
    getUserPayments,
+   getUserWishlists,
    paymentCheckout,
    removeWishlist,
    sendMessage,
@@ -148,12 +149,16 @@ export const usePaymentCheckout = () => {
       onSuccess: () => {},
    });
 };
+
 export const useUserConversation = (id: string) => {
    return useWrapper([id], () => getUserConversation(id));
 };
 
 export const useUserPayments = () => {
    return useWrapper(["payments"], () => getUserPayments());
+};
+export const useUserWishlists = () => {
+   return useWrapper(["wishlist"], () => getUserWishlists());
 };
 
 export const useSinglePayment = (id: string) => {

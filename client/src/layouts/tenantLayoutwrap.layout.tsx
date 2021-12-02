@@ -2,13 +2,7 @@ import { Box, Container, Heading } from "@chakra-ui/react";
 import Header from "@components/Header.component";
 import React, { ReactNode } from "react";
 
-const TenantLayoutWrap = ({
-   children,
-   title,
-}: {
-   children: ReactNode;
-   title: string;
-}) => {
+const TenantLayoutWrap = ({ children,title }: { children: ReactNode,title:string }) => {
    return (
       <Box w='full' h='100vh'>
          <Header variant='others' />

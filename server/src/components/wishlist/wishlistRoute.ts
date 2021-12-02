@@ -1,9 +1,18 @@
-import express from "express";
-import { Router } from "express";
-import { sessionProtectedRoute } from "../../middleware/authorization";
-import { addToWishlist, removeWishlist } from "./wishlistController";
+import express, { Router } from "express";
+import {
+  protectedRoute,
+  sessionProtectedRoute,
+} from "../../middleware/authorization";
+import {
+  addToWishlist,
+  getUserWishlist,
+  removeWishlist,
+} from "./wishlistController";
 
 export const router: Router = express();
 
-router.route("").put(sessionProtectedRoute, addToWishlist);
+router
+  .route("")
+  .get(protectedRoute, getUserWishlist)
+  .put(sessionProtectedRoute, addToWishlist);
 router.route("/:id").delete(sessionProtectedRoute, removeWishlist);

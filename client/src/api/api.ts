@@ -113,6 +113,9 @@ export const getUserPayments = () => {
    return getWithCred<ResponseArr<Payment>>(`payments`);
 };
 
+export const getUserWishlists = () => {
+   return getWithCred<ResponseArr<Listings>>(`wishlists`);
+};
 export const getSinglePayment = (id:string) => {
    return getWithCred<ResponseObj<Payment>>(`payments/${id}`);
 };
