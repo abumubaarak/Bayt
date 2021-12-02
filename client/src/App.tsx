@@ -17,7 +17,11 @@ import Tenants from "@pages/Owner/tenants.page";
 import ListingPage from "@pages/tenant/listing.page";
 import ListingDetailsPage from "@pages/tenant/listingDetails.Page";
 import TenantMessage from "@pages/tenant/message.page";
+import TenantPaymentPage from "@pages/tenant/payment.page";
+import PaymentFailure from "@pages/tenant/Paymentfailure.page";
+import PaymentSucessful from "@pages/tenant/PaymentSuccess.page";
 import ProfilePage from "@pages/tenant/profile.page";
+import Wishlist from "@pages/tenant/wishlist.page";
 import { QueryCache, QueryClient, QueryClientProvider } from "react-query";
 import { ReactQueryDevtools } from "react-query/devtools";
 import { Route, Switch } from "react-router";
@@ -90,16 +94,27 @@ function App() {
             <Route path='/message'>
                <TenantMessage />
             </Route>
+            <Route path='/paymentsuccess'>
+               <PaymentSucessful />
+            </Route>
+            <Route path='/paymentfailure'>
+               <PaymentFailure />
+            </Route>
+            <Route path='/payment'>
+               <TenantPaymentPage />
+            </Route>
+
+            <Route path='/wishlists'>
+               <Wishlist />
+            </Route>
+
             <Route path='/s/:slug'>
                <ListingPage />
             </Route>
-
             <Route path='/details/:slug' component={ListingDetailsPage} />
-
             <Route path='/owner/login'>
                <LoginPage />
             </Route>
-
             {routes.map(({ component: Component, path, exact }, index) => (
                <Route
                   key={index}

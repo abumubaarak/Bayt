@@ -77,6 +77,8 @@ export const protectedRoute = asyncHandler(
       }
     } else {
       if (req.isAuthenticated()) {
+        req.body.user = await User.findById(req.user);
+
         return next();
       }
     }

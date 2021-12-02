@@ -5,7 +5,7 @@ import PropertyName from "./Propertyname.component";
 import Username from "./Username.component";
 
 interface Props {
-   getMessageDetails: (id: string, tenantID: string, ownerId: string) => void;
+   getMessageDetails: (id: string, tenantID: string, ownerId: string,propertyId:string) => void;
    type: "owner" | "tenant";
    messageList?: ResponseArr<TenantMessage>;
 }
@@ -15,9 +15,14 @@ const MessageListPanel: FC<Props> = ({
    messageList,
 }) => {
    const [activeId, setActiveId] = useState<string>("");
-   const handleClick = (_id: string, tenantID: string, ownerId: string) => {
+   const handleClick = (
+      _id: string,
+      tenantID: string,
+      ownerId: string,
+      propertyId: string
+   ) => {
       setActiveId(_id);
-      getMessageDetails(_id, tenantID, ownerId);
+      getMessageDetails(_id, tenantID, ownerId,propertyId);
    };
 
    return (
@@ -35,7 +40,7 @@ const MessageListPanel: FC<Props> = ({
                         py={2}
                         px={4}
                         pr={2}
-                        onClick={() => handleClick(_id!, tenant_id, owner_id)}>
+                        onClick={() => handleClick(_id!, tenant_id, owner_id,property_id)}>
                         <Avatar size='md' alignSelf='center' />
                         <VStack spacing='0' alignItems='start'>
                            <Username

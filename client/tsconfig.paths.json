@@ -11,7 +11,8 @@
          "@redux/*": ["./redux/*"],
          "@styles/*": ["./styles/*"],
          "@transition/*": ["./transition/*"],
-         "@api/*": ["./api/*"]
+         "@api/*": ["./api/*"],
+         "@utils/*": ["./utils/*"]
       }
    }
 }

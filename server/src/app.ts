@@ -1,30 +1,24 @@
 import "colors";
 import cookies from "cookie-parser";
 import cors from "cors";
-import * as dotenv from "dotenv";
 import express, { Application } from "express";
 import session from "express-session";
 import helmet from "helmet";
-import { createServer } from "http";
 import passport from "passport";
-import { Server } from "socket.io";
 import { router as ConversationRoute } from "./components/conversation/conversationRoute";
+import { instant } from "./components/conversation/instant";
+import MessageRoute from "./components/message/messageRoute";
+import { router as PaymentRoute } from "./components/payment/paymentRoute";
 import { router as PropertiesRoute } from "./components/property/propertyRoute";
 import { router as tenentRoute } from "./components/tenent/tenentRoute";
 import { router as userRouter } from "./components/users/auth/authRoute";
-import MessageRoute from "./components/message/messageRoute";
 import { router as WishlistRoute } from "./components/wishlist/wishlistRoute";
 import { gitHubStrategy, googleStrategy } from "./config/passport";
 import { errorMiddleware } from "./middleware/error.middleware";
 import upload from "./middleware/upload";
-import { CustomNodeJsGlobal } from "./utils/types";
 
 const MongoStore = require("connect-mongo");
 const app: Application = express();
-
-declare const global: CustomNodeJsGlobal;
-
-dotenv.config();
 
 app.use(helmet());
 app.use(cors());
@@ -52,17 +46,16 @@ googleStrategy(passport);
 gitHubStrategy(passport);
 
 app.use("", userRouter);
- 
- 
-
+instant(app);
 
 app.use("/api/v1/properties", upload, PropertiesRoute);
 app.use("/api/v1/tenents", tenentRoute);
 app.use("/api/v1/wishlists", WishlistRoute);
 app.use("/api/v1/conversations", ConversationRoute);
 app.use("/api/v1/messages", MessageRoute);
+app.use("/api/v1/payments", PaymentRoute);
 
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));
 
-export { app};
+export { app };

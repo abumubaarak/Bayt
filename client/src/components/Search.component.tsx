@@ -25,7 +25,7 @@ export default function Search() {
          <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
             <InputGroup w='full'>
                <Input
-                  placeholder='Search for a City...'
+                  placeholder='Try "Dubai"'
                   border='none'
                   fontWeight='medium'
                   {...register("city")}

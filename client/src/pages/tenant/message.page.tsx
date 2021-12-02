@@ -6,38 +6,26 @@ import { useUserMessages } from "@hooks/useApi";
 import React, { useState } from "react";
 
 export default function Message() {
-   // const socket = io("http://localhost:9000", { autoConnect: false });
-
-   // useEffect(() => {
-   //    socket.on("connect", () => {
-   //       socket.emit("user", localStorage.getItem("id"));
-   //    });
-   // }, []);
-
-   // setTimeout(() => {
-   //    socket.emit(socket.id, "Hello hey there");
-   // }, 4000);
-
-   // socket.on(socket.id, (data) => {
-   //    console.log(socket.id);
-   // });
    const { data: message, error } = useUserMessages();
 
    const [id, setId] = useState<string>("");
    const [tenantID, setTenantID] = useState<string>("");
    const [ownerID, setOwnerID] = useState<string>("");
+   const [propertyId, setPropertyID] = useState<string>("");
    const handleMessageDetails = (
       messageID: string,
       tenantID: string,
-      ownerId: string
+      ownerId: string,
+      propertyId: string
    ) => {
       setId(messageID);
       setTenantID(tenantID);
       setOwnerID(ownerId);
+      setPropertyID(propertyId);
    };
 
    return (
-      <>
+   
          <Box bg='gray.50' w='full' h='100vh'>
             <Header variant='others' />
             <Container
@@ -57,12 +45,13 @@ export default function Message() {
                   <ConversationPanel
                      messageID={id!}
                      type='tenant'
+                     propertyId={propertyId!}
                      tenant_id={tenantID!}
                      owner_id={ownerID}
                   />
                </Flex>
             </Container>
          </Box>
-      </>
+    
    );
 }

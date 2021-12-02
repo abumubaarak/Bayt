@@ -13,11 +13,14 @@ import {
    getListingDetails,
    getOwnerListing,
    getOwnerMessages,
+   getSinglePayment,
    getTenent,
    getTenentMesssage,
    getUser,
    getUserConversation,
    getUserMessages,
+   getUserPayments,
+   paymentCheckout,
    removeWishlist,
    sendMessage,
    sendTenantMessage,
@@ -134,8 +137,27 @@ export const useUserMessages = () => {
    return useWrapper(["messag"], () => getUserMessages("1234"));
 };
 
+export const usePaymentCheckout = () => {
+   const client = useClient();
+
+   return useMutation(paymentCheckout, {
+      onMutate: () => {},
+      onSettled: () => {
+         // client.invalidateQueries(id);
+      },
+      onSuccess: () => {},
+   });
+};
 export const useUserConversation = (id: string) => {
-    return useWrapper([id], () => getUserConversation(id));
+   return useWrapper([id], () => getUserConversation(id));
+};
+
+export const useUserPayments = () => {
+   return useWrapper(["payments"], () => getUserPayments());
+};
+
+export const useSinglePayment = (id: string) => {
+   return useWrapper([id], () => getSinglePayment(id));
 };
 
 export const useSendMessage = (id: string) => {

@@ -2,12 +2,14 @@ import axios from "axios";
 import {
    ListingDetails,
    Listings,
+   Payment,
+   PaymentCheckout,
    ResponseArr,
    ResponseObj,
    TenantMessage,
    UserInfo,
 } from "./apiType";
-import { get, getWithCred } from "./requestType";
+import { get, getWithCred, postWithCred } from "./requestType";
 
 // / THIS ROUTE SHOULD BE PROTECTED
 
@@ -95,7 +97,7 @@ export const getUser = () => {
    return getWithCred<ResponseObj<UserInfo>>(`auth/getme`);
 };
 
-export const getUserMessages = (id:string) => {
+export const getUserMessages = (id: string) => {
    return getWithCred<ResponseArr<TenantMessage>>(`messages/${id}`);
 };
 
@@ -103,8 +105,19 @@ export const getOwnerMessages = () => {
    return getWithCred<ResponseArr<TenantMessage>>(`messages`);
 };
 
-export const getUserConversation = (id:string) => {
+export const getUserConversation = (id: string) => {
    return getWithCred<ResponseArr<TenantMessage>>(`conversations/${id}`);
+};
+
+export const getUserPayments = () => {
+   return getWithCred<ResponseArr<Payment>>(`payments`);
+};
+
+export const getSinglePayment = (id:string) => {
+   return getWithCred<ResponseObj<Payment>>(`payments/${id}`);
+};
+export const paymentCheckout = (payload: any) => {
+   return postWithCred<ResponseObj<PaymentCheckout>>("payments", payload);
 };
 
 export const sendMessage = async (payload: any) => {
@@ -116,7 +129,6 @@ export const sendMessage = async (payload: any) => {
 
    return data;
 };
-
 
 export const logout = async (): Promise<any> => {
    const { data } = await axios.get<any>(`/api/v1/auth/logout`);

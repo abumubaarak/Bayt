@@ -12,7 +12,9 @@ import {
    Text,
    VStack,
 } from "@chakra-ui/react";
-import { useUserConversation } from "@hooks/useApi";
+import { usePaymentCheckout, useUserConversation } from "@hooks/useApi";
+import "@stripe/stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 import React, { FC, useState } from "react";
 import { AiOutlineMore } from "react-icons/ai";
 import { BiChat } from "react-icons/bi";
@@ -25,14 +27,19 @@ interface Props {
    messageID: string;
    tenant_id: string;
    owner_id: string;
+   propertyId?: string;
    type: "owner" | "tenant";
 }
+
+const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY!);
 const ConversationPanel: FC<Props> = ({
    messageID,
    tenant_id,
    type,
+   propertyId,
    owner_id,
 }) => {
+   const payment = usePaymentCheckout();
    const [online, setOnline] = useState<boolean>(false);
    let messagesEnd: any;
 
@@ -50,16 +57,15 @@ const ConversationPanel: FC<Props> = ({
          setOnline(false);
       }
    });
-   // useEffect(() => {
-   //    // socket.on("receive_chat", (data) => {
-   //    //    messagesEnd.scrollIntoView({ behavior: "smooth" });
-   //    //    // if (messageRef.current) {
-   //    //    // messageRef.scrollIntoView({
-   //    //    //    behavior: "smooth",
-   //    //    // });
-   //    //    // }
-   //    // });
-   // }, []);
+   const handlePayment = async (propertyId: string) => {
+      const stripe = await stripePromise;
+
+      payment.mutate({ propertyId });
+
+      const result = stripe?.redirectToCheckout({
+         sessionId: payment.data?.data.id!,
+      });
+   };
 
    return (
       <VStack flex='1' bg='gray.100' h='full'>
@@ -110,20 +116,24 @@ const ConversationPanel: FC<Props> = ({
                         </Text>
                      </VStack>
                   </HStack>
-                  <Menu>
-                     <MenuButton
-                        as={IconButton}
-                        mx={5}
-                        aria-label='Options'
-                        variant='outline'
-                        icon={<AiOutlineMore />}>
-                        s
-                     </MenuButton>
-                     <MenuList>
-                        <MenuItem >View Property</MenuItem>{" "}
-                        <MenuItem>Make payment</MenuItem>
-                     </MenuList>
-                  </Menu>
+                  {type === "tenant" && (
+                     <Menu>
+                        <MenuButton
+                           as={IconButton}
+                           mx={5}
+                           aria-label='Options'
+                           variant='outline'
+                           icon={<AiOutlineMore />}>
+                           s
+                        </MenuButton>
+                        <MenuList>
+                           <MenuItem>View Property</MenuItem>{" "}
+                           <MenuItem onClick={() => handlePayment(propertyId!)}>
+                              Make payment
+                           </MenuItem>
+                        </MenuList>
+                     </Menu>
+                  )}
                </Flex>
 
                <VStack

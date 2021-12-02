@@ -21,6 +21,7 @@ import {
 import { useListingDetails } from "@hooks/useApi";
 import useToastMessage from "@hooks/useToastMessage";
 import { ListingDetailsProps } from "@type/base";
+import { formatCurrency } from "@utils/utils";
 import React, { FC, useEffect } from "react";
 import { BiBath, BiBed, BiPolygon } from "react-icons/bi";
 import OtherItem from "./OtherItem.component";
@@ -122,10 +123,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
                      </HStack>
                   </HStack>
                   <Text color='brand.500' fontWeight='bold' fontSize='xl'>
-                     {new Intl.NumberFormat("en-US", {
-                        style: "currency",
-                        currency: "USD",
-                     }).format(+propertyDetail?.data?.cost!)}
+                     {formatCurrency(String(propertyDetail?.data?.cost))}
                   </Text>
                   <VStack pt='10px' w='full' spacing={5} alignItems='start'>
                      <VStack spacing='5' w='full' alignItems='start'>

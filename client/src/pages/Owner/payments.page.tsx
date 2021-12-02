@@ -1,9 +1,11 @@
+import PaymentTable from "@components/PaymentTable.component";
+import LandlordLayoutWrap from "@layouts/landlordLayoutWrap.layout";
 import React from "react";
 
 export default function Payments() {
    return (
-      <div>
-         <h1>Listings</h1>
-      </div>
+      <LandlordLayoutWrap title='Payments'>
+         <PaymentTable type='landlord' />
+      </LandlordLayoutWrap>
    );
 }

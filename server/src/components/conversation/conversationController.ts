@@ -26,13 +26,7 @@ export const getUserConverse = asyncHandler(
 // @access Private
 export const sendMessage = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.body.user) {
-      req.body.sender = req.body.user._id;
-    } else {
-      req.body.sender = req.user;
-    }
-
-    const { tenant_id, owner_id, message, messageId, sender } = req.body;
+    const { tenant_id, owner_id, message, messageId } = req.body;
 
     await Conversation.create(
       {
@@ -40,9 +34,9 @@ export const sendMessage = asyncHandler(
         owner_id,
         message,
         messageId,
-        sender,
+        sender: req.body.user._id,
       },
-      (err, doc) => {
+      (err: any, doc: any) => {
         if (doc) {
           response(res, 200, true, {});
         }

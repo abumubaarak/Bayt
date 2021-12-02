@@ -28,9 +28,7 @@ export const instant = (app: Application) => {
           sender,
         },
         (err: any, doc: any) => {
-          console.log(err);
-          if (err) return err;
-          if (doc) {
+            if (doc) {
             socket
               .to(reciever + messageId)
               .to(sender + messageId)

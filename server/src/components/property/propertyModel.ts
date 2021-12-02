@@ -15,7 +15,8 @@ export interface IProperty extends Document {
   cost: number;
   description: string;
   images: string[];
-  slug:string
+  owner_id:string
+  slug: string;
 }
 
 const PropertyScheme: Schema = new Schema({

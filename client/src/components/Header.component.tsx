@@ -98,8 +98,12 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                            <MenuItem onClick={() => history.push("/message")}>
                               Message
                            </MenuItem>
-                           <MenuItem>Favourites</MenuItem>
-                           <MenuItem>Notification</MenuItem>
+                           <MenuItem onClick={() => history.push("/wishlists")}>
+                              Wishlist
+                           </MenuItem>
+                           <MenuItem onClick={() => history.push("/payment")}>
+                              Payments
+                           </MenuItem>
                            <MenuItem>Logout</MenuItem>
                         </MenuList>
                      </Menu>

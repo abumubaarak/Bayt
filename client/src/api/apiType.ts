@@ -64,6 +64,20 @@ export type TenantMessage = {
    __v?: number;
 };
 
+export type Payment = {
+   _id: string;
+   tenantID: string;
+   propertyID: string;
+   status: string;
+   amount: string;
+   checkoutID?: string;
+   paidOn: Date;
+   __v?: number;
+};
+export type PaymentCheckout = {
+   id: string;
+};
+
 export type ResponseArr<T> = {
    success: boolean;
    data: T[];
