@@ -1,4 +1,4 @@
-import { Schema, Document, Model, model } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
 import slugify from "slugify";
 
 export interface IProperty extends Document {
@@ -8,6 +8,7 @@ export interface IProperty extends Document {
   propertySize: number;
   avaliableBedroom: number;
   roomSize: number;
+  isActive: boolean;
   avaliableBathroom: number;
   propertyType: string;
   rules: string[];
@@ -15,7 +16,8 @@ export interface IProperty extends Document {
   cost: number;
   description: string;
   images: string[];
-  owner_id:string
+  owner_id: string;
+  postedOn: any;
   slug: string;
 }
 
@@ -46,6 +48,7 @@ const PropertyScheme: Schema = new Schema({
     type: Number,
     required: ["Room Size is required", true],
   },
+  isActive: Boolean,
   avaliableBathroom: {
     type: Number,
     required: ["Total bedroom count is required", true],
@@ -91,18 +94,22 @@ const PropertyScheme: Schema = new Schema({
     type: [String],
     required: ["Property image is required", true],
   },
+  postedOn: {
+    type: Date,
+    default: Date.now,
+  },
   owner_id: {
     type: Schema.Types.ObjectId,
     ref: "User",
-    required:true
+    required: true,
   },
-  slug:String
+  slug: String,
 });
 
-PropertyScheme.pre<IProperty>('save',function (next) {
-  this.slug=slugify(this.name,{lower:true})
-  next()
-})
+PropertyScheme.pre<IProperty>("save", function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 export const Property: Model<IProperty> = model<IProperty>(
   "Property",
   PropertyScheme

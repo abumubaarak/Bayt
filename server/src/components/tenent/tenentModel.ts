@@ -1,9 +1,11 @@
-import { Model, Schema, Document, model } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
+import { User } from "../users/userModel";
+import { Property } from "../property/propertyModel";
 
 interface ITenent {
   tenant_id: string;
-  owner_id: string;
-  property_id:string
+  owner_id: any;
+  property_id: any;
   request: string;
   sentAt: any;
 }
@@ -15,12 +17,14 @@ const TenentSchema: Schema = new Schema({
     type: String,
   },
   owner_id: {
-    type: String,
-    required: ["Owner Id is require", true],
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   property_id: {
-    type: String,
-    required: ["Property Id is require", true],
+    type: Schema.Types.ObjectId,
+    ref: "Property",
+    required: true,
   },
   request: {
     type: String,

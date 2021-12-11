@@ -1,2 +1,3 @@
-# 🏚️Bayt
-Apartment rental platform that allows Owners to publish and  Renters can find and secure their next home 🏡 with ease 😁.
+# Bayt
+
+Bayt is a home rental platform that allows landlords to publish listings, and tenants can find and secure their next home 🏡 with ease 😁

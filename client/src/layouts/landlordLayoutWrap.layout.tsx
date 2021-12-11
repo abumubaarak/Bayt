@@ -4,20 +4,27 @@ import React, { ReactNode } from "react";
 
 const LandlordLayoutWrap = ({
    children,
-    title,
-   others
+   title,
+   others,
+   enable,
 }: {
-        children?: ReactNode;
-    others?:ReactNode
+   children?: ReactNode;
+   others?: ReactNode;
    title: string;
+   enable?: boolean;
 }) => {
    return (
       <Box maxW='8xl' px={5} w='full' rounded='md'>
-         <Heading title={title} />
-         <VStack maxW='8xl' bg='white' shadow='sm' rounded='md' mt={5} py={4}>
+         {enable && <Heading title={title} />}
+
+         <VStack
+            maxW='8xl'
+            bg={`${enable && "white"}`}
+            shadow={`${enable && "sm"}`}
+            rounded='md'>
             {children}
-           </VStack>
-           {others}
+         </VStack>
+         {others}
       </Box>
    );
 };

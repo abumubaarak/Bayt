@@ -8,6 +8,7 @@ import {
    acceptTenentRequest,
    addToWishlist,
    declineTenentRequest,
+   getInsight,
    getLandlord,
    getListing,
    getListingDetails,
@@ -21,6 +22,7 @@ import {
    getUserMessages,
    getUserPayments,
    getUserWishlists,
+   getUser_,
    paymentCheckout,
    removeWishlist,
    sendMessage,
@@ -110,6 +112,10 @@ export const useLandlord = (id: any) => {
    return useWrapper([id], () => getLandlord(id));
 };
 
+export const useUser_ = () => {
+   return useWrapper(["user"], () => getUser_());
+};
+
 export const useUser = () => {
    return useWrapper(["getme"], () => getUser());
 };
@@ -136,6 +142,10 @@ export const useOwnerMessages = () => {
 
 export const useUserMessages = () => {
    return useWrapper(["messag"], () => getUserMessages("1234"));
+};
+
+export const useInsight = () => {
+   return useWrapper(["insight"], () => getInsight());
 };
 
 export const usePaymentCheckout = () => {

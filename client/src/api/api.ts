@@ -1,7 +1,7 @@
 import axios from "axios";
 import {
-   ListingDetails,
-   Listings,
+   Insight,
+   ListingInfo,
    Payment,
    PaymentCheckout,
    ResponseArr,
@@ -78,19 +78,23 @@ export const getTenent = () => {
 };
 
 export const getListing = (searchValue?: string) => {
-   return get<ResponseArr<Listings>>(`properties?city=${searchValue}`);
+   return get<ResponseArr<ListingInfo>>(`properties?city=${searchValue}`);
 };
 
 export const getOwnerListing = () => {
-   return getWithCred<ResponseArr<Listings>>(`properties/owner`);
+   return getWithCred<ResponseArr<ListingInfo>>(`properties/owner`);
 };
 
 export const getListingDetails = (id: string) => {
-   return get<ResponseObj<ListingDetails>>(`properties/${id}`);
+   return get<ResponseObj<ListingInfo>>(`properties/${id}`);
 };
 
 export const getLandlord = (id: string) => {
    return get<ResponseObj<UserInfo>>(`auth/getme/${id}`);
+};
+
+export const getUser_ = () => {
+   return getWithCred<ResponseObj<UserInfo>>(`auth/user/`);
 };
 
 export const getUser = () => {
@@ -109,12 +113,16 @@ export const getUserConversation = (id: string) => {
    return getWithCred<ResponseArr<TenantMessage>>(`conversations/${id}`);
 };
 
+export const getInsight = () => {
+   return getWithCred<ResponseObj<Insight>>(`insights`);
+};
+
 export const getUserPayments = () => {
    return getWithCred<ResponseArr<Payment>>(`payments`);
 };
 
 export const getUserWishlists = () => {
-   return getWithCred<ResponseArr<Listings>>(`wishlists`);
+   return getWithCred<ResponseArr<ListingInfo>>(`wishlists`);
 };
 export const getSinglePayment = (id:string) => {
    return getWithCred<ResponseObj<Payment>>(`payments/${id}`);

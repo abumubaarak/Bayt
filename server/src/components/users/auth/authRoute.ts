@@ -1,5 +1,6 @@
 import express, { Router } from "express";
 import passport from "passport";
+import { protectedRoute } from "../../../middleware/authorization";
 import * as auth from "./authController";
 const router: Router = express();
 
@@ -11,6 +12,7 @@ router.route(`${path}/getme`).get(auth.getMe);
 router.route(`${path}/getme/:id`).get(auth.getLandlord);
 router.route(`${path}/logout`).get(auth.logout);
 router.route(`${path}/update`).post(auth.updateProfile);
+router.route(`${path}/user`).get(protectedRoute,auth.getUser);
 
 router
   .route(`${path}/google`)

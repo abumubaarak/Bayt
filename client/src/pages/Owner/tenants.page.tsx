@@ -75,6 +75,7 @@ export default function Tenants() {
    return (
       <LandlordLayoutWrap
          title='Tenant'
+         enable={true}
          others={
             <Modal
                onClose={onClose}

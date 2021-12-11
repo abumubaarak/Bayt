@@ -1,4 +1,4 @@
-import { Listings } from "@api/apiType";
+import { ListingInfo } from "@api/apiType";
 import { Box, Divider, HStack, Tag, Text, VStack } from "@chakra-ui/react";
 import React, { FC, useState } from "react";
 import { BiBath, BiBed, BiPolygon } from "react-icons/bi";
@@ -12,7 +12,7 @@ import ListingDetails from "./ListingDetails.component";
 SwiperCore.use([Pagination, Autoplay]);
 
 interface ListingCardProps {
-   data: Listings[];
+   data: ListingInfo[];
    isTetant: boolean;
 }
 

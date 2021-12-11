@@ -3,9 +3,9 @@ import { Document, Model, model, Schema } from "mongoose";
 interface IPayment {
   checkoutID: string;
   tenantID: string;
-  ownerID: string;
+  ownerID: any;
   propertyID: string;
-  amount: string;
+  amount: number;
   status: string;
   paidOn: any;
 }
@@ -21,15 +21,17 @@ const PaymentSchema: Schema = new Schema({
     required: ["Tenant Id is require", true],
   },
   ownerID: {
-    type: String,
-    required: ["Owner Id is require", true],
-  },
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+    
+   },
   propertyID: {
     type: String,
     required: ["property ID is require", true],
   },
   amount: {
-    type: String,
+    type: Number,
     required: ["Amount is require", true],
   },
   status: {

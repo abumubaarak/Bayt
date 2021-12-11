@@ -58,6 +58,13 @@ export const getLandlord = asyncHandler(
     response(res, 200, true, user);
   }
 );
+
+export const getUser = asyncHandler(
+  async (req: Request, res: Response, next: NextFunction) => {
+     response(res, 200, true, req.body.user);
+  }
+);
+
 export const updateProfile = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.user) {

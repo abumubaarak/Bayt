@@ -11,15 +11,6 @@
   "author": "Ismail",
   "license": "MIT",
   "dependencies": {
-    "@types/bcryptjs": "^2.4.2",
-    "@types/cookie-parser": "^1.4.2",
-    "@types/express-session": "^1.17.4",
-    "@types/jsonwebtoken": "^8.5.1",
-    "@types/mongoose": "^5.10.3",
-    "@types/multer": "^1.4.7",
-    "@types/passport": "^1.0.7",
-    "@types/passport-github2": "^1.2.5",
-    "@types/passport-google-oauth20": "^2.0.9",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "connect-mongo": "^4.5.0",
@@ -46,6 +37,15 @@
     "@types/helmet": "^4.0.0",
     "@types/node": "^14.14.37",
     "ts-node-dev": "^1.1.6",
-    "typescript": "^4.2.3"
+    "typescript": "^4.2.3",
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/express-session": "^1.17.4",
+    "@types/jsonwebtoken": "^8.5.1",
+    "@types/mongoose": "^5.10.3",
+    "@types/multer": "^1.4.7",
+    "@types/passport": "^1.0.7",
+    "@types/passport-github2": "^1.2.5",
+    "@types/passport-google-oauth20": "^2.0.9"
   }
 }

@@ -4,7 +4,7 @@ import React from "react";
 
 export default function Payments() {
    return (
-      <LandlordLayoutWrap title='Payments'>
+      <LandlordLayoutWrap title='Payments' enable={true}>
          <PaymentTable type='landlord' />
       </LandlordLayoutWrap>
    );

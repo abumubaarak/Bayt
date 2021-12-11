@@ -76,14 +76,22 @@ export const successfulPayment = asyncHandler(
       },
     } = req.body;
 
-    await Payment.create({
-      tenantID: user_id,
-      propertyID: property_id,
-      ownerID: recipient,
-      status: payment_status,
-      amount: amount_total,
-      checkoutID: id,
-    });
+    await Payment.create(
+      {
+        tenantID: user_id,
+        propertyID: property_id,
+        ownerID: recipient,
+        status: payment_status,
+        amount: amount_total,
+        checkoutID: id,
+      },
+      async () => {
+        await Property.findOneAndUpdate(
+          { _id: property_id },
+          { isActive: false }
+        );
+      }
+    );
   }
 );
 

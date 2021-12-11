@@ -1,4 +1,4 @@
-export type Listings = {
+export type ListingInfo = {
    rules: string[];
    amenities: string[];
    images: string[];
@@ -12,26 +12,7 @@ export type Listings = {
    avaliableBathroom: number;
    propertyType: string;
    cost: number;
-   description: string;
-   owner_id: string;
-   slug: string;
-   __v: number;
-};
-
-export type ListingDetails = {
-   rules: string[];
-   amenities: string[];
-   images: string[];
-   _id: string;
-   name: string;
-   city: string;
-   address: string;
-   propertySize: number;
-   avaliableBedroom: number;
-   roomSize: number;
-   avaliableBathroom: number;
-   propertyType: string;
-   cost: number;
+   postedOn: Date;
    description: string;
    owner_id: string;
    slug: string;
@@ -76,6 +57,43 @@ export type Payment = {
 };
 export type PaymentCheckout = {
    id: string;
+};
+
+export interface Insight {
+   stats: Stats[];
+   properties: ListingInfo[];
+   revenue: number[];
+   tenantRequest: Owner_id[];
+}
+
+interface Owner_id {
+   owner_id: TenantInfo;
+   property_id: string;
+   request: string;
+   sentAt: string;
+   tenant_id: string;
+}
+export interface TenantInfo {
+   _id: string;
+   firstname: string;
+   lastname: string;
+}
+
+export type Stats = {
+   _id?: null;
+   revenue?: number;
+   active?: Active[];
+   occupied?: Occupied[];
+};
+
+export type Active = {
+   _id: boolean;
+   activeListing: number;
+};
+
+export type Occupied = {
+   _id: boolean;
+   occupied: number;
 };
 
 export type ResponseArr<T> = {

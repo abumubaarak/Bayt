@@ -7,6 +7,7 @@ import helmet from "helmet";
 import passport from "passport";
 import { router as ConversationRoute } from "./components/conversation/conversationRoute";
 import { instant } from "./components/conversation/instant";
+import InsightRouter from "./components/insight/insightRoute";
 import MessageRoute from "./components/message/messageRoute";
 import { router as PaymentRoute } from "./components/payment/paymentRoute";
 import { router as PropertiesRoute } from "./components/property/propertyRoute";
@@ -54,6 +55,7 @@ app.use("/api/v1/wishlists", WishlistRoute);
 app.use("/api/v1/conversations", ConversationRoute);
 app.use("/api/v1/messages", MessageRoute);
 app.use("/api/v1/payments", PaymentRoute);
+app.use("/api/v1/insights", InsightRouter);
 
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));

@@ -1,11 +1,14 @@
 import { Flex, HStack } from "@chakra-ui/layout";
-import React, { FC, ReactNode } from "react";
+import { useUser_ } from "@hooks/useApi";
+import React, { ReactNode } from "react";
 
 interface Props {
    slidebar?: any;
    children?: ReactNode;
 }
-const Layout: FC<Props> = ({ slidebar, children }) => {
+const Layout = ({ slidebar, children }: Props) => {
+   //const {} = useUser_();
+
    return (
       <HStack h='100vh' spacing={0}>
          <Flex h='100vh' as='nav' bg='white' maxW={20} w='full'>
