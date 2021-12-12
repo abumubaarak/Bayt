@@ -3,25 +3,19 @@ import {
    Grid,
    GridItem,
    HStack,
-   Image,
    Input,
    Text,
    Textarea,
    VStack,
 } from "@chakra-ui/react";
+import EditProfileForm from "@components/EditProfileForm.component";
+import ProfileCard from "@components/ProfileCard.component";
 import TenantLayoutWrap from "@layouts/tenantLayoutwrap.layout";
+import { IUser } from "@type/base";
 import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { FiEdit } from "react-icons/fi";
-import ProfileImage from "../../assets/profile.png";
 import { useUpdate, useUser } from "../../hooks/useApi";
 import useToastMessage from "../../hooks/useToastMessage";
-
-export interface IUser {
-   firstname: string | undefined;
-   lastname: string;
-   bio: string;
-}
 
 const handleEditProfile = (
    setEdit: React.Dispatch<React.SetStateAction<boolean>>
@@ -77,7 +71,9 @@ export default function ProfilePage() {
          });
       }
    }, [mutation.isError]);
-
+   const handleEditProfile = (edit: boolean) => {
+      setEdit(edit);
+   };
    return (
       <TenantLayoutWrap title='Profile'>
          <Grid
@@ -88,129 +84,21 @@ export default function ProfilePage() {
             templateColumns='repeat(5,1fr)'
             gap={20}>
             <GridItem colSpan={1}>
-               <VStack shadow='md' rounded='md' mx='auto'>
-                  <Image
-                     src={ProfileImage}
-                     boxSize='sm'
-                     h='56'
-                     objectFit='cover'
-                  />
-                  <VStack w='full' px='5' py='3'>
-                     <Text
-                        fontSize='2xl'
-                        fontWeight='semibold'
-                        className='font-sand'>
-                        {user?.data.firstname}
-                     </Text>
-                     <Text> {user?.data.email}</Text>
-                     <Button
-                        size='sm'
-                        w='full'
-                        className='font-sand'
-                        leftIcon={<FiEdit />}
-                        fontWeight='semibold'
-                        color='white'
-                        onClick={() => handleEditProfile(setEdit)}
-                        ml='10'
-                        bg='brand.500'>
-                        Edit Profile
-                     </Button>{" "}
-                  </VStack>
-               </VStack>
+               <ProfileCard
+                  user={user}
+                  edit={edit}
+                  type='Tenant'
+                  setEditProfile={handleEditProfile}
+               />
             </GridItem>
 
             <GridItem colSpan={4}>
                <VStack alignItems='flex-start' spacing='8'>
-                  <VStack w='full' alignItems='start'>
-                     <Text
-                        className='font-railway'
-                        fontSize='2xl'
-                        color='gray.700'
-                        fontWeight='bold'>
-                        Account Information
-                     </Text>
-                     <VStack
-                        shadow='md'
-                        p='3'
-                        rounded='md'
-                        spacing='4'
-                        w='full'>
-                        <form
-                           className='w-full'
-                           onSubmit={handleSubmit(onSubmit)}>
-                           <HStack w='full'>
-                              <VStack w='full' alignItems='start'>
-                                 <Text
-                                    className='font-railway'
-                                    fontSize='xl'
-                                    color='gray.700'
-                                    fontWeight='medium'>
-                                    Firstname
-                                 </Text>
-                                 <Input
-                                    className='font-railway'
-                                    variant='filled'
-                                    type='text'
-                                    fontWeight='semibold'
-                                    disabled={edit}
-                                    {...register("firstname")}
-                                 />
-                              </VStack>
-                              <VStack w='full' alignItems='start'>
-                                 <Text
-                                    className='font-railway'
-                                    fontSize='xl'
-                                    color='gray.700'
-                                    fontWeight='medium'>
-                                    Lastname
-                                 </Text>
-                                 <Input
-                                    variant='filled'
-                                    fontWeight='semibold'
-                                    {...register("lastname")}
-                                    disabled={edit}
-                                 />
-                              </VStack>
-                           </HStack>
-                           <VStack w='full' alignItems='start'>
-                              <Text
-                                 className='font-railway'
-                                 fontSize='xl'
-                                 color='gray.700'
-                                 fontWeight='medium'>
-                                 Bio
-                              </Text>
-                              <Textarea
-                                 variant='filled'
-                                 disabled={edit}
-                                 fontWeight='semibold'
-                                 {...register("bio")}
-                                 resize='none'
-                                 minH='150px'
-                              />
-                           </VStack>
-
-                           <HStack display={editGroup} w='full' mt='3'>
-                              <Button
-                                 size='md'
-                                 type='submit'
-                                 w='full'
-                                 isLoading={mutation.isLoading}
-                                 colorScheme='brand'>
-                                 Update
-                              </Button>
-                              <Button
-                                 size='md'
-                                 w='full'
-                                 onClick={() => handleCancel(setEdit)}
-                                 colorScheme='red'
-                                 variant='outline'>
-                                 Cancel
-                              </Button>
-                           </HStack>
-                        </form>
-                     </VStack>
-                  </VStack>
+                  <EditProfileForm
+                     user={user}
+                     cancelProfileEdit={handleEditProfile}
+                     edit={edit}
+                  />
 
                   <VStack w='full' alignItems='start'>
                      <Text

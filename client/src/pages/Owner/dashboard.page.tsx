@@ -240,7 +240,10 @@ export default function Dashboard() {
 
                {insight?.data.tenantRequest.map(({ request, owner_id }) => (
                   <HStack alignItems='start' h='50' w='full' mt='5' spacing='2'>
-                     <Avatar size='md' name='Abdulquadri Ismail' />
+                     <Avatar
+                        size='md'
+                        name={owner_id.firstname + " " + owner_id.lastname}
+                     />
 
                      <VStack
                         h='100'

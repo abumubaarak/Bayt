@@ -21,7 +21,8 @@ const LandlordLayoutWrap = ({
             maxW='8xl'
             bg={`${enable && "white"}`}
             shadow={`${enable && "sm"}`}
-            rounded='md'>
+            rounded='md'
+            mt={`${enable && "7"}`}>
             {children}
          </VStack>
          {others}

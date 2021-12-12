@@ -93,12 +93,8 @@ export const getLandlord = (id: string) => {
    return get<ResponseObj<UserInfo>>(`auth/getme/${id}`);
 };
 
-export const getUser_ = () => {
-   return getWithCred<ResponseObj<UserInfo>>(`auth/user/`);
-};
-
 export const getUser = () => {
-   return getWithCred<ResponseObj<UserInfo>>(`auth/getme`);
+   return getWithCred<ResponseObj<UserInfo>>(`auth/user`);
 };
 
 export const getUserMessages = (id: string) => {

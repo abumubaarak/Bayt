@@ -73,3 +73,9 @@ export type WishListProps = {
 export type ListingDetailsProps = {
    id: string;
 };
+
+export interface IUser {
+   firstname: string | undefined;
+   lastname: string;
+   bio: string;
+}

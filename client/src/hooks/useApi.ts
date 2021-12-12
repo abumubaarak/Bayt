@@ -22,7 +22,6 @@ import {
    getUserMessages,
    getUserPayments,
    getUserWishlists,
-   getUser_,
    paymentCheckout,
    removeWishlist,
    sendMessage,
@@ -112,10 +111,7 @@ export const useLandlord = (id: any) => {
    return useWrapper([id], () => getLandlord(id));
 };
 
-export const useUser_ = () => {
-   return useWrapper(["user"], () => getUser_());
-};
-
+ 
 export const useUser = () => {
    return useWrapper(["getme"], () => getUser());
 };

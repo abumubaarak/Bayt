@@ -1,9 +1,9 @@
 import { Text, VStack } from "@chakra-ui/react";
-import { useUser_ } from "@hooks/useApi";
+import { useUser } from "@hooks/useApi";
 import React from "react";
 
 export default function WelcomeTitle() {
-   const { data: user } = useUser_();
+   const { data: user } = useUser();
 
    return (
       <VStack justifyContent='start' w='full' alignItems='start' spacing='0'>
