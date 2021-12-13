@@ -7,7 +7,7 @@ export const connectDb = async () => {
       useUnifiedTopology: true,
       useCreateIndex: true,
     });
-    console.log(`Mongo db connected to ${connect.connection.host} `.bgCyan);
+    console.log(`Mongo db connectedd to ${connect.connection.host} `.bgRed);
   } catch (error) {
     console.log(error);
   }

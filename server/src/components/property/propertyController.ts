@@ -5,6 +5,10 @@ import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
 import { Property } from "./propertyModel";
 
+const Redis = require("ioredis");
+
+const redis = new Redis();
+
 export const createProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.body.data) {
@@ -44,12 +48,12 @@ export const createProperty = asyncHandler(
 export const searchProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     let city = req.query.city?.toString();
-
     const property = await Property.find({ city });
 
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found in ${city}`));
     }
+    redis.set(city, JSON.stringify(property), "EX", 3600);
     response(res, 200, true, property);
   }
 );
