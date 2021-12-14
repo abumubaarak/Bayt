@@ -1,3 +1,4 @@
+import { Button } from "@chakra-ui/react";
 import Back from "@components/Back.component";
 import Form from "@components/Form.component";
 import usePost from "@hooks/usePost";
@@ -35,7 +36,7 @@ export default function LoginPage() {
 
    useEffect(() => {
       if (response) {
-          localStorage.setItem("id", response.id);
+         localStorage.setItem("id", response.id);
          message({
             position: "top",
             title: "Done",
@@ -116,9 +117,7 @@ export default function LoginPage() {
                      Password
                   </Form>
 
-                  <button type='submit'>
-                     Submit
-                  </button>
+                  <Button type='submit'>Submit</Button>
                </form>
             </div>
          </div>

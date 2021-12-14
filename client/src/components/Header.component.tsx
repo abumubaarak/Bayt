@@ -1,3 +1,4 @@
+import { logout } from "@api/api";
 import {
    Divider,
    HStack,
@@ -45,6 +46,11 @@ const Header: FC<HeaderProps> = ({ variant }) => {
    const { data } = useUser();
    localStorage.setItem("id", data?.data._id!);
 
+    const handleLogout = () => {
+      logout();
+      localStorage.clear();
+      window.location.reload();
+   };
    return (
       <>
          <HStack
@@ -84,7 +90,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                )}
             </HStack>
             <Nav>
-               {data ? (
+               {localStorage.getItem("id") !== "undefined" ? (
                   <>
                      <Menu>
                         <MenuButton
@@ -104,7 +110,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                            <MenuItem onClick={() => history.push("/payment")}>
                               Payments
                            </MenuItem>
-                           <MenuItem>Logout</MenuItem>
+                           <MenuItem onClick={handleLogout}>Logout</MenuItem>
                         </MenuList>
                      </Menu>
                   </>

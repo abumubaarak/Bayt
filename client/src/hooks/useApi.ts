@@ -140,6 +140,8 @@ export const useUserMessages = () => {
    return useWrapper(["messag"], () => getUserMessages("1234"));
 };
 
+
+
 export const useInsight = () => {
    return useWrapper(["insight"], () => getInsight());
 };

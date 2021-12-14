@@ -56,6 +56,7 @@ const routes = [
       exact: true,
       component: Profile,
    },
+  
 ];
 function App() {
    const toast = useToastMessage();

@@ -61,7 +61,7 @@ export const getLandlord = asyncHandler(
 
 export const getUser = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-     response(res, 200, true, req.body.user);
+    response(res, 200, true, req.body.user);
   }
 );
 
@@ -84,11 +84,21 @@ export const updateProfile = asyncHandler(
   }
 );
 
-export const logout = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    req.logout();
-  }
-);
+export const logout = (req: Request, res: Response, next: NextFunction) => {
+  req.logOut();
+  res.clearCookie("token")
+  res.status(200).clearCookie("connect.sid", {
+    path: "/",
+  });
+  req.session.destroy(function (err) {
+    if (err) {
+      return next(err);
+    }
+
+    // The response should indicate that the user is no longer authenticated.
+    return res.send({ authenticated: req.isAuthenticated() });
+  });
+};
 
 const sendTokenWithResponse = (user: any, res: Response, message?: string) => {
   const { _id } = user;

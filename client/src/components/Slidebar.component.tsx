@@ -3,6 +3,7 @@ import { VStack } from "@chakra-ui/react";
 import { BiMessageSquareDetail } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
 import { FiHome, FiUsers } from "react-icons/fi";
+import { HiOutlineLogout } from "react-icons/hi";
 import { RiDashboardLine, RiSecurePaymentLine } from "react-icons/ri";
 import Logo from "../assets/logo_icon.png";
 import SlidenavItem from "./SlidenavItem.component";
@@ -32,6 +33,10 @@ const routes = [
    {
       path: "profile",
       icon: <CgProfile className={size} />,
+   },
+   {
+      path: "logout",
+      icon: <HiOutlineLogout className={size} />,
    },
 ];
 export default function Slidebar() {
