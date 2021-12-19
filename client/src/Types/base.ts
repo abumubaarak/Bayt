@@ -79,3 +79,11 @@ export interface IUser {
    lastname: string;
    bio: string;
 }
+
+export type MessageDetails = {
+   messageId?: string;
+   tenantId?: any;
+   ownerId?: any;
+   propertyId?: string;
+   fullname?: string;
+};

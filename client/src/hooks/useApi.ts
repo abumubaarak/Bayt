@@ -12,14 +12,13 @@ import {
    getLandlord,
    getListing,
    getListingDetails,
+   getMessages,
    getOwnerListing,
-   getOwnerMessages,
    getSinglePayment,
    getTenent,
    getTenentMesssage,
    getUser,
    getUserConversation,
-   getUserMessages,
    getUserPayments,
    getUserWishlists,
    paymentCheckout,
@@ -100,7 +99,10 @@ export const useAceptTenentRequest = () => {
    const client = useClient();
 
    return useMutation((id: string) => acceptTenentRequest(id), {
-      onMutate: () => {},
+      onMutate: () => { },
+      onSuccess: () => {
+          client.invalidateQueries("message");
+      },
       onSettled: () => {
          client.invalidateQueries("pending-tenents");
       },
@@ -111,7 +113,6 @@ export const useLandlord = (id: any) => {
    return useWrapper([id], () => getLandlord(id));
 };
 
- 
 export const useUser = () => {
    return useWrapper(["getme"], () => getUser());
 };
@@ -132,15 +133,9 @@ export const useTenent = () => {
    return useWrapper(["pending-tenents"], () => getTenent());
 };
 
-export const useOwnerMessages = () => {
-   return useWrapper(["messages"], () => getOwnerMessages());
+export const useMessages = () => {
+   return useWrapper(["message"], () => getMessages());
 };
-
-export const useUserMessages = () => {
-   return useWrapper(["messag"], () => getUserMessages("1234"));
-};
-
-
 
 export const useInsight = () => {
    return useWrapper(["insight"], () => getInsight());

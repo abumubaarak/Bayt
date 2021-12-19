@@ -4,50 +4,47 @@ import {
    Flex,
    HStack,
    Icon,
-   IconButton,
-   Menu,
-   MenuButton,
-   MenuItem,
-   MenuList,
    Text,
+   Tooltip,
    VStack,
 } from "@chakra-ui/react";
 import { usePaymentCheckout, useUserConversation } from "@hooks/useApi";
 import "@stripe/stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
-import React, { FC, useState } from "react";
-import { AiOutlineMore } from "react-icons/ai";
-import { BiChat } from "react-icons/bi";
+import { MessageDetails } from "@type/base";
+import React, { useState } from "react";
+import { BiBuildingHouse } from "react-icons/bi";
+import { MdPayment } from "react-icons/md";
+import { useHistory } from "react-router";
 import { io } from "socket.io-client";
 import ChatBox from "./ChatBox.component";
 import Conversation from "./Conversation.component";
-import Username from "./Username.component";
 
 interface Props {
-   messageID: string;
-   tenant_id: string;
-   owner_id: string;
-   propertyId?: string;
+   messageDetails: MessageDetails;
    type: "owner" | "tenant";
 }
 
 const stripePromise = loadStripe(process.env.REACT_APP_PUBLISHABLE_KEY!);
-const ConversationPanel: FC<Props> = ({
-   messageID,
-   tenant_id,
-   type,
-   propertyId,
-   owner_id,
-}) => {
+const ConversationPanel = ({ type, messageDetails }: Props) => {
    const payment = usePaymentCheckout();
    const [online, setOnline] = useState<boolean>(false);
-   let messagesEnd: any;
 
-   const { data: conversation } = useUserConversation(messageID);
+   const history = useHistory();
+   const isTenant = type === "tenant";
+
+   const { data: conversation } = useUserConversation(
+      messageDetails.messageId!
+   );
+
+   console.log(messageDetails);
 
    const socket = io("http://localhost:9000");
    socket.on("connect", () => {
-      socket.emit("user", localStorage.getItem("id") + messageID);
+      socket.emit(
+         "user",
+         localStorage.getItem("id") + messageDetails.messageId!
+      );
    });
    socket.on("typing", (data) => {
       console.log(data);
@@ -69,70 +66,63 @@ const ConversationPanel: FC<Props> = ({
 
    return (
       <VStack flex='1' bg='gray.100' h='full'>
-         {!messageID && (
-            <VStack
-               rounded='sm'
-               bg='gray.100'
-               h='full'
-               pb={16}
-               spacing={6}
-               justifyContent='center'
-               w='full'>
-               <VStack
-                  boxSize='52'
-                  justifyContent='center'
-                  bgColor='white'
-                  shadow='sm'
-                  rounded='full'>
-                  <Icon as={BiChat} w='16' h='16' />
-               </VStack>
-
-               <Text fontWeight='semibold' fontSize='2xl'>
-                  Tap a user to start chatting!.
-               </Text>
-            </VStack>
-         )}
-
-         {messageID && (
+         {messageDetails.messageId && (
             <>
                <Flex
                   rounded='sm'
                   alignItems='center'
                   bg='white'
                   h='16'
+                  pl={8}
+                  justifyContent='space-between'
                   w='full'>
-                  <HStack
-                     w='full'
-                     cursor='pointer'
-                     alignItems='start'
-                     pl='40px'>
-                     <Avatar size='sm' alignSelf='center' />
-                     <VStack pl={2} spacing='0' alignItems='start'>
-                        <Username
-                           userId={type === "tenant" ? owner_id : tenant_id}
-                        />
-                        <Text color='brand.600' fontWeight='semibold'>
-                           {online ? "Typing..." : ""}
-                        </Text>
-                     </VStack>
-                  </HStack>
-                  {type === "tenant" && (
-                     <Menu>
-                        <MenuButton
-                           as={IconButton}
-                           mx={5}
-                           aria-label='Options'
-                           variant='outline'
-                           icon={<AiOutlineMore />}>
-                           s
-                        </MenuButton>
-                        <MenuList>
-                           <MenuItem>View Property</MenuItem>{" "}
-                           <MenuItem onClick={() => handlePayment(propertyId!)}>
-                              Make payment
-                           </MenuItem>
-                        </MenuList>
-                     </Menu>
+                  <Avatar
+                     backgroundColor='brand.500'
+                     color='white'
+                     size='md'
+                     name={`${messageDetails.fullname!}`}
+                     alignSelf='center'
+                  />
+
+                  <Text fontWeight='semibold' fontFamily='heading'>
+                     {messageDetails.fullname}
+                  </Text>
+                  {type === "tenant" ? (
+                     <HStack pr={8} spacing={7}>
+                        <Tooltip label='View Property'>
+                           <span>
+                              <Icon
+                                 cursor='pointer'
+                                 as={BiBuildingHouse}
+                                 w={7}
+                                 h={7}
+                                 onClick={() =>
+                                    history.push({
+                                       pathname: `/details/${messageDetails.propertyId}`,
+                                       state: messageDetails.propertyId,
+                                    })
+                                 }
+                              />
+                           </span>
+                        </Tooltip>
+                        <Tooltip label='Make Payment'>
+                           <span>
+                              <Icon
+                                 cursor='pointer'
+                                 as={MdPayment}
+                                 w={7}
+                                 h={7}
+                                 onClick={() =>
+                                    handlePayment(messageDetails.propertyId!)
+                                 }
+                              />
+                           </span>
+                        </Tooltip>
+                     </HStack>
+                  ) : (
+                     <>
+                        <Box></Box>
+                     </>
                   )}
                </Flex>
 
@@ -145,35 +135,38 @@ const ConversationPanel: FC<Props> = ({
                   alignItems='start'
                   overflowY='scroll'
                   spacing='4'
-                  pr='10'>
+                  pr='5'>
                   <Conversation
                      socket={socket}
                      conversation={conversation?.data!}
-                     owner_id={owner_id}
+                     owner_id={messageDetails.ownerId}
                   />
 
                   <Box w='full'></Box>
-
-                  <div
-                     style={{ float: "left", clear: "both" }}
-                     ref={(el) => {
-                        messagesEnd = el;
-                     }}></div>
                </VStack>
 
                <Flex
-                  shadow='sm'
+                  shadow='md'
                   rounded='sm'
                   alignItems='center'
                   bg='white'
                   h='55px'
                   w='full'>
-                  <ChatBox
-                     socket={socket}
-                     messageId={messageID}
-                     tenant_id={tenant_id}
-                     owner_id={owner_id}
-                  />
+                  {isTenant ? (
+                     <ChatBox
+                        socket={socket}
+                        messageId={messageDetails.messageId}
+                        tenant_id={messageDetails.tenantId}
+                        owner_id={messageDetails.ownerId}
+                     />
+                  ) : (
+                     <ChatBox
+                        socket={socket}
+                        messageId={messageDetails.messageId}
+                        tenant_id={messageDetails.tenantId._id}
+                        owner_id={messageDetails.ownerId}
+                     />
+                  )}
                </Flex>
             </>
          )}

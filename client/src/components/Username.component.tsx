@@ -9,7 +9,7 @@ const Username: FC<Props> = ({ userId }) => {
     const { data: user } = useLandlord(userId!);
    const firstName = user?.data.firstname;
    return (
-      <Text fontWeight='medium'>
+      <Text fontWeight='semibold' fontFamily="heading" >
          {firstName === undefined ? "unde " : firstName}
       </Text>
    );

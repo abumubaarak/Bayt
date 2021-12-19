@@ -36,6 +36,7 @@ const Conversation: FC<Props> = ({ conversation, owner_id, socket }) => {
                   fontWeight='medium'
                   rounded='md'
                   p={2}
+                  
                   color={`${id === sender ? "white" : "black"}`}
                   flexBasis='50%'>
                   {message}

@@ -9,8 +9,7 @@ interface Props {
 }
 
 const SlidenavItem: FC<Props> = ({ children, path }) => {
-   const history = useHistory();
-   const handleLogout = (path: string) => {
+    const handleLogout = (path: string) => {
       if (path !== "logout") return;
       logout();
       localStorage.clear();

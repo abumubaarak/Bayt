@@ -3,7 +3,7 @@ import { User } from "../users/userModel";
 import { Property } from "../property/propertyModel";
 
 interface ITenent {
-  tenant_id: string;
+  tenant_id: any;
   owner_id: any;
   property_id: any;
   request: string;
@@ -14,7 +14,9 @@ interface ITenentDocument extends ITenent, Document {}
 
 const TenentSchema: Schema = new Schema({
   tenant_id: {
-    type: String,
+    type: Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
   },
   owner_id: {
     type: Schema.Types.ObjectId,

@@ -1,10 +1,9 @@
 import express, { Router } from "express";
-import { ownerProtectedRoute, sessionProtectedRoute } from "../../middleware/authorization";
-import { getUserMessage ,getOwnerMessage} from "./messageController";
+import { protectedRoute } from "../../middleware/authorization";
+import { getMessages } from "./messageController";
 
 const router: Router = express();
 
-router.route("/:id").get(sessionProtectedRoute, getUserMessage);
-router.route("").get(ownerProtectedRoute, getOwnerMessage);
+router.route("").get(protectedRoute, getMessages);
 
 export default router;

@@ -43,34 +43,8 @@ const ChatBox: FC<Props> = ({ tenant_id, owner_id, messageId, socket }) => {
       );
    };
 
-   // useEffect(
-   //    () => {
-   //       if (watch("message").length >= 1) {
-   //          socket.emit("typing", {
-   //             tenant_id,
-   //             owner_id,
-   //             messageId,
-   //             isTyping: true,
-
-   //             sender: localStorage.getItem("id"),
-   //          });
-   //       } else {
-   //       }
-   //    },
-   //    () => {
-   //       socket.emit("typing", {
-   //          tenant_id,
-   //          owner_id,
-   //          messageId,
-   //          isTyping: false,
-   //          sender: localStorage.getItem("id"),
-   //       })
-   //    },
-   //    [watch("message")]
-   // );
-
    return (
-      <HStack w='full' cursor='pointer' alignItems='start' pl='40px'>
+      <HStack w='full' cursor='pointer' alignItems='start' pl='40px' pr={4}>
          <form className='w-full flex' onSubmit={handleSubmit(onSubmit)}>
             <Input
                lin

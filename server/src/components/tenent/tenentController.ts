@@ -57,7 +57,7 @@ export const searchSingleTenent = asyncHandler(
 export const getTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const userId = req.body.user._id;
-    const tenent = await Tenent.find({ owner_id: userId });
+    const tenent = await Tenent.find({ owner_id: userId }).populate("tenant_id");
 
     if (!tenent) {
       return next(new ErrorResponse(400, "Not found"));

@@ -48,7 +48,9 @@ export const createProperty = asyncHandler(
 export const searchProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     let city = req.query.city?.toString();
-    const property = await Property.find({ city });
+    const property = await Property.find({
+      city: { $regex: city, $options: "i" },
+    });
 
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found in ${city}`));

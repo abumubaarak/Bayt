@@ -97,11 +97,7 @@ export const getUser = () => {
    return getWithCred<ResponseObj<UserInfo>>(`auth/user`);
 };
 
-export const getUserMessages = (id: string) => {
-   return getWithCred<ResponseArr<TenantMessage>>(`messages/${id}`);
-};
-
-export const getOwnerMessages = () => {
+export const getMessages = () => {
    return getWithCred<ResponseArr<TenantMessage>>(`messages`);
 };
 

@@ -64,7 +64,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                {variant !== "home" && (
                   <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
                      <InputGroup>
-                        <Input
+                        <Input 
                            placeholder='Search City'
                            variant='filled'
                            border='none'

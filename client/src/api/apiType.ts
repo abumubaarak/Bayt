@@ -35,10 +35,10 @@ export type UserInfo = {
 
 export type TenantMessage = {
    _id?: string;
-   tenant_id: string;
+   tenant_id: UserInfo;
    request?: string;
-   owner_id: string;
-   property_id: string;
+   owner_id: UserInfo;
+   property_id: ListingInfo;
    message?: string;
    sender?: string;
    sentAt?: Date;

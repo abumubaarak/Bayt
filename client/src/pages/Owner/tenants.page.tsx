@@ -20,7 +20,7 @@ import {
    Tooltip,
    useDisclosure,
 } from "@chakra-ui/react";
-import UserInfo from "@components/UserInfo.component";
+import UserAvatar from "@components/UserAvatar.component";
 import {
    useAceptTenentRequest,
    useDeclineTenentRequest,
@@ -106,7 +106,7 @@ export default function Tenants() {
                </ModalContent>
             </Modal>
          }>
-         <HStack w='full' px={9} py={1}>
+         <HStack w='full' px={9} py={3}>
             <Text fontSize='lg' fontWeight='semibold'>
                Pending Request
             </Text>
@@ -136,7 +136,7 @@ export default function Tenants() {
          {tenant?.data.map(({ _id, owner_id, tenant_id, request }) => (
             <>
                <HStack w='full' spacing={5} py={3} px={9}>
-                  <UserInfo variant='dark' id={tenant_id} />
+                  <UserAvatar user={tenant_id} />
                   <Text
                      className='font-sand'
                      fontSize='lg'
