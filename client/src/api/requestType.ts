@@ -1,14 +1,14 @@
-import axios from "axios";
+import axios from "@api/axios";
 
-export const getWithCred = async <T>(url: string): Promise<T> => {
-   const { data } = await axios.get<T>(`/api/v1/${url}`, {
+export const getWithCred = async <T>(endpoint: string): Promise<T> => {
+   const { data } = await axios.get<T>(endpoint, {
       withCredentials: true,
    });
    return data;
 };
 
-export const get = async <T>(url: string): Promise<T> => {
-   const { data } = await axios.get<T>(`/api/v1/${url}`);
+export const get = async <T>(endpoint: string): Promise<T> => {
+   const { data } = await axios.get<T>(endpoint);
    return data;
 };
 
@@ -17,11 +17,10 @@ export const postWithCred = async <T>(
    payload: any
 ): Promise<T> => {
    const { data } = await axios.post<T>(
-      `/api/v1/${endpoint}`,
+      endpoint,
       { ...payload },
       { withCredentials: true }
    );
 
    return data;
 };
- 

@@ -1,5 +1,6 @@
-import axios, { AxiosRequestConfig } from "axios";
+import  { AxiosRequestConfig } from "axios";
 import { useState } from "react";
+import axios from "@api/axios"
 
 interface Default {
    httpStatus?: number;
@@ -20,6 +21,7 @@ const usePost = (url: string) => {
    const [response, setData] = useState<Data | any>();
 
    const request = async (payload: any, mediaInclude?: boolean) => {
+
       try {
          let response;
 
@@ -53,11 +55,12 @@ const usePost = (url: string) => {
                   "content-type": "multipart/form-data",
                },
             };
-            response = await axios.post(`/api/v1${url}`, requestData, config);
+            response = await axios.post(`${url}`, requestData, config);
          } else {
-            response = await axios.post(`/api/v1${url}`, {
+            response = await axios.post(`${url}`, {
                ...payload,
-            });
+            }
+            );
          }
 
          const statusCode: number = response.status;
@@ -93,6 +96,7 @@ const usePost = (url: string) => {
             setError({ message: err.message });
          }
       }
+      
    };
 
    return { request, loading, error, response };

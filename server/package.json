@@ -4,7 +4,7 @@
   "description": "Bayt Backend",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=production &node dist/app.js",
+    "start": "SET NODE_ENV=production & node dist/app.js",
     "dev": "tsnd --respawn --pretty --transpile-only src/server.ts",
     "build": "tsc -p"
   },

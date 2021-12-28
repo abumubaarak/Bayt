@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+
+  redis: 
+    build: ./redis
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/redis
+    networks:
+      - bayt-network
+
+  backend:
+    build: ./server
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/backend
+    restart: always
+    depends_on:
+       - redis
+    #ports:
+     # - 7000:7000
+    networks:
+      - bayt-network
+
+  frontend:
+    build: ./client
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/frontend
+    restart: always
+
+    #ports:
+      #- 3000:3000
+    depends_on:
+      - backend
+      - redis
+    networks:
+      - bayt-network
+
+  nginx:
+    build: ./nginx
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/nginx
+    restart: always
+    stdin_open: true
+    tty: true
+    ports:
+      - 80:80
+    networks:
+      - bayt-network
+
+networks:
+  bayt-network:
+    driver: bridge

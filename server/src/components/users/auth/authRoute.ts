@@ -15,10 +15,10 @@ router.route(`${path}/update`).post(auth.updateProfile);
 router.route(`${path}/user`).get(protectedRoute,auth.getUser);
 
 router
-  .route(`${path}/google`)
+  .route(`/api/v1/oauth/google`)
   .get(passport.authenticate("google", { scope: ["profile", "email"] }));
 router
-  .route(`${path}/github`)
+  .route(`/api/v1/oauth/github`)
   .get(passport.authenticate("github", { scope: ["profile"] }));
 
 router.route("/auth/google/callback").get(
@@ -28,6 +28,9 @@ router.route("/auth/google/callback").get(
     session: true,
   })
 );
+
+
+
 
 router.route("/auth/github/callback").get(
   passport.authenticate("github", {

@@ -1,0 +1,17 @@
+version: '3'
+services:
+  redis: 
+    image: redis
+  api-service:
+    build: .
+    ports:
+      - "7000:7000"
+  mongo:
+    image: mongo
+    ports:
+      - "27017:27017"
+
+
+
+
+      # DO I NEED VOLUME ALSO WHEN USING MONGODB ATLAS?q

@@ -23,6 +23,7 @@ const app: Application = express();
 
 app.use(helmet());
 app.use(cors());
+
 app.use(express.json());
 app.use(cookies());
 
@@ -30,7 +31,7 @@ app.use(
   session({
     secret: process.env.SESSION_SECRET!,
     resave: false,
-    
+
     saveUninitialized: true,
     store: MongoStore.create({
       mongoUrl: process.env.MONGO_DB_URL,

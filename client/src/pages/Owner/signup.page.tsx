@@ -1,11 +1,11 @@
 import { Link, useHistory } from "react-router-dom";
-import Back from "../../components/Back.component";
-import Button from "../../components/Button.component";
-import Form from "../../components/Form.component";
+import Back from "@components/Back.component";
+import { Button } from "@chakra-ui/react";
+import Form from "@components/Form.component";
 import { useForm } from "react-hook-form";
 import { useEffect } from "react";
-import useToastMessage from "../../hooks/useToastMessage";
-import usePost from "../../hooks/usePost";
+import useToastMessage from "@hooks/useToastMessage";
+import usePost from "@hooks/usePost";
 
 type Inputs = {
    firstname: string;
@@ -19,7 +19,7 @@ export default function SignupPage() {
    const { register, handleSubmit, formState } = useForm<Inputs>();
    const { message } = useToastMessage();
    const history = useHistory();
-   const { request, loading, response, error } = usePost("/auth/register");
+   const { request, loading, response, error } = usePost("auth/register");
 
    const onSubmit = (data: Inputs) => {
       if (data.password !== data.con_password) {
@@ -59,7 +59,7 @@ export default function SignupPage() {
          });
 
          setTimeout(() => {
-            history.push("/dashboard");
+            history.push("/owner/dashboard");
          }, 5000);
       }
    }, [response]);
@@ -141,47 +141,42 @@ export default function SignupPage() {
                </h1>
                <form
                   className=' mt-6 flex flex-col font-sand '
-                  onSubmit={handleSubmit(onSubmit)}
-               >
+                  onSubmit={handleSubmit(onSubmit)}>
                   <Form
                      title='firstname'
                      type='text'
-                     register={register("firstname", { required: true })}
-                  >
+                     register={register("firstname", { required: true })}>
                      Firstname
                   </Form>
 
                   <Form
                      title='lastname'
                      type='text'
-                     register={register("lastname", { required: true })}
-                  >
+                     register={register("lastname", { required: true })}>
                      Lastname
                   </Form>
                   <Form
                      title='email'
                      type='email'
-                     register={register("email", { required: true })}
-                  >
+                     register={register("email", { required: true })}>
                      Email
                   </Form>
                   <Form
                      title='password'
                      type='password'
-                     register={register("password", { required: true })}
-                  >
+                     register={register("password", { required: true })}>
                      Password
                   </Form>
                   <Form
                      title='confirm password'
                      name='con_password'
                      type='password'
-                     register={register("con_password", { required: true })}
-                  >
+                     register={register("con_password", { required: true })}>
                      Confirm Password
                   </Form>
-
-                  <Button loading={loading}>Submit</Button>
+                  <Button type='submit' loading={loading}>
+                     Submit
+                  </Button>
                </form>
             </div>
          </div>

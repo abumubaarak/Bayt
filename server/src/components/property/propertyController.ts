@@ -1,13 +1,11 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
+import { redis } from "../../config/redis";
 import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
 import { Property } from "./propertyModel";
 
-const Redis = require("ioredis");
-
-const redis = new Redis();
 
 export const createProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -57,6 +55,7 @@ export const searchProperty = asyncHandler(
     }
     redis.set(city, JSON.stringify(property), "EX", 3600);
     response(res, 200, true, property);
+    
   }
 );
 
