@@ -4,7 +4,7 @@ import Search from "@components/Search.component";
 import Slidebar from "@components/Slidebar.component";
 import useToastMessage from "@hooks/useToastMessage";
 import Layout from "@layouts/owner.layout";
-import Home from "./pages/home.page";
+import Home from "@pages/Home.page"
 import Property from "@pages/Owner/addProperty.page";
 import Dashboard from "@pages/Owner/dashboard.page";
 import Listings from "@pages/Owner/listings.page";
