@@ -3,14 +3,12 @@ version: '3'
 services:
 
   redis: 
-    build: ./redis
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/redis
+    image: redis
     networks:
       - bayt-network
 
   backend:
     build: ./server
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/backend
     restart: always
     depends_on:
        - redis
@@ -21,7 +19,6 @@ services:
 
   frontend:
     build: ./client
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/frontend
     restart: always
 
     #ports:
@@ -34,7 +31,6 @@ services:
 
   nginx:
     build: ./nginx
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/nginx
     restart: always
     stdin_open: true
     tty: true
