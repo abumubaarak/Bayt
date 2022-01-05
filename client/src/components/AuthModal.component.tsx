@@ -15,7 +15,7 @@ import { AuthModelProps } from "../Types/base";
 
 const { REACT_APP_BASE_URL: BASE_URL } = process.env;
 const socialLogin = (social: string) => {
-   window.open(`${BASE_URL}oauth/${social}`, "_self");
+   window.open(`${BASE_URL}/api/v1/oauth/${social}`, "_self");
 };
 const changeAuth = (
    setChangeAuthType: Dispatch<SetStateAction<boolean | undefined>>,

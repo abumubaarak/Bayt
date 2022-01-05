@@ -29,13 +29,14 @@ app.use(cookies());
 
 app.use(
   session({
+    store: MongoStore.create({
+      mongoUrl: process.env.MONGO_DB_URL,
+    }),
     secret: process.env.SESSION_SECRET!,
     resave: false,
 
     saveUninitialized: true,
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_DB_URL,
-    }),
+
     // cookie: {
     //   maxAge:1000*60*60*24
     // }
@@ -58,6 +59,12 @@ app.use("/api/v1/conversations", ConversationRoute);
 app.use("/api/v1/messages", MessageRoute);
 app.use("/api/v1/payments", PaymentRoute);
 app.use("/api/v1/insights", InsightRouter);
+
+app.get("/cats", (req, res, next) => {
+  res.json({
+    success: true,
+  });
+});
 
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));

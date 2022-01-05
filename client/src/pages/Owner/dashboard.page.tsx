@@ -142,6 +142,7 @@ export default function Dashboard() {
                   value={insight?.data.stats?.[1].active?.[0].activeListing!}
                   icon={FiHome}
                />
+               
             </GridItem>
             <GridItem rowSpan={1} bg='white' shadow='sm' rounded='md'>
                <InsightCard

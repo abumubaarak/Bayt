@@ -1,6 +1,6 @@
 import  { AxiosRequestConfig } from "axios";
 import { useState } from "react";
-import axios from "@api/axios"
+import axios from "axios"
 
 interface Default {
    httpStatus?: number;
@@ -55,9 +55,9 @@ const usePost = (url: string) => {
                   "content-type": "multipart/form-data",
                },
             };
-            response = await axios.post(`${url}`, requestData, config);
+            response = await axios.post(`/api/v1${url}`, requestData, config);
          } else {
-            response = await axios.post(`${url}`, {
+            response = await axios.post(`/api/v1${url}`, {
                ...payload,
             }
             );

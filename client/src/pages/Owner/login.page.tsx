@@ -52,6 +52,8 @@ export default function LoginPage() {
    }, [response]);
 
    useEffect(() => {
+
+      
       const { errors } = formState;
 
       setTimeout(() => {
@@ -78,6 +80,7 @@ export default function LoginPage() {
    }, [formState]);
 
    return (
+
       <div className='flex h-screen'>
          <div className='flex-2 bg-gradient '>
             <Back />

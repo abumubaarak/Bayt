@@ -67,15 +67,16 @@ export const getUser = asyncHandler(
 
 export const updateProfile = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user) {
-      let user = await User.findById(req.user);
+    
+    if (req.body.user) {
+      let user = await User.findById(req.body.user._id);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
       }
 
       if (req.body.firstname || req.body.lastname || req.body.bio) {
-        user = await User.findByIdAndUpdate(req.user, req.body);
+        user = await User.findByIdAndUpdate(req.body.user._id, req.body);
         response(res, 200, true, user);
       } else {
         return next(new ErrorResponse(400, "User profile data is required"));

@@ -1,5 +1,4 @@
- import axios from "@api/axios";
-
+import axios from "axios";
 import {
    Insight,
    ListingInfo,
@@ -12,17 +11,18 @@ import {
 } from "./apiType";
 import { get, getWithCred, postWithCred } from "./requestType";
 
+// / THIS ROUTE SHOULD BE PROTECTED
 
 export const getTenentMesssage = async (id: string) => {
    return (
-      await axios.get<any>(`tenents/${id}`, {
+      await axios.get<any>(`/api/v1/tenents/${id}`, {
          withCredentials: true,
       })
    ).data;
 };
 export const declineTenentRequest = async (id: any) => {
    return (
-      await axios.delete<any>(`tenents/${id}`, {
+      await axios.delete<any>(`/api/v1/tenents/${id}`, {
          withCredentials: true,
       })
    ).data;
@@ -30,13 +30,13 @@ export const declineTenentRequest = async (id: any) => {
 
 export const acceptTenentRequest = async (id: any) => {
    return (
-      await axios.put<any>(`tenents/${id}`, { withCredentials: true })
+      await axios.put<any>(`/api/v1/tenents/${id}`, { withCredentials: true })
    ).data;
 };
 
 export const sendTenantMessage = async (payload: any) => {
    const { data } = await axios.post<any>(
-      "tenents",
+      "/api/v1/tenents",
       { ...payload },
       { withCredentials: true }
    );
@@ -46,7 +46,7 @@ export const sendTenantMessage = async (payload: any) => {
 
 export const removeWishlist = async (id: any) => {
    console.log(id.propertyId);
-   const { data } = await axios.delete<any>(`wishlists/${id}`, {
+   const { data } = await axios.delete<any>(`/api/v1/wishlists/${id}`, {
       withCredentials: true,
    });
 
@@ -55,7 +55,7 @@ export const removeWishlist = async (id: any) => {
 
 export const addToWishlist = async (payload: any) => {
    const { data } = await axios.put<any>(
-      "wishlists",
+      "/api/v1/wishlists",
       { ...payload },
       { withCredentials: true }
    );
@@ -65,15 +65,13 @@ export const addToWishlist = async (payload: any) => {
 
 export const updateUser = async (payload: any) => {
    const { data } = await axios.post<any>(
-      "auth/update",
+      "/api/v1/auth/update",
       { ...payload },
       { withCredentials: true }
    );
 
    return data;
 };
-
-
 
 export const getTenent = () => {
    return getWithCred<ResponseArr<TenantMessage>>(`tenents`);
@@ -118,7 +116,7 @@ export const getUserPayments = () => {
 export const getUserWishlists = () => {
    return getWithCred<ResponseArr<ListingInfo>>(`wishlists`);
 };
-export const getSinglePayment = (id:string) => {
+export const getSinglePayment = (id: string) => {
    return getWithCred<ResponseObj<Payment>>(`payments/${id}`);
 };
 export const paymentCheckout = (payload: any) => {
@@ -127,7 +125,7 @@ export const paymentCheckout = (payload: any) => {
 
 export const sendMessage = async (payload: any) => {
    const { data } = await axios.post<any>(
-      "conversations",
+      "/api/v1/conversations",
       { ...payload },
       { withCredentials: true }
    );
@@ -136,6 +134,6 @@ export const sendMessage = async (payload: any) => {
 };
 
 export const logout = async (): Promise<any> => {
-   const { data } = await axios.get<any>(`auth/logout`);
+   const { data } = await axios.get<any>(`/api/v1/auth/logout`);
    return data;
 };

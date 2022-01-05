@@ -8,12 +8,18 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 COPY tsconfig*.json ./ 
 
-RUN npm install
+RUN npm ci --only-production
 
-# Bundle app source
 COPY . .
 
-EXPOSE 7000
+RUN npm run build
 
-CMD ["npm","run","dev"]
+# Bundle app source
+
+EXPOSE 4000
+EXPOSE 9000
+
+
+CMD ["npm","run","start"]
+
 

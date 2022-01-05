@@ -1,17 +1,24 @@
 version: '3'
+
 services:
+
   redis: 
-    image: redis
-  api-service:
+    build: ./redis
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/redis
+    networks:
+      - app-network
+
+  backend:
     build: .
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/backend
+    restart: always
+    depends_on:
+       - redis
     ports:
-      - "7000:7000"
-  mongo:
-    image: mongo
-    ports:
-      - "27017:27017"
+      - 4000:4000
+    networks:
+      - app-network
 
-
-
-
-      # DO I NEED VOLUME ALSO WHEN USING MONGODB ATLAS?q
+networks:
+  app-network:
+    driver: bridge

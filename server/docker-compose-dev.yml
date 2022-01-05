@@ -1,0 +1,20 @@
+version: '3'
+services:
+  redis: 
+    image: redis
+    networks:
+      - app-network
+
+  api-service:
+    build: .
+    restart: on-failure
+    ports:
+      - "4000:4000"
+      - "9000:9000"
+    networks:
+      - app-network
+
+
+networks:
+  app-network:
+    driver: bridge

@@ -11,7 +11,7 @@ router.route(`${path}/login`).post(auth.login);
 router.route(`${path}/getme`).get(auth.getMe);
 router.route(`${path}/getme/:id`).get(auth.getLandlord);
 router.route(`${path}/logout`).get(auth.logout);
-router.route(`${path}/update`).post(auth.updateProfile);
+router.route(`${path}/update`).post(protectedRoute,auth.updateProfile);
 router.route(`${path}/user`).get(protectedRoute,auth.getUser);
 
 router

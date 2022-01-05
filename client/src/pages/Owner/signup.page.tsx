@@ -19,7 +19,7 @@ export default function SignupPage() {
    const { register, handleSubmit, formState } = useForm<Inputs>();
    const { message } = useToastMessage();
    const history = useHistory();
-   const { request, loading, response, error } = usePost("auth/register");
+   const { request, loading, response, error } = usePost("/auth/register");
 
    const onSubmit = (data: Inputs) => {
       if (data.password !== data.con_password) {
@@ -60,7 +60,7 @@ export default function SignupPage() {
 
          setTimeout(() => {
             history.push("/owner/dashboard");
-         }, 5000);
+         }, 1000);
       }
    }, [response]);
    useEffect(() => {

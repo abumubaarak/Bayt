@@ -64,7 +64,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                {variant !== "home" && (
                   <form className='w-full' onSubmit={handleSubmit(onSubmit)}>
                      <InputGroup>
-                        <Input 
+                        <Input
                            placeholder='Search City'
                            variant='filled'
                            border='none'
@@ -116,7 +116,13 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                   </>
                ) : (
                   <>
-                     <NavItem variant={isDark}>How it works</NavItem>
+                     <NavItem variant={isDark}>
+                        <a
+                           href='https://gray-polonium-ebf.notion.site/Bayt-ce991ade761b4064be9389aa25ce67cf'
+                           target='_blank'>
+                           Documentation
+                        </a>
+                     </NavItem>
                      <NavItem
                         variant={isDark}
                         handleModal={() => handleModal(false, onOpen, setType)}>

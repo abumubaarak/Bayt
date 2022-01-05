@@ -4,9 +4,9 @@
   "description": "Bayt Backend",
   "main": "server.js",
   "scripts": {
-    "start": "SET NODE_ENV=production & node dist/app.js",
+    "start": "set NODE_ENV=production && node dist/server.js",
     "dev": "tsnd --respawn --pretty --transpile-only src/server.ts",
-    "build": "tsc -p"
+    "build": "tsc -p ."
   },
   "author": "Ismail",
   "license": "MIT",

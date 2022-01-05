@@ -31,7 +31,7 @@ jobs:
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
         # Build a docker container and push it to ECR 
-        docker-compose -f "docker-compose.yml" build
-        echo "Pushing image to ECR..."
-        docker-compose -f "docker-compose.yml"  push
-        echo "Image has been pushed to AWS ECR"
+      
+        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"

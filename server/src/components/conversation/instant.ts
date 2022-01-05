@@ -43,5 +43,7 @@ export const instant = (app: Application) => {
       socket.to(reciever + messageId).emit("typing", { isTyping: true });
     });
   });
-  httpServer.listen(9000);
+  httpServer.listen(9000, "0.0.0.0", () => {
+    console.log(`Server running at http://0.0.0.0:9000/`);
+  });
 };

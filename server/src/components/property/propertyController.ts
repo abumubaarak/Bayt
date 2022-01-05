@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
 import { redis } from "../../config/redis";
-import { asyncHandler } from "../../middleware/async";
+ import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
 import { Property } from "./propertyModel";
@@ -71,6 +71,7 @@ export const getOwnerProperty = asyncHandler(
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found`));
     }
+    
     response(res, 200, true, property);
   }
 );
