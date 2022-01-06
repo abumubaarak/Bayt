@@ -1,6 +1,6 @@
 {
   "family": "1",
-  "executionRoleArn": "arn:aws:iam::{$AWS_ACCOUNT_ID}:role/ecsTaskExecutionRole",
+  "executionRoleArn": "ecsTaskExecutionRole",
   "containerDefinitions": [
     {
       "name": "backend",
