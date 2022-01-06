@@ -1,8 +1,8 @@
 on:
   push:
-    branches: [ dev ]
+    branches: [ main ]
 
-name: Bayt CD
+name: Deploy to AWS ECR AND ECS
 
 jobs:
   deploy:
@@ -30,8 +30,24 @@ jobs:
         AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
         AWS_REGION: ${{ secrets.AWS_REGION }}
       run: |
-        # Build a docker container and push it to ECR 
-      
-        docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
-        docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-        echo "::set-output name=image::$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG"
+          # Build a docker container and push it to ECR 
+          docker-compose -f "docker-compose.yml" build
+          echo "Pushing image to ECR..."
+          docker-compose -f "docker-compose.yml"  push
+          echo "Image has been pushed to AWS ECR"
+          
+    - name: Fill in the new image ID in the Amazon ECS task definition
+      id: task-def
+      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        container-name: backend-${{steps.vars.outputs.stage}} #2
+        image: ${{ steps.build-image.outputs.image }}
+    
+    - name: Deploy to Amazon ECS
+      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+      with:
+        task-definition: task-definition.json
+        service: taskService
+        cluster: baytCluster
+        wait-for-service-stability: true
