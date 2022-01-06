@@ -38,6 +38,9 @@ jobs:
           
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
+      env:
+        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
+        AWS_REGION: ${{ secrets.AWS_REGION }}
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: task-definition.json
