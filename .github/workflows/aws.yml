@@ -10,6 +10,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+
     - name: Checkout
       uses: actions/checkout@v2
 
@@ -35,20 +36,19 @@ jobs:
           echo "Pushing image to ECR..."
           docker-compose -f "docker-compose.yml"  push
           echo "Image has been pushed to AWS ECR"
-          
+    
     - name: Fill in the new image ID in the Amazon ECS task definition
       id: task-def
-      env:
-        AWS_ACCOUNT_ID: ${{ secrets.AWS_ACCOUNT_ID }}
-        AWS_REGION: ${{ secrets.AWS_REGION }}
-      uses: aws-actions/amazon-ecs-render-task-definition@v1
+      uses: aws-actions/amazon-ecs-render-task-definition@97587c9d45a4930bf0e3da8dd2feb2a463cf4a3a
       with:
-        task-definition: task-definition.json
-       
-    - name: Deploy to Amazon ECS
-      uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        task-definition: ${{ env.ECS_TASK_DEFINITION }}
+        container-name: ${{ env.CONTAINER_NAME }}
+        image: ${{ steps.build-image.outputs.image }}
+
+    - name: Deploy Amazon ECS task definition
+      uses: aws-actions/amazon-ecs-deploy-task-definition@de0132cf8cdedb79975c6d42b77eb7ea193cf28e
       with:
-        task-definition: task-definition.json
-        service: taskService
-        cluster: baytCluster
+        task-definition: ${{ steps.task-def.outputs.task-definition }}
+        service: baytService
+        cluster: ${{ env.ECS_CLUSTER }}
         wait-for-service-stability: true
