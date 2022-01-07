@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import { redis } from "../../config/redis";
+//import { redis } from "../../config/redis";
  import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
@@ -53,7 +53,7 @@ export const searchProperty = asyncHandler(
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found in ${city}`));
     }
-    redis.set(city, JSON.stringify(property), "EX", 3600);
+    //redis.set(city, JSON.stringify(property), "EX", 3600);
     response(res, 200, true, property);
     
   }
