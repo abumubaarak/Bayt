@@ -44,7 +44,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
    const [type, setType] = useState<boolean>();
    const { onSubmit } = useSubmit();
    const { data } = useUser();
-   localStorage.setItem("id", data?.data._id!);
+   data?.data && localStorage.setItem("id", data?.data._id!);
 
     const handleLogout = () => {
       logout();

@@ -4,8 +4,13 @@ module.exports = function (app) {
    app.use(
       "/api",
       createProxyMiddleware({
-         target: "http://localhost:4000",
+         target:
+            !process.env.NODE_ENV || process.env.NODE_ENV === "development"
+               ? process.env.BASE_URL
+               : process.env.BASE_URL_PROD,
          changeOrigin: true,
       })
    );
 };
+
+ 
