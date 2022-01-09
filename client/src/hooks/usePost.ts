@@ -1,6 +1,6 @@
 import  { AxiosRequestConfig } from "axios";
 import { useState } from "react";
-import axios from "axios"
+import axios from "@hooks/axios"
 
 interface Default {
    httpStatus?: number;

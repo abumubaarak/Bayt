@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "@hooks/axios";
 
 export const getWithCred = async <T>(url: string): Promise<T> => {
    const { data } = await axios.get<T>(`/api/v1/${url}`, {
