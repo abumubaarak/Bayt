@@ -2,7 +2,7 @@ on:
   push:
     branches: [ main ]
 
-name: Deploy to AWS ECR AND ECS
+name: Deploy to AWS ECR
 
 jobs:
   deploy:

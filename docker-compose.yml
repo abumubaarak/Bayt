@@ -4,14 +4,14 @@ services:
 
   redis: 
     build: ./redis
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/redis:latest
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/redis
     networks:
       - bayt-network
 
   backend:
     build: ./server
-    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/backend:latest
-    restart: on-failure
+    image: ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/backend
+    restart: always
     depends_on:
        - redis
     ports:
