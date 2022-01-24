@@ -28,8 +28,7 @@ import OtherItem from "./OtherItem.component";
 
 const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
    const { isOpen, onOpen, onClose } = useDisclosure();
-   const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
-   const toast = useToastMessage();
+    const toast = useToastMessage();
 
    const {
       data: propertyDetail,
@@ -58,7 +57,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
             <DrawerBody>
                <VStack w='full' alignItems='start'>
                   <Image
-                     src={`${IMAGE_URL}${propertyDetail?.data.images[0]}`}
+                     src={`${propertyDetail?.data.images[0]}`}
                      rounded='md'
                      height='250px'
                      shadow='md'
@@ -75,7 +74,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
                         <Image
                            w='full'
                            h='150px'
-                           src={`${IMAGE_URL}${propertyDetail?.data.images[1]}`}
+                           src={`${propertyDetail?.data.images[1]}`}
                            rounded='md'
                            objectFit='cover'
                            shadow='md'
@@ -86,7 +85,7 @@ const ListingDetails: FC<ListingDetailsProps> = ({ id }) => {
                         <Image
                            w='full'
                            h='150px'
-                           src={`${IMAGE_URL}${propertyDetail?.data.images[2]}`}
+                           src={`${propertyDetail?.data.images[2]}`}
                            rounded='md'
                            objectFit='cover'
                            shadow='md'

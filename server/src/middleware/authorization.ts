@@ -4,39 +4,6 @@ import { User } from "../components/users/userModel";
 import { ErrorResponse } from "../utils/errorResponse";
 import { asyncHandler } from "./async";
 
-export const ownerProtectedRoute = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    let token;
-
-    if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
-    }
-    if (!token) {
-      return next(
-        new ErrorResponse(
-          403,
-          "Authentication is required to authorize this route"
-        )
-      );
-    }
-
-    try {
-      const decode: any = verify(token, process.env.JWT_SECRET!);
-
-      req.body.user = await User.findById(decode.id);
-
-      next();
-    } catch (err) {
-      return next(
-        new ErrorResponse(
-          403,
-          "Authentication is required to authroze this route"
-        )
-      );
-    }
-  }
-);
-
 export const sessionProtectedRoute = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     if (req.isAuthenticated()) {
@@ -49,38 +16,42 @@ export const sessionProtectedRoute = asyncHandler(
 export const protectedRoute = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     let token;
-
-    if (req.cookies && req.cookies.token) {
-      token = req.cookies.token;
+    
+     if (
+      req.headers &&
+      req.headers.authorization &&
+      req.headers.authorization.split(" ")[0] === "Bearer"
+    ) {
+      token = req.headers.authorization.split(" ")[1]
       if (!token) {
-        return next(
-          new ErrorResponse(
-            403,
-            "Authentication is required to authorize this route"
-          )
-        );
+          return next(
+            new ErrorResponse(
+              403,
+              "Authentication is required to authorize this route"
+            )
+          );
+        }
+
+        try {
+          const decode: any = verify(token, process.env.JWT_SECRET!);
+
+          req.body.user = await User.findById(decode.id);
+
+          next();
+        } catch (err) {
+          return next(
+            new ErrorResponse(
+              403,
+              "Authentication is required to authrozie this route"
+            )
+          );
+        }
+      } else {
+        if (req.isAuthenticated()) {
+          req.body.user = await User.findById(req.user);
+
+          return next();
+        }
       }
-
-      try {
-        const decode: any = verify(token, process.env.JWT_SECRET!);
-
-        req.body.user = await User.findById(decode.id);
-
-        next();
-      } catch (err) {
-        return next(
-          new ErrorResponse(
-            403,
-            "Authentication is required to authrozie this route"
-          )
-        );
-      }
-    } else {
-      if (req.isAuthenticated()) {
-        req.body.user = await User.findById(req.user);
-
-        return next();
-      }
-    }
   }
 );

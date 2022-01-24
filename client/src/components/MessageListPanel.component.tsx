@@ -19,8 +19,7 @@ const MessageListPanel = ({
 }: Props) => {
    const [activeId, setActiveId] = useState<string>("");
    const handleClick = (message: MessageDetails) => {
-      console.log({ ...message });
-      setActiveId(message?.messageId!);
+       setActiveId(message?.messageId!);
       messageDetails({ ...message });
    };
 

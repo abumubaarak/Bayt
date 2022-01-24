@@ -1,7 +1,7 @@
-import { logout } from "@api/api";
 import { Tooltip } from "@chakra-ui/react";
+import { useLogout } from "@hooks/useLogout";
 import React, { FC, ReactNode } from "react";
-import { NavLink, useHistory } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 interface Props {
    children: ReactNode;
@@ -9,11 +9,11 @@ interface Props {
 }
 
 const SlidenavItem: FC<Props> = ({ children, path }) => {
-    const handleLogout = (path: string) => {
+   const {logout}= useLogout()
+   const handleLogout = (path: string) => {
+       if(!path)return 
       if (path !== "logout") return;
-      logout();
-      localStorage.clear();
-      document.cookie = "";
+      logout()
     };
    return (
       <Tooltip label={path} placement='right'>

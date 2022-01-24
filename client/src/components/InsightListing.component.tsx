@@ -9,9 +9,8 @@ export default function InsightListing({
 }: {
    property: ListingInfo;
 }) {
-   const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
    const history = useHistory();
-
+   
    return (
       <HStack
          onClick={() => history.push("listings")}
@@ -21,7 +20,7 @@ export default function InsightListing({
          mt='5'
          spacing='4'>
          <Box
-            bgImage={`url(${IMAGE_URL}${property?.images[0]})`}
+            bgImage={`url(${property?.images[0]})`}
             h='24'
             rounded='lg'
             shadow='sm'

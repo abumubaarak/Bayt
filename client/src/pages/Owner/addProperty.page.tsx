@@ -48,7 +48,7 @@ export default function Property() {
          });
 
          setTimeout(() => {
-            history.push("/owner/dashboard");
+            history.push("/owner/listings");
          }, 1000);
       }
    }, [response]);

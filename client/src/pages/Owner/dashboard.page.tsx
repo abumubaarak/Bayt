@@ -11,6 +11,7 @@ import {
 import InsightCard from "@components/InsightCard.component";
 import InsightListing from "@components/InsightListing.component";
 import Loading from "@components/Loading.component";
+import NoContent from "@components/NoContent.component";
 import WelcomeTitle from "@components/WelcomeTitle.component";
 import { useInsight } from "@hooks/useApi";
 import LandlordLayoutWrap from "@layouts/landlordLayoutWrap.layout";
@@ -29,7 +30,7 @@ import { useHistory } from "react-router";
 export default function Dashboard() {
    const { data: insight, isLoading } = useInsight();
    const history = useHistory();
-   const [amount, setAmount] = useState<number[]>([0, 0, 0, 0]);
+   const [amount, setAmount] = useState<number[]>([0]);
 
    const options: ApexCharts.ApexOptions = {
       chart: {
@@ -65,20 +66,6 @@ export default function Dashboard() {
                fontWeight: "600",
             },
          },
-         categories: [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec",
-         ],
       },
       yaxis: {
          opposite: false,
@@ -111,7 +98,9 @@ export default function Dashboard() {
    ];
 
    useEffect(() => {
-      setAmount(insight?.data.revenue!);
+      if (!insight?.data.revenue) return;
+      const newAmount = [...amount, ...insight?.data.revenue];
+      setAmount(newAmount.length === 0 ? insight?.data.revenue : newAmount);
    }, [insight?.data.revenue]);
    return (
       <LandlordLayoutWrap title='' enable={false}>
@@ -129,7 +118,7 @@ export default function Dashboard() {
                   isLoading={isLoading}
                   label='Revenue Generated'
                   value={`${formatCurrency(
-                     String(insight?.data.stats?.[0].revenue!)
+                     String(insight?.data.stats?.[0].revenue! ?? 0)
                   )}`}
                   icon={MdAttachMoney}
                />
@@ -139,17 +128,20 @@ export default function Dashboard() {
                   color='green'
                   isLoading={isLoading}
                   label=' Active Property'
-                  value={insight?.data.stats?.[1].active?.[0].activeListing!}
+                  value={
+                     insight?.data.stats?.[1]?.active?.[0]?.activeListing! ?? 0
+                  }
                   icon={FiHome}
                />
-               
             </GridItem>
             <GridItem rowSpan={1} bg='white' shadow='sm' rounded='md'>
                <InsightCard
                   color='orange'
                   isLoading={isLoading}
                   label='Occupied Property'
-                  value={insight?.data.stats?.[1].occupied?.[0].occupied!}
+                  value={
+                     insight?.data.stats?.[1]?.occupied?.[0]?.occupied! ?? 0
+                  }
                   icon={BsPeople}
                />
             </GridItem>
@@ -184,6 +176,10 @@ export default function Dashboard() {
                {insight?.data.properties.map((listing) => (
                   <InsightListing property={listing} />
                ))}
+
+               {insight?.data?.properties?.length! === 0 && (
+                  <NoContent content='No Listing is Avaliable' />
+               )}
             </GridItem>
             <GridItem
                rowSpan={3}
@@ -238,6 +234,10 @@ export default function Dashboard() {
                   </HStack>
                </HStack>
                {isLoading && <Loading />}
+
+               {insight?.data?.tenantRequest?.length! === 0 && (
+                  <NoContent content='No Tenant request' />
+               )}
 
                {insight?.data.tenantRequest.map(({ request, owner_id }) => (
                   <HStack alignItems='start' h='50' w='full' mt='5' spacing='2'>

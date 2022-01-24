@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-//import { redis } from "../../config/redis";
+import { redis } from "../../config/redis";
  import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
@@ -17,7 +17,7 @@ export const createProperty = asyncHandler(
       files = req.files;
 
       files?.map((value: any, index: number) => {
-        const path = value.path.replace(/\\/g, "/");
+        const path = value.location.replace(/\\/g, "/");
         imagePath.push(path);
       });
 
@@ -28,7 +28,8 @@ export const createProperty = asyncHandler(
 
       delete req.body.user;
 
-      const property = await Property.create(data);
+      const propertyData={...data,isActive:true}
+      const property = await Property.create(propertyData);
 
       res.status(201).json({
         success: true,
@@ -53,7 +54,7 @@ export const searchProperty = asyncHandler(
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found in ${city}`));
     }
-    //redis.set(city, JSON.stringify(property), "EX", 3600);
+    redis.set(city, JSON.stringify(property), "EX", 3600);
     response(res, 200, true, property);
     
   }

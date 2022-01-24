@@ -12,7 +12,7 @@ interface Props {
 const Conversation: FC<Props> = ({ conversation, owner_id, socket }) => {
    const [chat, setChat] = useState<TenantMessage[]>();
 
-   const id = localStorage.getItem("id");
+   const id = window.localStorage.getItem("id");
 
    useEffect(() => {
       setChat(conversation);

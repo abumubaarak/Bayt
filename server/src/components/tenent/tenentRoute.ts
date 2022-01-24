@@ -1,21 +1,17 @@
-import express from "express";
-import { Router } from "express";
+import express, { Router } from "express";
+import { protectedRoute } from "../../middleware/authorization";
 import {
-  ownerProtectedRoute,
-  sessionProtectedRoute,
-} from "../../middleware/authorization";
-import {
-  searchSingleTenent,
-  createTenent,
-  getTenent,
-  declineTenentRequest,
   acceptTenentRequest,
+  createTenent,
+  declineTenentRequest,
+  getTenent,
+  searchSingleTenent,
 } from "./tenentController";
 
 export const router: Router = express();
 
-router.route("").post(createTenent);
-router.route("/:id").get(sessionProtectedRoute, searchSingleTenent);
-router.route("").get(ownerProtectedRoute, getTenent);
-router.route("/:id").delete(ownerProtectedRoute, declineTenentRequest);
-router.route("/:id").put(ownerProtectedRoute, acceptTenentRequest);
+router.route("").post(protectedRoute, createTenent);
+router.route("/:id").get(protectedRoute, searchSingleTenent);
+router.route("").get(protectedRoute, getTenent);
+router.route("/:id").delete(protectedRoute, declineTenentRequest);
+router.route("/:id").put(protectedRoute, acceptTenentRequest);

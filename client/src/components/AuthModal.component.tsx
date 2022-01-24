@@ -87,20 +87,20 @@ const AuthModel: FC<AuthModelProps> = ({
                   <FcGoogle />
                   <p className=' flex-1 text-center'> Continue with Google </p>
                </div>
-
-               <div className='mt-4 hover:bg-50 cursor-pointer text-white flex items-center bg-blue-500  border-2 px-7 py-2 rounded-full'>
-                  <RiFacebookCircleFill />
-                  <p className=' flex-1 text-center'>Continue with Facebook</p>
-               </div>
                <div
                   onClick={() => socialLogin("github")}
                   className='my-5 hover:bg-50 cursor-pointer text-white flex items-center  bg-black  border-2 px-7 py-2 rounded-full'>
                   <AiFillGithub />
                   <p className=' flex-1 text-center'> Continue with Github </p>
                </div>
+               <div className='mt-4 hover:bg-50 cursor-pointer text-white flex items-center bg-blue-500  border-2 px-7 py-2 rounded-full'>
+                  <RiFacebookCircleFill />
+                  <p className=' flex-1 text-center'>Continue with Facebook</p>
+               </div>
+
                <div className='flex justify-center font-sand mt-8 mb-4'>
                   <p className='font-bold text-base'>
-                     Are you an Owner?{" "}
+                     Are you a Landlord?{" "}
                      <span className='font-semibold font-sand text-500 cursor-pointer'>
                         {" "}
                         {typeAuth ? (
@@ -109,7 +109,7 @@ const AuthModel: FC<AuthModelProps> = ({
                            </>
                         ) : (
                            <>
-                              <Link to='/owner/login'>Log in</Link>
+                              <Link to='/owner/login'> Log in</Link>
                            </>
                         )}
                      </span>

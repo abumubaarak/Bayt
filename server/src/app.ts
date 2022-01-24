@@ -1,6 +1,6 @@
 import "colors";
 import cookies from "cookie-parser";
-import cors from "cors";
+import cors from "cors"; 
 import express, { Application } from "express";
 import session from "express-session";
 import helmet from "helmet";
@@ -65,6 +65,14 @@ app.get("/cats", (req, res, next) => {
     success: true,
   });
 });
+
+app.post("/file", upload, (req, res, next) => {
+  console.log(req.files)
+  res.json({
+    success: true,
+  });
+})
+
 
 app.use(errorMiddleware);
 app.use("/uploads", express.static("uploads"));

@@ -17,8 +17,7 @@ interface ListingCardProps {
 }
 
 const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
-   const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
-   const history = useHistory();
+    const history = useHistory();
    const [listingId, setId] = useState<string>();
 
    const handleClick = (historyId: string, slug: string, isTetant: boolean) => {
@@ -45,7 +44,7 @@ const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
                   propertySize,
                }) => (
                   <VStack
-                     key={_id}
+                     key={slug}
                      cursor='pointer'
                      pb={2}
                      maxW={320}
@@ -63,7 +62,7 @@ const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
                            <SwiperSlide>
                               <Box
                                  key={image}
-                                 bgImage={`url(${IMAGE_URL}${image})`}
+                                 bgImage={`url(${image})`}
                                  roundedTop='md'
                                  w='full'
                                  h='220px'
@@ -87,7 +86,12 @@ const ListingCard: FC<ListingCardProps> = ({ data, isTetant }) => {
                         ))}
                      </Swiper>
 
-                     <VStack spacing='2' flex='1' p={2} alignItems='stretch'>
+                     <VStack
+                        key={slug}
+                        spacing='2'
+                        flex='1'
+                        p={2}
+                        alignItems='stretch'>
                         <Text
                            fontSize='md'
                            color='brand.700'

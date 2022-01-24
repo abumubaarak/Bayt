@@ -36,19 +36,6 @@ export const login = asyncHandler(
   }
 );
 
-export const getMe = asyncHandler(
-  async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user) {
-      const user = await User.findById(req.user);
-
-      if (!user) {
-        return next(new ErrorResponse(400, "Invalid user credentials"));
-      }
-      response(res, 200, true, user);
-    }
-  }
-);
-
 export const getLandlord = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
     const user = await User.findById(req.params.id);
@@ -67,16 +54,10 @@ export const getUser = asyncHandler(
 
 export const updateProfile = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    
     if (req.body.user) {
-      let user = await User.findById(req.body.user._id);
-
-      if (!user) {
-        return next(new ErrorResponse(400, "Invalid user credentials"));
-      }
 
       if (req.body.firstname || req.body.lastname || req.body.bio) {
-        user = await User.findByIdAndUpdate(req.body.user._id, req.body);
+        const user = await User.findByIdAndUpdate(req.body.user._id, req.body);
         response(res, 200, true, user);
       } else {
         return next(new ErrorResponse(400, "User profile data is required"));
@@ -87,7 +68,7 @@ export const updateProfile = asyncHandler(
 
 export const logout = (req: Request, res: Response, next: NextFunction) => {
   req.logOut();
-  res.clearCookie("token")
+  res.clearCookie("token");
   res.status(200).clearCookie("connect.sid", {
     path: "/",
   });
@@ -105,22 +86,10 @@ const sendTokenWithResponse = (user: any, res: Response, message?: string) => {
   const { _id } = user;
   const token = user.getJwtToken();
 
-  const options = {
-    expires: new Date(
-      Date.now() + <any>process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000
-    ),
-    httpOnly: true,
-  };
-
-  if (message) {
-    res.status(200).cookie("token", token, options).json({
-      success: true,
-      message,
-      id: _id,
-    });
-    return;
-  }
-  res.status(200).cookie("token", token, options).json({
+  res.status(200).json({
     success: true,
+    id: _id,
+    access_token: token,
   });
+  return;
 };

@@ -72,11 +72,14 @@ export const getInsight = asyncHandler(
       paymentOverview.map((i: any) => {
         amounts.push(i.amount);
       });
+      const emptyPayment = [{ id: 0, revenue: 0 }];
+      const paymentObj = payment.length === 0 ? emptyPayment : payment;
 
+ 
       res.status(200).json({
         success: true,
         data: {
-          stats: [...payment, ...propertyAgg],
+          stats: [...paymentObj, ...propertyAgg],
           properties,
           revenue: amounts,
           tenantRequest: tenant,

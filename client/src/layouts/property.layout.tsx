@@ -162,8 +162,7 @@ const PropertyDetails: FC<LayoutProps> = ({ setFormState }) => {
       }
    };
    useEffect(() => {
-      console.log(state?.avaliableBedroom);
-
+ 
       const { propertySize, roomSize } = getValues();
 
       dispatch(

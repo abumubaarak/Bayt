@@ -12,19 +12,19 @@ import { Tenent } from "./tenentModel";
 // @access Private
 export const createTenent = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    if (req.user) {
-      let user = await User.findById(req.user);
+    if (req.body.user) {
+      let user = await User.findById(req.body.user);
 
       if (!user) {
         return next(new ErrorResponse(400, "Invalid user credentials"));
       }
 
       const tenent = await Tenent.create({
-        tenant_id: req.user,
+        tenant_id: req.body.user._id,
         ...req.body,
       });
 
-      user = await User.findByIdAndUpdate(req.user, {
+      user = await User.findByIdAndUpdate(req.body.user, {
         $push: { request: req.body.property_id },
       });
 

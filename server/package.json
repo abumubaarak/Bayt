@@ -4,13 +4,15 @@
   "description": "Bayt Backend",
   "main": "server.js",
   "scripts": {
-    "start": "set NODE_ENV=production && node dist/server.js",
+    "start": "node dist/server.js",
     "dev": "tsnd --respawn --pretty --transpile-only src/server.ts",
     "build": "tsc -p ."
   },
   "author": "Ismail",
   "license": "MIT",
   "dependencies": {
+    "@types/multer-s3": "^2.7.11",
+    "aws-sdk": "^2.1062.0",
     "bcryptjs": "^2.4.3",
     "colors": "^1.4.0",
     "connect-mongo": "^4.5.0",
@@ -24,6 +26,7 @@
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.12.0",
     "multer": "^1.4.2",
+    "multer-s3": "^2.10.0",
     "passport": "^0.4.1",
     "passport-github2": "^0.1.12",
     "passport-google-oauth20": "^2.0.0",

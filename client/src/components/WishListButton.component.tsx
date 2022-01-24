@@ -14,8 +14,7 @@ const handleWishList = (
    propertyId: string
 ) => {
    if (isSaved) {
-      console.log(propertyId);
-      deleteWishlist.mutate(propertyId);
+       deleteWishlist.mutate(propertyId);
    } else {
       wishlist.mutate({
          propertyId,

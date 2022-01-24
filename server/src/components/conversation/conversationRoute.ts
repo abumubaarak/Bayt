@@ -1,6 +1,5 @@
-import express, { NextFunction, Router } from "express";
-import { asyncHandler } from "../../middleware/async";
-import { ownerProtectedRoute, protectedRoute } from "../../middleware/authorization";
+import express, { Router } from "express";
+import { protectedRoute } from "../../middleware/authorization";
 import { getUserConverse, sendMessage } from "./conversationController";
 const router: Router = express();
 

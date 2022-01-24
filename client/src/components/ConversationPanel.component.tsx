@@ -43,7 +43,7 @@ const ConversationPanel = ({ type, messageDetails }: Props) => {
    socket.on("connect", () => {
       socket.emit(
          "user",
-         localStorage.getItem("id") + messageDetails.messageId!
+         window.localStorage.getItem("id") + messageDetails.messageId!
       );
    });
    socket.on("typing", (data) => {

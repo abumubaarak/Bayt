@@ -20,6 +20,7 @@ import {
    Tooltip,
    useDisclosure,
 } from "@chakra-ui/react";
+import Loading from "@components/Loading.component";
 import UserAvatar from "@components/UserAvatar.component";
 import {
    useAceptTenentRequest,
@@ -41,7 +42,7 @@ const handleModal = (
    setRequest(request);
 };
 export default function Tenants() {
-   const { data: tenant } = useTenent();
+   const { data: tenant,isLoading } = useTenent();
    const declineTenentRequest = useDeclineTenentRequest();
    const acceptTenentRequest = useAceptTenentRequest();
    const { isOpen, onOpen, onClose } = useDisclosure();
@@ -116,10 +117,13 @@ export default function Tenants() {
                fontSize='lg'
                colorScheme='brand.400'
                fontWeight='bold'>
-               {`${tenant?.data.length} new applicants`}
+               {`${tenant?.data.length ?? 0} new applicants`}
             </Text>
          </HStack>
          <Divider />
+
+         {isLoading && <Loading />}
+
          {tenant?.data.length === 0 && (
             <Center>
                <Text

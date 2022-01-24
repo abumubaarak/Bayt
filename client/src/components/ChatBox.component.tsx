@@ -35,7 +35,7 @@ const ChatBox: FC<Props> = ({ tenant_id, owner_id, messageId, socket }) => {
             owner_id,
             message: watch("message"),
             messageId,
-            sender: localStorage.getItem("id"),
+            sender: window.localStorage.getItem("id"),
          },
          (status: any) => {
             if (status.sent) reset();

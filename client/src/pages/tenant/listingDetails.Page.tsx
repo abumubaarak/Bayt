@@ -47,7 +47,7 @@ const ListingDetailsPage = () => {
                         spacing={2}>
                         <GridItem rowSpan={2} colSpan={2}>
                            <Box
-                              bgImage={`url(${IMAGE_URL}${propertyDetails?.images[2]})`}
+                              bgImage={`url(${propertyDetails?.images[2]})`}
                               roundedTopLeft='2xl'
                               roundedBotomLeft='2xl'
                               h='full'
@@ -70,7 +70,7 @@ const ListingDetailsPage = () => {
                         </GridItem>
                         <GridItem rowSpan={1} colSpan={1}>
                            <Flex
-                              bgImage={`url(${IMAGE_URL}${propertyDetails?.images[1]})`}
+                              bgImage={`url(${propertyDetails?.images[1]})`}
                               roundedTopRight='2xl'
                               justifyContent='flex-end'
                               boxSize='full'
@@ -85,7 +85,7 @@ const ListingDetailsPage = () => {
                         </GridItem>
                         <GridItem rowSpan={1} colSpan={1}>
                            <Image
-                              src={`${IMAGE_URL}${propertyDetails?.images[0]}`}
+                              src={`${propertyDetails?.images[0]}`}
                               boxSize='full'
                               roundedBottomRight='2xl'
                               shadow='md'

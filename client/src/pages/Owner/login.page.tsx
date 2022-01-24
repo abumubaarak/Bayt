@@ -36,15 +36,16 @@ export default function LoginPage() {
 
    useEffect(() => {
       if (response) {
-         localStorage.setItem("id", response.id);
+         window.localStorage.setItem("id", response?.id!);
+         window.localStorage.setItem("access_token", response?.access_token!);
+
          message({
             position: "top",
             title: "Done",
             duration: 5000,
-            description: response?.message,
+            description: response?.success && "Login Successful",
             status: "success",
          });
-
          setTimeout(() => {
             history.push("/owner/dashboard");
          }, 1000);
@@ -52,8 +53,6 @@ export default function LoginPage() {
    }, [response]);
 
    useEffect(() => {
-
-      
       const { errors } = formState;
 
       setTimeout(() => {
@@ -80,7 +79,6 @@ export default function LoginPage() {
    }, [formState]);
 
    return (
-
       <div className='flex h-screen'>
          <div className='flex-2 bg-gradient '>
             <Back />

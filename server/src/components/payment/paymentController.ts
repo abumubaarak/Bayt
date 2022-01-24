@@ -27,22 +27,25 @@ export const checkout = asyncHandler(
       propertyType,
       _id: propertyID,
       owner_id,
+      images: imageUrl,
     } = property;
 
+  console.log(cost)
     const session = await stripe.checkout.sessions.create({
       line_items: [
         {
           price_data: {
             currency: "usd",
+            
+            unit_amount: cost,
+            
             product_data: {
               name: propertyType,
               description: `Payment for ${name} at ${address}`,
-              images: [
-                "https://pix10.agoda.net/hotelImages/167/167578/167578_15020923560025224264.jpg?s=1024x768",
-              ],
+              images: [imageUrl[0]],
             },
-            unit_amount: cost,
-          },
+            
+           },
           quantity: 1,
         },
       ],

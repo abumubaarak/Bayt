@@ -5,16 +5,15 @@ type Props = {
    propertyId: string;
 };
 const PaymentDescription = ({ propertyId }: Props) => {
-   const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
-
+ 
    const { data: propertyDetails } = useListingDetails(propertyId);
    return (
       <Td color='black'>
          <HStack w='full'>
             <Box
-               bgImage={`url(${IMAGE_URL}${propertyDetails?.data.images[0]})`}
+               bgImage={`url(${propertyDetails?.data.images[0]})`}
                rounded='md'
-               w='69px'
+               w='70px'
                h='55px'
                bgSize='cover'
                bgRepeat='no-repeat'
@@ -24,7 +23,7 @@ const PaymentDescription = ({ propertyId }: Props) => {
                   {propertyDetails?.data.propertyType}
                </Text>
                <Text noOfLines={1}>
-                  {`Payment for ${propertyDetails?.data.name} at ${propertyDetails?.data.address}`}
+                  {`Payment for ${propertyDetails?.data.name ?? " "} at ${propertyDetails?.data.address ?? " "}`}
                </Text>
             </VStack>
          </HStack>

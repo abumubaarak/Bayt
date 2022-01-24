@@ -1,6 +1,7 @@
-import  { AxiosRequestConfig } from "axios";
+import { setHeader } from "@api/requestType";
+import axiosInstance from "@hooks/axios";
+import axios from "axios";
 import { useState } from "react";
-import axios from "@hooks/axios"
 
 interface Default {
    httpStatus?: number;
@@ -21,7 +22,6 @@ const usePost = (url: string) => {
    const [response, setData] = useState<Data | any>();
 
    const request = async (payload: any, mediaInclude?: boolean) => {
-
       try {
          let response;
 
@@ -53,13 +53,25 @@ const usePost = (url: string) => {
             const config = {
                headers: {
                   "content-type": "multipart/form-data",
+                  authorization: `Bearer ${window.localStorage.getItem(
+                     "access_token"
+                  )}`,
                },
             };
-            response = await axios.post(`/api/v1${url}`, requestData, config);
+            response = await axiosInstance.post(
+               `/api/v1${url}`,
+               requestData,
+               config
+            );
          } else {
-            response = await axios.post(`/api/v1${url}`, {
-               ...payload,
-            }
+            response = await axiosInstance.post(
+               `/api/v1${url}`,
+               {
+                  ...payload,
+               },
+               {
+                  headers: setHeader(),
+               }
             );
          }
 
@@ -72,10 +84,17 @@ const usePost = (url: string) => {
             statusCode,
          };
 
+         if (responseData?.access_token && responseData.id) {
+            window.localStorage.setItem(
+               "access_token",
+               responseData?.access_token
+            );
+            window.localStorage.setItem("id", responseData.id);
+         }
          setData(data);
          setLoading(false);
          setError(undefined);
-      } catch (err:any) {
+      } catch (err: any) {
          setLoading(false);
 
          // The request was made and the server responded with a status code
@@ -96,7 +115,6 @@ const usePost = (url: string) => {
             setError({ message: err.message });
          }
       }
-      
    };
 
    return { request, loading, error, response };

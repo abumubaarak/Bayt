@@ -1,4 +1,3 @@
-import { logout } from "@api/api";
 import {
    Divider,
    HStack,
@@ -14,8 +13,9 @@ import {
    useDisclosure,
 } from "@chakra-ui/react";
 import { useUser } from "@hooks/useApi";
+import { useLogout } from "@hooks/useLogout";
 import useSubmit from "@hooks/useSubmit";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { BiSearch } from "react-icons/bi";
 import { CgProfile } from "react-icons/cg";
@@ -42,15 +42,17 @@ const Header: FC<HeaderProps> = ({ variant }) => {
    const history = useHistory();
    const { isOpen, onOpen, onClose } = useDisclosure();
    const [type, setType] = useState<boolean>();
+   const { logout } = useLogout();
    const { onSubmit } = useSubmit();
    const { data } = useUser();
-   localStorage.setItem("id", data?.data?._id!);
+   window.localStorage.setItem("id", data?.data?._id!);
 
-    const handleLogout = () => {
-      logout();
-      localStorage.clear();
-      window.location.reload();
-   };
+   useEffect(() => {
+      if (!data?.data.role) return;
+      if (data?.data.role === "tenant") return;
+      history.push("/owner/dashboard");
+   }, [data?.data.role]);
+
    return (
       <>
          <HStack
@@ -90,7 +92,7 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                )}
             </HStack>
             <Nav>
-               {localStorage.getItem("id") !== "undefined" ? (
+               {window.localStorage.getItem("id") !== "undefined" ? (
                   <>
                      <Menu>
                         <MenuButton
@@ -107,10 +109,17 @@ const Header: FC<HeaderProps> = ({ variant }) => {
                            <MenuItem onClick={() => history.push("/wishlists")}>
                               Wishlist
                            </MenuItem>
+                           <MenuItem>
+                              <a
+                                 href='https://gray-polonium-ebf.notion.site/Bayt-ce991ade761b4064be9389aa25ce67cf'
+                                 target='_blank'>
+                                 Documentation
+                              </a>
+                           </MenuItem>
                            <MenuItem onClick={() => history.push("/payment")}>
                               Payments
                            </MenuItem>
-                           <MenuItem onClick={handleLogout}>Logout</MenuItem>
+                           <MenuItem onClick={()=>logout()}>Logout</MenuItem>
                         </MenuList>
                      </Menu>
                   </>

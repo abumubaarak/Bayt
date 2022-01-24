@@ -28,8 +28,7 @@ const PaymentDrawer = ({ propertyId, isOpen, onClose, paymentId }: Props) => {
    const { data: paymentDetails } = useSinglePayment(paymentId);
    const { data: propertyDetails } = useListingDetails(propertyId);
    const { data: landlord } = useLandlord(propertyDetails?.data.owner_id);
-   const { REACT_APP_BASE_URL_2: IMAGE_URL } = process.env;
-
+ 
    return (
       <div>
          <Drawer size='sm' isOpen={isOpen} placement='right' onClose={onClose}>
@@ -39,7 +38,7 @@ const PaymentDrawer = ({ propertyId, isOpen, onClose, paymentId }: Props) => {
                <DrawerHeader>Payment Details</DrawerHeader>
                <DrawerBody>
                   <Image
-                     src={`${IMAGE_URL}${propertyDetails?.data.images[0]}`}
+                     src={`${propertyDetails?.data.images[0]}`}
                      rounded='md'
                      height='250px'
                      shadow='md'

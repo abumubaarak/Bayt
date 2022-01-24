@@ -10,7 +10,7 @@ import { User } from "../users/userModel";
 // @access Private
 export const addToWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await User.findByIdAndUpdate(req.user, {
+     const user = await User.findByIdAndUpdate(req.body.user, {
       $push: { wishlist: req.body.propertyId },
     });
 
@@ -27,7 +27,7 @@ export const addToWishlist = asyncHandler(
 // @access Private
 export const removeWishlist = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
-    const user = await User.findByIdAndUpdate(req.user, {
+    const user = await User.findByIdAndUpdate(req.body.user, {
       $pull: { wishlist: req.params.id },
     });
 

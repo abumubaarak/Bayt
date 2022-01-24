@@ -32,10 +32,10 @@ export const googleStrategy = (passport: any) => {
           let user = await User.findOne({ socialID: id });
 
           if (user) {
-            done(null, user);
+            done(null, user._id);
           } else {
             user = await User.create(newUser);
-            done(null, user);
+            done(null, user._id);
           }
         } catch (error) {
           done(null, error);
@@ -44,7 +44,7 @@ export const googleStrategy = (passport: any) => {
     )
   );
   passport.serializeUser((user: any, done: any) => {
-    done(null, user.id);
+    done(null, user);
   });
 
   passport.deserializeUser((id: string, done: any) => {
@@ -81,10 +81,10 @@ export const gitHubStrategy = (passport: any) => {
           let user = await User.findOne({ socialID: id });
 
           if (user) {
-            done(null, user);
+            done(null, user._id);
           } else {
             user = await User.create(newUser);
-            done(null, user);
+            done(null, user._id);
           }
         } catch (error) {
           done(null, error);

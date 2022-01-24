@@ -1,9 +1,8 @@
 version: '3'
-
+#docker-compose -f docker-compose-dev.yml up --build 
 services:
-
   redis: 
-    image: redis
+    build: ./redis
     networks:
       - bayt-network
 
@@ -12,33 +11,13 @@ services:
     restart: always
     depends_on:
        - redis
-    #ports:
-     # - 7000:7000
-    networks:
-      - bayt-network
-
-  frontend:
-    build: ./client
-    restart: always
-
-    #ports:
-      #- 3000:3000
-    depends_on:
-      - backend
-      - redis
-    networks:
-      - bayt-network
-
-  nginx:
-    build: ./nginx
-    restart: always
-    stdin_open: true
-    tty: true
     ports:
-      - 80:80
+      - "4000:4000"
+      - "9000:9000"
     networks:
       - bayt-network
 
 networks:
   bayt-network:
     driver: bridge
+
