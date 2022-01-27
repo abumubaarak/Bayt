@@ -1,11 +1,9 @@
 import { NextFunction, Request, Response } from "express";
 import { Types } from "mongoose";
-import { redis } from "../../config/redis";
- import { asyncHandler } from "../../middleware/async";
+import { asyncHandler } from "../../middleware/async";
 import { ErrorResponse } from "../../utils/errorResponse";
 import response from "../../utils/response";
 import { Property } from "./propertyModel";
-
 
 export const createProperty = asyncHandler(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -28,7 +26,7 @@ export const createProperty = asyncHandler(
 
       delete req.body.user;
 
-      const propertyData={...data,isActive:true}
+      const propertyData = { ...data, isActive: true };
       const property = await Property.create(propertyData);
 
       res.status(201).json({
@@ -54,9 +52,8 @@ export const searchProperty = asyncHandler(
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found in ${city}`));
     }
-    redis.set(city, JSON.stringify(property), "EX", 3600);
+    //redis.set(city, JSON.stringify(property), "EX", 3600);
     response(res, 200, true, property);
-    
   }
 );
 
@@ -72,7 +69,7 @@ export const getOwnerProperty = asyncHandler(
     if (!property) {
       return next(new ErrorResponse(400, `No Property Found`));
     }
-    
+
     response(res, 200, true, property);
   }
 );
